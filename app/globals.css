@@ -10,6 +10,17 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Brand tokens */
+  --color-primary: #2E7D32;
+  --color-secondary: #F48FB1;
+  --color-accent: #B39DDB;
+  --color-brand-background: #F8F5F2;
+  --color-admin-dark: #1a1a2e;
+
+  /* Brand fonts */
+  --font-heading: var(--font-playfair), serif;
+  --font-body: var(--font-montserrat), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
