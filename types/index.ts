@@ -25,6 +25,9 @@ export interface Product {
   best_seller: boolean
   stock: number
   variants: Variant[] | null
+  same_day_delivery: boolean
+  limited_stock: boolean
+  campaign_tag: string | null
   created_at: string
   category?: Category
 }
@@ -35,6 +38,14 @@ export interface Banner {
   subtitle: string | null
   cta_text: string | null
   cta_url: string | null
+  active: boolean
+  created_at: string
+}
+
+export interface DeliveryZone {
+  id: string
+  name: string
+  reference_price: string | null
   active: boolean
   created_at: string
 }
