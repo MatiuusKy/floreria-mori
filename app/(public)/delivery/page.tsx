@@ -1,12 +1,13 @@
 import { MapPin, Clock, MessageCircle } from 'lucide-react'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { whatsappURL } from '@/lib/whatsapp'
 import { DeliveryZone } from '@/types'
-import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Delivery',
   description: 'Zonas de entrega de Florería Mori en Santiago. Delivery en Peñalolén y comunas cercanas.',
+  alternates: { canonical: 'https://floreriamori.cl/delivery' },
 }
 
 export default async function DeliveryPage() {

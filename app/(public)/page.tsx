@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { MessageCircle, Truck, Heart, Star } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { whatsappURL } from '@/lib/whatsapp'
@@ -6,9 +7,10 @@ import ProductGrid from '@/components/ui/ProductGrid'
 import SeasonalBanner from '@/components/ui/SeasonalBanner'
 import { Product, Category, Banner } from '@/types'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Florería Mori — Flores en Peñalolén, Santiago',
-  description: 'Arreglos florales únicos en Peñalolén. Ramos, arreglos de cumpleaños, amor y eventos. Contacta por WhatsApp.',
+  description: 'Arreglos florales únicos en Peñalolén. Ramos, arreglos de cumpleaños, amor y eventos. Contacta por WhatsApp para pedir tus flores.',
+  alternates: { canonical: 'https://floreriamori.cl' },
 }
 
 const CATEGORY_ICONS: Record<string, string> = {

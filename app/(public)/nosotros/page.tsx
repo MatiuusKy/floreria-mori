@@ -1,8 +1,10 @@
+import type { Metadata } from 'next'
 import { Heart, Leaf, Star } from 'lucide-react'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Nosotros',
-  description: 'Conoce la historia de Florería Mori, tu floristería local en Peñalolén, Santiago.',
+  description: 'Conoce Florería Mori, tu floristería de confianza en Peñalolén, Santiago. Atención personalizada y flores frescas.',
+  alternates: { canonical: 'https://floreriamori.cl/nosotros' },
 }
 
 export default function NosotrosPage() {

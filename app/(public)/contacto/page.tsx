@@ -1,9 +1,11 @@
+import type { Metadata } from 'next'
 import { MessageCircle, Share2, MapPin, Phone } from 'lucide-react'
 import { whatsappURL } from '@/lib/whatsapp'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Contacto',
-  description: 'Contáctanos por WhatsApp o Instagram. Florería Mori en Peñalolén, Santiago.',
+  description: 'Contáctanos por WhatsApp o Instagram. Florería Mori en Peñalolén, Santiago. +56 9 2989 5674.',
+  alternates: { canonical: 'https://floreriamori.cl/contacto' },
 }
 
 export default function ContactoPage() {

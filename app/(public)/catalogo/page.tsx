@@ -1,9 +1,16 @@
 'use client'
 import { useState, useEffect } from 'react'
+import type { Metadata } from 'next'
 import { Search } from 'lucide-react'
 import CategoryChip from '@/components/ui/CategoryChip'
 import ProductGrid from '@/components/ui/ProductGrid'
 import { Product, Category } from '@/types'
+
+export const metadata: Metadata = {
+  title: 'Catálogo de flores',
+  description: 'Explora nuestra colección de ramos y arreglos florales. Flores frescas a domicilio en Santiago. Pide por WhatsApp.',
+  alternates: { canonical: 'https://floreriamori.cl/catalogo' },
+}
 
 export default function CatalogoPage() {
   const [products, setProducts] = useState<Product[]>([])
