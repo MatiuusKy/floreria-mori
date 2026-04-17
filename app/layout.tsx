@@ -16,6 +16,7 @@ const montserrat = Montserrat({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://floreriamori.cl'),
   title: {
     default: 'Florería Mori — Flores en Peñalolén, Santiago',
     template: '%s | Florería Mori',
