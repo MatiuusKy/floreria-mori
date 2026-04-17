@@ -18,8 +18,8 @@ export default function AdminSidebar() {
       <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center mb-4">
         <Leaf size={20} className="text-white" />
       </div>
-      {NAV.map(({ href, icon: Icon, label, exact }) => {
-        const active = exact ? path === href : path.startsWith(href)
+      {NAV.map(({ href, icon: Icon, label }) => {
+        const active = path.startsWith(href)
         return (
           <Link key={href} href={href} title={label}
             className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
