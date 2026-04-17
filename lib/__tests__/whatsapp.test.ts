@@ -13,4 +13,23 @@ describe('whatsappURL', () => {
     expect(url).toContain('Ramo%20de%20Rosas')
     expect(url).toContain(WHATSAPP_NUMBER)
   })
+
+  it('includes price when provided', () => {
+    const url = whatsappURL('Ramo de Rosas', undefined, 15000)
+    expect(url).toContain('Precio')
+    expect(url).toContain('15.000')
+  })
+
+  it('includes variant and price when both provided', () => {
+    const url = whatsappURL('Ramo de Rosas', 'Grande', 34990)
+    expect(url).toContain('Tama%C3%B1o%3A%20Grande')
+    expect(url).toContain('Precio')
+    expect(url).toContain('34.990')
+  })
+
+  it('includes variant without price', () => {
+    const url = whatsappURL('Ramo de Rosas', 'Pequeño')
+    expect(url).toContain('Ramo%20de%20Rosas')
+    expect(url).not.toContain('Precio')
+  })
 })

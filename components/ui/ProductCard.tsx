@@ -18,7 +18,8 @@ export default function ProductCard({ product }: { product: Product }) {
 
   const waURL = whatsappURL(
     product.name,
-    selectedVariant?.name
+    selectedVariant?.name,
+    displayPrice
   )
 
   return (
