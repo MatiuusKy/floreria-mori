@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -15,10 +16,11 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
+  const admin = createAdminClient()
   if (body.active) {
-    await supabase.from('banners').update({ active: false }).neq('id', 'none')
+    await admin.from('banners').update({ active: false }).neq('id', 'none')
   }
-  const { data, error } = await supabase.from('banners').insert(body).select().single()
+  const { data, error } = await admin.from('banners').insert(body).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data, { status: 201 })
 }
@@ -29,10 +31,11 @@ export async function PUT(request: Request) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { id, ...body } = await request.json()
+  const admin = createAdminClient()
   if (body.active) {
-    await supabase.from('banners').update({ active: false }).neq('id', id)
+    await admin.from('banners').update({ active: false }).neq('id', id)
   }
-  const { data, error } = await supabase
+  const { data, error } = await admin
     .from('banners').update(body).eq('id', id).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data)

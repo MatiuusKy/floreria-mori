@@ -13,36 +13,56 @@ export default function CategoryList({ categories, onRefresh }: Props) {
   const [newName, setNewName] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editName, setEditName] = useState('')
+  const [error, setError] = useState<string | null>(null)
 
   async function create() {
     if (!newName.trim()) return
-    await fetch('/api/categories', {
+    setError(null)
+    const res = await fetch('/api/categories', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: newName.trim(), slug: generateSlug(newName.trim()) }),
     })
+    if (!res.ok) {
+      const json = await res.json()
+      setError(json.error ?? 'Error al guardar')
+      return
+    }
     setNewName('')
     onRefresh()
   }
 
   async function update(id: string) {
-    await fetch(`/api/categories/${id}`, {
+    setError(null)
+    const res = await fetch(`/api/categories/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: editName.trim(), slug: generateSlug(editName.trim()) }),
     })
+    if (!res.ok) {
+      const json = await res.json()
+      setError(json.error ?? 'Error al actualizar')
+      return
+    }
     setEditingId(null)
     onRefresh()
   }
 
   async function remove(id: string) {
     if (!confirm('¿Eliminar esta categoría?')) return
-    await fetch(`/api/categories/${id}`, { method: 'DELETE' })
+    setError(null)
+    const res = await fetch(`/api/categories/${id}`, { method: 'DELETE' })
+    if (!res.ok) {
+      const json = await res.json()
+      setError(json.error ?? 'Error al eliminar')
+      return
+    }
     onRefresh()
   }
 
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      {error && <p className="px-4 py-3 text-sm text-red-500 bg-red-50 border-b border-red-100">{error}</p>}
       <div className="p-4 border-b flex gap-2">
         <input value={newName} onChange={e => setNewName(e.target.value)}
           placeholder="Nueva categoría..." onKeyDown={e => e.key === 'Enter' && create()}

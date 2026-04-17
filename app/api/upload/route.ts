@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
@@ -14,13 +15,14 @@ export async function POST(request: Request) {
   const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
   const buffer = Buffer.from(await file.arrayBuffer())
 
-  const { error } = await supabase.storage
+  const admin = createAdminClient()
+  const { error } = await admin.storage
     .from('product-images')
     .upload(filename, buffer, { contentType: file.type, upsert: false })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  const { data: { publicUrl } } = supabase.storage
+  const { data: { publicUrl } } = admin.storage
     .from('product-images')
     .getPublicUrl(filename)
 
