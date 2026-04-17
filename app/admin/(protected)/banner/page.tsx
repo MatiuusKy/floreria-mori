@@ -13,7 +13,7 @@ export default async function AdminBannerPage() {
       <p className="text-gray-500 text-sm mb-6">
         Muestra un aviso promocional en la parte superior del sitio para fechas especiales.
       </p>
-      <BannerForm banner={banner as Banner | null} onSave={() => {}} />
+      <BannerForm banner={banner as Banner | null} />
     </div>
   )
 }

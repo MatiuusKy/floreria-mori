@@ -5,10 +5,9 @@ import { Banner } from '@/types'
 
 interface Props {
   banner: Banner | null
-  onSave: () => void
 }
 
-export default function BannerForm({ banner, onSave }: Props) {
+export default function BannerForm({ banner }: Props) {
   const router = useRouter()
   const [form, setForm] = useState({
     title: banner?.title ?? '',
@@ -44,7 +43,6 @@ export default function BannerForm({ banner, onSave }: Props) {
       setError(json.error ?? 'Error al guardar')
     } else {
       setSuccess(true)
-      onSave()
       router.refresh()
     }
     setSaving(false)
