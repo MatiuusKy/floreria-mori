@@ -1,17 +1,24 @@
 import { MapPin, Clock, MessageCircle } from 'lucide-react'
+import { createClient } from '@/lib/supabase/server'
 import { whatsappURL } from '@/lib/whatsapp'
+import { DeliveryZone } from '@/types'
+import type { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Delivery',
   description: 'Zonas de entrega de Florería Mori en Santiago. Delivery en Peñalolén y comunas cercanas.',
 }
 
-const COMUNAS = [
-  'Peñalolén', 'La Florida', 'Macul', 'Ñuñoa', 'Providencia',
-  'Las Condes', 'Vitacura', 'La Reina', 'San Joaquín', 'La Granja',
-]
+export default async function DeliveryPage() {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('delivery_zones')
+    .select('*')
+    .eq('active', true)
+    .order('name')
 
-export default function DeliveryPage() {
+  const zones = (data as DeliveryZone[]) ?? []
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
       <h1 className="font-heading text-4xl font-bold text-gray-800 mb-2">Delivery</h1>
@@ -23,14 +30,23 @@ export default function DeliveryPage() {
             <MapPin className="text-primary" size={24} />
             <h2 className="font-heading text-2xl font-semibold text-gray-800">Comunas que atendemos</h2>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            {COMUNAS.map(c => (
-              <div key={c} className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 shadow-sm text-sm font-medium text-gray-700">
-                <span className="w-2 h-2 rounded-full bg-primary" />
-                {c}
-              </div>
-            ))}
-          </div>
+          {zones.length > 0 ? (
+            <div className="grid grid-cols-2 gap-3">
+              {zones.map(zone => (
+                <div key={zone.id} className="bg-white rounded-xl px-4 py-3 shadow-sm text-sm font-medium text-gray-700">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
+                    <span>{zone.name}</span>
+                  </div>
+                  {zone.reference_price && (
+                    <p className="text-xs text-gray-400 mt-0.5 pl-4">{zone.reference_price}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-400 text-sm">Consulta disponibilidad por WhatsApp.</p>
+          )}
         </div>
 
         <div className="space-y-6">

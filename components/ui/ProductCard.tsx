@@ -38,9 +38,15 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
         )}
         {/* Badges */}
-        {product.featured && product.available && (
+        {product.featured && product.available && !product.limited_stock && (
           <span className="absolute top-2 left-2 flex items-center gap-1 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">
             <Star size={10} /> Destacado
+          </span>
+        )}
+        {/* limited_stock badge — top-left, takes priority over featured */}
+        {product.limited_stock && product.available && (
+          <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+            Stock limitado
           </span>
         )}
         {product.best_seller && product.available && (
@@ -51,6 +57,12 @@ export default function ProductCard({ product }: { product: Product }) {
         {product.discount_price && !selectedVariant && product.available && (
           <span className="absolute bottom-2 right-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-full">
             -{Math.round((1 - product.discount_price / product.price) * 100)}% OFF
+          </span>
+        )}
+        {/* same_day_delivery badge — bottom-left */}
+        {product.same_day_delivery && product.available && (
+          <span className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+            Entrega hoy
           </span>
         )}
         {!product.available && (

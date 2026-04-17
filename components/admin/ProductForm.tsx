@@ -16,6 +16,7 @@ const EMPTY: Omit<Product, 'id' | 'created_at' | 'category'> = {
   name: '', description: '', price: 0, discount_price: null,
   category_id: null, image_url: null, available: true,
   featured: false, best_seller: false, stock: 0, variants: null,
+  same_day_delivery: false, limited_stock: false, campaign_tag: null,
 }
 
 export default function ProductForm({ product, categories, onClose, onSave }: Props) {
@@ -122,7 +123,13 @@ export default function ProductForm({ product, categories, onClose, onSave }: Pr
           </div>
 
           <div className="flex flex-col gap-2">
-            {([['available', 'Disponible'], ['featured', 'Destacado (home)'], ['best_seller', 'Más vendido (home)']] as [string, string][]).map(([key, label]) => (
+            {([
+              ['available', 'Disponible'],
+              ['featured', 'Destacado (home)'],
+              ['best_seller', 'Más vendido (home)'],
+              ['same_day_delivery', 'Entrega hoy (badge verde en tarjeta)'],
+              ['limited_stock', 'Stock limitado (badge naranja en tarjeta)'],
+            ] as [string, string][]).map(([key, label]) => (
               <label key={key} className="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" checked={!!form[key as keyof typeof form]}
                   onChange={e => set(key, e.target.checked)}
@@ -154,6 +161,17 @@ export default function ProductForm({ product, categories, onClose, onSave }: Pr
                 </button>
               </div>
             ))}
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase">Etiqueta de campaña</label>
+            <input
+              value={form.campaign_tag ?? ''}
+              onChange={e => set('campaign_tag', e.target.value || null)}
+              placeholder="ej: dia-de-la-madre"
+              className="w-full mt-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary"
+            />
+            <p className="text-xs text-gray-400 mt-1">Opcional. Útil para filtrar productos por campaña.</p>
           </div>
 
           {error && <p className="text-sm text-red-500 bg-red-50 rounded-xl p-3">{error}</p>}
