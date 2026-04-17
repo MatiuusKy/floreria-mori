@@ -16,11 +16,9 @@ export default function ProductCard({ product }: { product: Product }) {
     ? selectedVariant.price
     : product.discount_price ?? product.price
 
-  const waURL = whatsappURL(
-    product.name,
-    selectedVariant?.name,
-    displayPrice
-  )
+  const waURL = product.available
+    ? whatsappURL(product.name, selectedVariant?.name, displayPrice)
+    : null
 
   return (
     <div className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow ${!product.available ? 'opacity-60' : ''}`}>
@@ -95,7 +93,7 @@ export default function ProductCard({ product }: { product: Product }) {
         {/* CTA */}
         {product.available ? (
           <a
-            href={waURL}
+            href={waURL ?? '#'}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full bg-primary text-white text-sm font-semibold py-2.5 rounded-xl hover:bg-green-800 transition-colors"

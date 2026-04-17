@@ -1,8 +1,6 @@
-export const WHATSAPP_NUMBER = '56929895674'
+import { formatPrice } from './utils'
 
-function formatCLP(amount: number): string {
-  return '$' + amount.toLocaleString('es-CL')
-}
+export const WHATSAPP_NUMBER = '56929895674'
 
 export function whatsappURL(productName?: string, variantName?: string, price?: number): string {
   let text: string
@@ -15,7 +13,7 @@ export function whatsappURL(productName?: string, variantName?: string, price?: 
       lines.push(`Tamaño: ${variantName}`)
     }
     if (price !== undefined) {
-      lines.push(`Precio: ${formatCLP(price)}`)
+      lines.push(`Precio: ${formatPrice(price)}`)
     }
     text = lines.join('\n')
   }
