@@ -1,3 +1,6 @@
+'use client'
+import { trackCategoryFilter } from '@/lib/analytics'
+
 interface Props {
   label: string
   active: boolean
@@ -5,9 +8,14 @@ interface Props {
 }
 
 export default function CategoryChip({ label, active, onClick }: Props) {
+  function handleClick() {
+    trackCategoryFilter(label)
+    onClick()
+  }
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap border transition-all ${
         active
           ? 'bg-primary text-white border-primary'

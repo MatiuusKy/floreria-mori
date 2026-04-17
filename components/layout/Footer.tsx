@@ -1,5 +1,7 @@
+'use client'
 import Link from 'next/link'
 import { Share2, MessageCircle, MapPin } from 'lucide-react'
+import { trackInstagramClick } from '@/lib/analytics'
 
 export default function Footer() {
   return (
@@ -25,6 +27,7 @@ export default function Footer() {
               <MessageCircle size={16} /> +56 9 2989 5674
             </a>
             <a href="https://www.instagram.com/floreriamori122012/" target="_blank" rel="noopener noreferrer"
+              onClick={() => trackInstagramClick()}
               className="flex items-center gap-2 hover:text-secondary transition-colors">
               <Share2 size={16} /> @floreriamori122012
             </a>
