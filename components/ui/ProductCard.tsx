@@ -7,7 +7,7 @@ import { formatPrice } from '@/lib/utils'
 import { whatsappURL } from '@/lib/whatsapp'
 import SizeSelector from './SizeSelector'
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(
     product.variants?.[0] ?? null
   )
@@ -29,6 +29,7 @@ export default function ProductCard({ product }: { product: Product }) {
             src={product.image_url}
             alt={product.name}
             fill
+            priority={priority}
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
