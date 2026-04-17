@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Montserrat } from 'next/font/google'
 import './globals.css'
+import Analytics from '@/components/Analytics'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es">
       <body className={`${playfair.variable} ${montserrat.variable} font-body bg-background text-[#333333] antialiased`}>
+        <Analytics />
         {children}
       </body>
     </html>
