@@ -6,7 +6,6 @@
 }
 
 @theme inline {
-  --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -15,7 +14,7 @@
   --color-primary: #2E7D32;
   --color-secondary: #F48FB1;
   --color-accent: #B39DDB;
-  --color-brand-background: #F8F5F2;
+  --color-background: #F8F5F2;
   --color-admin-dark: #1a1a2e;
 
   /* Brand fonts */
@@ -33,5 +32,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
 }
