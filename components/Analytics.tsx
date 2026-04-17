@@ -2,10 +2,9 @@
 'use client'
 import Script from 'next/script'
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
-const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
-
 export default function Analytics() {
+  const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+  const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
   return (
     <>
       {GA_ID && (
