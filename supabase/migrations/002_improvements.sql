@@ -1,19 +1,35 @@
 -- supabase/migrations/002_improvements.sql
 
 -- Delivery zones table
-CREATE TABLE delivery_zones (
+CREATE TABLE IF NOT EXISTS delivery_zones (
   id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name            TEXT NOT NULL,
-  reference_price TEXT,          -- e.g. "desde $2.000" - free text for flexibility
+  name            TEXT NOT NULL UNIQUE,
+  reference_price TEXT,
   active          BOOLEAN DEFAULT true,
   created_at      TIMESTAMPTZ DEFAULT now()
 );
 
 ALTER TABLE delivery_zones ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Public read delivery_zones" ON delivery_zones FOR SELECT USING (true);
-CREATE POLICY "Auth write delivery_zones" ON delivery_zones FOR ALL USING (auth.role() = 'authenticated');
 
--- Seed initial zones from hardcoded list
+DO $$ BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE tablename = 'delivery_zones' AND policyname = 'Public read delivery_zones'
+  ) THEN
+    CREATE POLICY "Public read delivery_zones" ON delivery_zones FOR SELECT USING (true);
+  END IF;
+END $$;
+
+DO $$ BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE tablename = 'delivery_zones' AND policyname = 'Auth write delivery_zones'
+  ) THEN
+    CREATE POLICY "Auth write delivery_zones" ON delivery_zones FOR ALL USING (auth.role() = 'authenticated');
+  END IF;
+END $$;
+
+-- Seed initial zones (idempotent — UNIQUE constraint on name + ON CONFLICT DO NOTHING)
 INSERT INTO delivery_zones (name, active) VALUES
   ('Peñalolén', true),
   ('La Florida', true),
@@ -24,7 +40,8 @@ INSERT INTO delivery_zones (name, active) VALUES
   ('Vitacura', true),
   ('La Reina', true),
   ('San Joaquín', true),
-  ('La Granja', true);
+  ('La Granja', true)
+ON CONFLICT (name) DO NOTHING;
 
 -- New product fields for conversion badges and campaign tracking
 ALTER TABLE products
