@@ -1,11 +1,11 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import { MessageCircle, Star, Flame } from 'lucide-react'
 import { Product, Variant } from '@/types'
 import { formatPrice } from '@/lib/utils'
 import { whatsappURL } from '@/lib/whatsapp'
-import { trackWhatsAppClick, trackProductView } from '@/lib/analytics'
+import { trackWhatsAppClick } from '@/lib/analytics'
 import SizeSelector from './SizeSelector'
 
 export default function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
@@ -20,10 +20,6 @@ export default function ProductCard({ product, priority = false }: { product: Pr
   const waURL = product.available
     ? whatsappURL(product.name, selectedVariant?.name, displayPrice)
     : null
-
-  useEffect(() => {
-    trackProductView(product.name)
-  }, [product.name])
 
   return (
     <div className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow ${!product.available ? 'opacity-60' : ''}`}>

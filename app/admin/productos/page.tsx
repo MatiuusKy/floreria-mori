@@ -14,13 +14,18 @@ export default function AdminProductosPage() {
   const [loading, setLoading] = useState(true)
 
   const load = useCallback(async () => {
-    const [prods, cats] = await Promise.all([
-      fetch('/api/products').then(r => r.json()),
-      fetch('/api/categories').then(r => r.json()),
-    ])
-    setProducts(prods)
-    setCategories(cats)
-    setLoading(false)
+    try {
+      const [prods, cats] = await Promise.all([
+        fetch('/api/products').then(r => r.json()),
+        fetch('/api/categories').then(r => r.json()),
+      ])
+      setProducts(prods)
+      setCategories(cats)
+    } catch {
+      // silently fail — UI stays with previous data or empty state
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => { load() }, [load])

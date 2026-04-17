@@ -11,6 +11,7 @@ export default function CatalogoClient() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -26,6 +27,9 @@ export default function CatalogoClient() {
         const found = cats.find((c: Category) => c.slug === cat)
         if (found) setActiveCategory(found.id)
       }
+      setLoading(false)
+    }).catch(() => {
+      setError(true)
       setLoading(false)
     })
   }, [])
@@ -66,7 +70,9 @@ export default function CatalogoClient() {
         </div>
       </div>
 
-      {loading ? (
+      {error ? (
+        <p className="text-center text-gray-500 py-12">No pudimos cargar los productos. Intenta recargar la página.</p>
+      ) : loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm animate-pulse">

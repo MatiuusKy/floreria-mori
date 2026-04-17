@@ -7,8 +7,12 @@ export default function AdminCategoriasPage() {
   const [categories, setCategories] = useState<Category[]>([])
 
   const load = useCallback(async () => {
-    const data = await fetch('/api/categories').then(r => r.json())
-    setCategories(data)
+    try {
+      const data = await fetch('/api/categories').then(r => r.json())
+      setCategories(data)
+    } catch {
+      // silently fail — UI stays with previous data or empty state
+    }
   }, [])
 
   useEffect(() => { load() }, [load])

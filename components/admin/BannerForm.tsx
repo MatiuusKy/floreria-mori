@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Banner } from '@/types'
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export default function BannerForm({ banner, onSave }: Props) {
+  const router = useRouter()
   const [form, setForm] = useState({
     title: banner?.title ?? '',
     subtitle: banner?.subtitle ?? '',
@@ -43,6 +45,7 @@ export default function BannerForm({ banner, onSave }: Props) {
     } else {
       setSuccess(true)
       onSave()
+      router.refresh()
     }
     setSaving(false)
   }

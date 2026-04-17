@@ -7,9 +7,6 @@
 
 @theme inline {
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-
   /* Brand tokens */
   --color-primary: #2E7D32;
   --color-secondary: #F48FB1;

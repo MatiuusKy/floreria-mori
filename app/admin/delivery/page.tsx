@@ -8,9 +8,14 @@ export default function AdminDeliveryPage() {
   const [loading, setLoading] = useState(true)
 
   const load = useCallback(async () => {
-    const data = await fetch('/api/delivery-zones').then(r => r.json())
-    setZones(data)
-    setLoading(false)
+    try {
+      const data = await fetch('/api/delivery-zones').then(r => r.json())
+      setZones(data)
+    } catch {
+      // silently fail — UI stays with previous data or empty state
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => { load() }, [load])

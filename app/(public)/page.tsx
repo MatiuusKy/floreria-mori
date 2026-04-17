@@ -44,7 +44,6 @@ export default async function HomePage() {
       addressCountry: 'CL',
     },
     sameAs: ['https://www.instagram.com/floreriamori122012/'],
-    openingHoursSpecification: [],
   }
 
   return (

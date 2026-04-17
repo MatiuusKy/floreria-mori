@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import { Package, Tag, Megaphone, Leaf, Truck } from 'lucide-react'
 
 const NAV = [
-  { href: '/admin', icon: Package, label: 'Productos', exact: true },
+  { href: '/admin/productos', icon: Package, label: 'Productos' },
   { href: '/admin/categorias', icon: Tag, label: 'Categorías' },
   { href: '/admin/banner', icon: Megaphone, label: 'Banner' },
   { href: '/admin/delivery', icon: Truck, label: 'Delivery' },
