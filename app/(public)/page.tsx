@@ -28,6 +28,23 @@ export default async function HomePage() {
   const featured = (products as Product[] ?? []).filter(p => p.featured).slice(0, 6)
   const bestSellers = (products as Product[] ?? []).filter(p => p.best_seller).slice(0, 6)
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Florería Mori',
+    description: 'Arreglos florales únicos para cada momento especial en Peñalolén, Santiago.',
+    url: 'https://floreriamori.cl',
+    telephone: '+56929895674',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Peñalolén',
+      addressRegion: 'Región Metropolitana',
+      addressCountry: 'CL',
+    },
+    sameAs: ['https://www.instagram.com/floreriamori122012/'],
+    openingHoursSpecification: [],
+  }
+
   return (
     <>
       {banner && <SeasonalBanner banner={banner as Banner} />}
@@ -123,6 +140,11 @@ export default async function HomePage() {
           📸 @floreriamori122012
         </a>
       </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     </>
   )
 }
