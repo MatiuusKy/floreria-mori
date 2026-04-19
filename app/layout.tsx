@@ -1,17 +1,20 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Montserrat } from 'next/font/google'
+import { Lora, Nunito } from 'next/font/google'
 import './globals.css'
 import Analytics from '@/components/Analytics'
 
-const playfair = Playfair_Display({
+const lora = Lora({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-lora',
   display: 'swap',
 })
 
-const montserrat = Montserrat({
+const nunito = Nunito({
   subsets: ['latin'],
-  variable: '--font-montserrat',
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-nunito',
   display: 'swap',
 })
 
@@ -34,7 +37,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body className={`${playfair.variable} ${montserrat.variable} font-body bg-background text-[#333333] antialiased`}>
+      <body className={`${lora.variable} ${nunito.variable} font-body antialiased`}>
         <Analytics />
         {children}
       </body>

@@ -1,17 +1,27 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import { MessageCircle, Star, Flame } from 'lucide-react'
 import { Product, Variant } from '@/types'
 import { formatPrice } from '@/lib/utils'
 import { whatsappURL } from '@/lib/whatsapp'
 import { trackWhatsAppClick } from '@/lib/analytics'
 import SizeSelector from './SizeSelector'
 
+function getBadge(product: Product): { emoji: string; label: string; color: string } | null {
+  if (!product.available) return null
+  if (product.limited_stock) return { emoji: '⚡', label: 'Stock limitado', color: '#d47d55' }
+  if (product.campaign_tag) return { emoji: '🏷️', label: product.campaign_tag, color: '#c8955a' }
+  if (product.best_seller) return { emoji: '🔥', label: 'Más vendido', color: '#b5623a' }
+  if (product.featured) return { emoji: '❤️', label: 'Favorito', color: '#b5623a' }
+  if (product.same_day_delivery) return { emoji: '🚚', label: 'Entrega hoy', color: '#4a6741' }
+  return null
+}
+
 export default function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(
     product.variants?.[0] ?? null
   )
+  const [hovered, setHovered] = useState(false)
 
   const displayPrice = selectedVariant
     ? selectedVariant.price
@@ -21,10 +31,25 @@ export default function ProductCard({ product, priority = false }: { product: Pr
     ? whatsappURL(product.name, selectedVariant?.name, displayPrice)
     : null
 
+  const badge = getBadge(product)
+
   return (
-    <div className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow ${!product.available ? 'opacity-60' : ''}`}>
+    <div
+      className="reveal"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: 'white',
+        borderRadius: 'var(--radius-md)',
+        boxShadow: hovered ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+        transform: hovered ? 'translateY(-5px)' : 'translateY(0)',
+        transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+        overflow: 'hidden',
+        opacity: product.available ? 1 : 0.6,
+      }}
+    >
       {/* Image */}
-      <div className="relative aspect-square bg-gray-100">
+      <div style={{ position: 'relative', aspectRatio: '1.1', overflow: 'hidden', background: 'var(--warm-cream)' }}>
         {product.image_url ? (
           <Image
             src={product.image_url}
@@ -32,75 +57,164 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             fill
             priority={priority}
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            style={{ transform: hovered ? 'scale(1.05)' : 'scale(1)', transition: 'transform 0.4s ease' }}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-5xl bg-gradient-to-br from-secondary to-accent">
+          <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '64px',
+            background: 'linear-gradient(135deg, var(--blush), var(--camel-light))',
+          }}>
             🌸
           </div>
         )}
-        {/* Badges */}
-        {product.featured && product.available && !product.limited_stock && (
-          <span className="absolute top-2 left-2 flex items-center gap-1 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">
-            <Star size={10} /> Destacado
+
+        {/* Badge top-left */}
+        {badge && (
+          <span style={{
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            zIndex: 2,
+            background: badge.color,
+            color: 'white',
+            fontSize: '11px',
+            fontWeight: 700,
+            padding: '4px 10px',
+            borderRadius: 'var(--radius-pill)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+          }}>
+            {badge.emoji} {badge.label}
           </span>
         )}
-        {/* limited_stock badge — top-left, takes priority over featured */}
-        {product.limited_stock && product.available && (
-          <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-            Stock limitado
-          </span>
-        )}
-        {product.best_seller && product.available && (
-          <span className="absolute top-2 right-2 flex items-center gap-1 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-full">
-            <Flame size={10} /> Más vendido
-          </span>
-        )}
-        {product.discount_price && !selectedVariant && product.available && (
-          <span className="absolute bottom-2 right-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-full">
-            -{Math.round((1 - product.discount_price / product.price) * 100)}% OFF
-          </span>
-        )}
-        {/* same_day_delivery badge — bottom-left */}
-        {product.same_day_delivery && product.available && (
-          <span className="absolute bottom-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">
-            Entrega hoy
-          </span>
-        )}
+
+        {/* Out of stock badge */}
         {!product.available && (
-          <span className="absolute top-2 left-2 bg-gray-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+          <span style={{
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            background: 'var(--gris)',
+            color: 'white',
+            fontSize: '11px',
+            fontWeight: 700,
+            padding: '4px 10px',
+            borderRadius: 'var(--radius-pill)',
+          }}>
             Sin stock
+          </span>
+        )}
+
+        {/* Wishlist heart — appears on hover */}
+        <button
+          aria-label="Guardar en favoritos"
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            zIndex: 2,
+            width: '32px',
+            height: '32px',
+            borderRadius: '50%',
+            background: 'white',
+            border: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '15px',
+            cursor: 'pointer',
+            opacity: hovered ? 1 : 0,
+            transition: 'opacity 0.25s ease',
+            boxShadow: 'var(--shadow-sm)',
+          }}
+        >
+          🤍
+        </button>
+
+        {/* Discount badge */}
+        {product.discount_price && !selectedVariant && product.available && (
+          <span style={{
+            position: 'absolute',
+            bottom: '10px',
+            right: '10px',
+            background: 'var(--terra)',
+            color: 'white',
+            fontSize: '11px',
+            fontWeight: 700,
+            padding: '4px 10px',
+            borderRadius: 'var(--radius-pill)',
+          }}>
+            -{Math.round((1 - product.discount_price / product.price) * 100)}% OFF
           </span>
         )}
       </div>
 
       {/* Body */}
-      <div className="p-4">
+      <div style={{ padding: '16px' }}>
         {product.category && (
-          <p className="text-xs font-semibold text-accent uppercase tracking-wider mb-1">
+          <p style={{
+            fontSize: '10px',
+            fontWeight: 600,
+            color: 'var(--gris-light)',
+            textTransform: 'uppercase',
+            letterSpacing: '1.5px',
+            marginBottom: '4px',
+            fontFamily: 'var(--font-body)',
+          }}>
             {product.category.name}
           </p>
         )}
-        <h3 className="font-heading text-base font-semibold text-gray-800 mb-1">{product.name}</h3>
+
+        <h3 style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: '17px',
+          fontWeight: 500,
+          color: 'var(--mocha)',
+          marginBottom: '4px',
+          lineHeight: 1.3,
+        }}>
+          {product.name}
+        </h3>
+
         {product.description && (
-          <p className="text-xs text-gray-500 mb-3 line-clamp-2">{product.description}</p>
+          <p style={{
+            fontSize: '12.5px',
+            fontWeight: 300,
+            color: 'var(--gris)',
+            marginBottom: '12px',
+            lineHeight: 1.6,
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}>
+            {product.description}
+          </p>
         )}
 
         {/* Size selector */}
         {product.variants && product.variants.length > 0 && (
-          <div className="mb-3">
-            <SizeSelector
-              variants={product.variants}
-              onSelect={setSelectedVariant}
-            />
+          <div style={{ marginBottom: '12px' }}>
+            <SizeSelector variants={product.variants} onSelect={setSelectedVariant} />
           </div>
         )}
 
         {/* Price */}
-        <div className="flex items-baseline gap-2 mb-3">
-          <span className="text-lg font-bold text-primary">{formatPrice(displayPrice)}</span>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '14px' }}>
+          <span style={{ fontFamily: 'var(--font-heading)', fontSize: '21px', fontWeight: 500, color: 'var(--terra)' }}>
+            {formatPrice(displayPrice)}
+          </span>
           {product.discount_price && !selectedVariant && (
-            <span className="text-sm text-gray-400 line-through">{formatPrice(product.price)}</span>
+            <span style={{ fontSize: '14px', color: 'var(--gris-light)', textDecoration: 'line-through' }}>
+              {formatPrice(product.price)}
+            </span>
           )}
         </div>
 
@@ -111,13 +225,43 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackWhatsAppClick(product.name)}
-            className="flex items-center justify-center gap-2 w-full bg-primary text-white text-sm font-semibold py-2.5 rounded-xl hover:bg-green-800 transition-colors"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              width: '100%',
+              background: 'var(--terra)',
+              color: 'white',
+              fontSize: '13px',
+              fontWeight: 600,
+              padding: '10px',
+              borderRadius: 'var(--radius-pill)',
+              textDecoration: 'none',
+              transition: 'background 0.2s',
+              fontFamily: 'var(--font-body)',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = 'var(--mocha)')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'var(--terra)')}
           >
-            <MessageCircle size={16} />
-            Consultar por WhatsApp
+            💬 Cotizar por WhatsApp
           </a>
         ) : (
-          <button disabled className="w-full bg-gray-100 text-gray-400 text-sm font-semibold py-2.5 rounded-xl cursor-not-allowed">
+          <button
+            disabled
+            style={{
+              width: '100%',
+              background: 'var(--warm-cream)',
+              color: 'var(--gris-light)',
+              fontSize: '13px',
+              fontWeight: 600,
+              padding: '10px',
+              borderRadius: 'var(--radius-pill)',
+              border: 'none',
+              cursor: 'not-allowed',
+              fontFamily: 'var(--font-body)',
+            }}
+          >
             Sin stock por ahora
           </button>
         )}

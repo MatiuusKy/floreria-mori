@@ -9,7 +9,7 @@ export default function SeasonalBanner({ banner }: { banner: Banner }) {
   if (dismissed) return null
 
   return (
-    <div className="bg-secondary text-white py-3 px-4 flex items-center justify-between gap-4">
+    <div style={{ background: 'var(--terra)', color: 'white' }} className="py-3 px-4 flex items-center justify-between gap-4">
       <div className="flex-1 text-center text-sm font-semibold">
         {banner.title}
         {banner.subtitle && <span className="ml-2 font-normal opacity-90">{banner.subtitle}</span>}
