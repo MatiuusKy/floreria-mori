@@ -6,7 +6,7 @@ import { whatsappURL } from '@/lib/whatsapp'
 import ProductGrid from '@/components/ui/ProductGrid'
 import SeasonalBanner from '@/components/ui/SeasonalBanner'
 import ScrollRevealInit from '@/components/ui/ScrollRevealInit'
-import HeroCarousel from '@/components/ui/HeroCarousel'
+import FlowerGallery from '@/components/ui/FlowerGallery'
 import { Product, Category, Banner } from '@/types'
 
 export const metadata: Metadata = {
@@ -234,9 +234,18 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Right: carousel + floating cards */}
+          {/* Right: hero image + floating cards */}
           <div style={{ position: 'relative', paddingBottom: '32px', paddingRight: '32px' }}>
-            <HeroCarousel />
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '1', borderRadius: '60% 40% 50% 50% / 50% 55% 45% 55%', overflow: 'hidden' }}>
+              <Image
+                src="https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=800&q=80&fit=crop"
+                alt="Hermosas rosas frescas de Florería Mori"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
 
             {/* Floating card: años */}
             <div style={{
@@ -334,6 +343,11 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* ══════════════════════════════════════════════════════
+          FLOWER GALLERY CAROUSEL
+      ══════════════════════════════════════════════════════ */}
+      <FlowerGallery />
 
       {/* ══════════════════════════════════════════════════════
           CATEGORIES
