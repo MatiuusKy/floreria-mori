@@ -3,6 +3,15 @@ import { Pencil, Trash2, Star, Flame } from 'lucide-react'
 import { Product } from '@/types'
 import { formatPrice } from '@/lib/utils'
 
+const FALLBACK_BY_SLUG: Record<string, string> = {
+  amor:         'https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=400&q=80&fit=crop',
+  cumpleanos:   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80&fit=crop',
+  eventos:      'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=400&q=80&fit=crop',
+  arreglos:     'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&q=80&fit=crop',
+  condolencias: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80&fit=crop',
+}
+const DEFAULT_FALLBACK = 'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=400&q=80&fit=crop'
+
 interface Props {
   product: Product
   onEdit: (product: Product) => void
@@ -13,11 +22,13 @@ export default function ProductCardAdmin({ product, onEdit, onDelete }: Props) {
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
       <div className="relative aspect-square bg-gray-100">
-        {product.image_url ? (
-          <Image src={product.image_url} alt={product.name} fill className="object-cover" sizes="300px" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-4xl bg-gradient-to-br from-secondary/20 to-accent/20">🌸</div>
-        )}
+        <Image
+          src={product.image_url ?? (FALLBACK_BY_SLUG[product.category?.slug ?? ''] ?? DEFAULT_FALLBACK)}
+          alt={product.name}
+          fill
+          className="object-cover"
+          sizes="300px"
+        />
         {product.featured && <span className="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1"><Star size={9} />Dest.</span>}
         {product.best_seller && <span className="absolute top-2 right-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1"><Flame size={9} />Top</span>}
       </div>
