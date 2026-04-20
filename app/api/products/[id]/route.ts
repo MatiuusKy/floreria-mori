@@ -12,9 +12,12 @@ export async function PUT(
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
+  // Strip joined/computed fields that are not DB columns
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { category, id: _id, created_at, ...payload } = body
   const admin = createAdminClient()
   const { data, error } = await admin
-    .from('products').update(body).eq('id', id).select().single()
+    .from('products').update(payload).eq('id', id).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data)
 }
