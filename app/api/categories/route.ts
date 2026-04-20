@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
+import { validateCategory } from '@/lib/validation'
 
 export async function GET() {
   const supabase = await createClient()
@@ -15,17 +16,12 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
-  const name = body.name?.toString().trim()
-  const slug = body.slug?.toString().trim()
+  const validationError = validateCategory(body)
+  if (validationError) return NextResponse.json({ error: validationError }, { status: 400 })
 
-  if (!name) return NextResponse.json({ error: 'El nombre es requerido.' }, { status: 400 })
-  if (!slug) return NextResponse.json({ error: 'El slug es requerido.' }, { status: 400 })
-  if (!/^[a-z0-9-]+$/.test(slug)) {
-    return NextResponse.json({ error: 'El slug solo puede contener letras minúsculas, números y guiones.' }, { status: 400 })
-  }
-
+  const { name, slug } = body as { name: string; slug: string }
   const admin = createAdminClient()
-  const { data, error } = await admin.from('categories').insert({ name, slug }).select().single()
+  const { data, error } = await admin.from('categories').insert({ name: name.trim(), slug: slug.trim() }).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data, { status: 201 })
 }

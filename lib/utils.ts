@@ -8,6 +8,8 @@ export function generateSlug(name: string): string {
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')  // remove special chars first (before space→hyphen)
+    .replace(/\s+/g, '-')           // collapse spaces into hyphens
+    .replace(/-+/g, '-')            // collapse consecutive hyphens
+    .replace(/^-|-$/g, '')          // strip leading/trailing hyphens
 }

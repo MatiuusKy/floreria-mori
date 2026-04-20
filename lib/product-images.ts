@@ -9,6 +9,7 @@ export const FALLBACK_IMAGES_BY_SLUG: Record<string, string> = {
 export const DEFAULT_PRODUCT_IMAGE =
   'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=600&q=80&fit=crop'
 
-export function getProductImage(imageUrl: string | null, categorySlug?: string | null): string {
-  return imageUrl ?? FALLBACK_IMAGES_BY_SLUG[categorySlug ?? ''] ?? DEFAULT_PRODUCT_IMAGE
+export function getProductImage(imageUrl: string | null | undefined, categorySlug?: string | null): string {
+  // Use || instead of ?? so empty string also falls through to the fallback
+  return imageUrl || FALLBACK_IMAGES_BY_SLUG[categorySlug ?? ''] || DEFAULT_PRODUCT_IMAGE
 }

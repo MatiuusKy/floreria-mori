@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
+import { validateBannerTitle } from '@/lib/validation'
 
 export async function GET() {
   const supabase = await createClient()
@@ -16,9 +17,8 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
-  if (!body.title?.toString().trim()) {
-    return NextResponse.json({ error: 'El título es requerido.' }, { status: 400 })
-  }
+  const validationError = validateBannerTitle(body)
+  if (validationError) return NextResponse.json({ error: validationError }, { status: 400 })
 
   const admin = createAdminClient()
   if (body.active) {
@@ -36,9 +36,8 @@ export async function PUT(request: Request) {
 
   const { id, ...body } = await request.json()
   if (!id) return NextResponse.json({ error: 'ID requerido.' }, { status: 400 })
-  if (!body.title?.toString().trim()) {
-    return NextResponse.json({ error: 'El título es requerido.' }, { status: 400 })
-  }
+  const validationErrorPut = validateBannerTitle(body)
+  if (validationErrorPut) return NextResponse.json({ error: validationErrorPut }, { status: 400 })
 
   const admin = createAdminClient()
   if (body.active) {

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
+import { validateCategory } from '@/lib/validation'
 
 export async function PUT(
   request: Request,
@@ -12,6 +13,9 @@ export async function PUT(
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
+  const validationError = validateCategory(body)
+  if (validationError) return NextResponse.json({ error: validationError }, { status: 400 })
+
   const admin = createAdminClient()
   const { data, error } = await admin
     .from('categories').update(body).eq('id', id).select().single()
