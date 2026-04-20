@@ -41,13 +41,15 @@ export default function AdminLoginPage() {
 
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase">Email</label>
-            <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
+            <label htmlFor="email" className="text-xs font-semibold text-gray-500 uppercase">Email</label>
+            <input id="email" type="email" required value={email} onChange={e => setEmail(e.target.value)}
+              autoComplete="email"
               className="w-full mt-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase">Contraseña</label>
-            <input type="password" required value={password} onChange={e => setPassword(e.target.value)}
+            <label htmlFor="password" className="text-xs font-semibold text-gray-500 uppercase">Contraseña</label>
+            <input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)}
+              autoComplete="current-password"
               className="w-full mt-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-primary" />
           </div>
           {error && <p className="text-sm text-red-500 bg-red-50 rounded-xl p-3">{error}</p>}

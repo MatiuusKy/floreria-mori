@@ -6,20 +6,7 @@ import { formatPrice } from '@/lib/utils'
 import { whatsappURL } from '@/lib/whatsapp'
 import { trackWhatsAppClick } from '@/lib/analytics'
 import SizeSelector from './SizeSelector'
-
-const FALLBACK_BY_SLUG: Record<string, string> = {
-  amor:         'https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=600&q=80&fit=crop',
-  cumpleanos:   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&fit=crop',
-  eventos:      'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=600&q=80&fit=crop',
-  arreglos:     'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&q=80&fit=crop',
-  condolencias: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80&fit=crop',
-}
-const DEFAULT_FALLBACK = 'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=600&q=80&fit=crop'
-
-function getFallbackImage(product: Product): string {
-  const slug = product.category?.slug ?? ''
-  return FALLBACK_BY_SLUG[slug] ?? DEFAULT_FALLBACK
-}
+import { getProductImage } from '@/lib/product-images'
 
 function getBadge(product: Product): { emoji: string; label: string; color: string } | null {
   if (!product.available) return null
@@ -65,7 +52,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
       {/* Image */}
       <div style={{ position: 'relative', aspectRatio: '1.1', overflow: 'hidden', background: 'var(--warm-cream)' }}>
         <Image
-          src={product.image_url ?? getFallbackImage(product)}
+          src={getProductImage(product.image_url, product.category?.slug)}
           alt={product.name}
           fill
           priority={priority}
@@ -115,6 +102,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
         {/* Wishlist heart — appears on hover */}
         <button
           aria-label="Guardar en favoritos"
+          className="focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-primary"
           style={{
             position: 'absolute',
             top: '10px',

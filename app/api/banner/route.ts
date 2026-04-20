@@ -16,6 +16,10 @@ export async function POST(request: Request) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await request.json()
+  if (!body.title?.toString().trim()) {
+    return NextResponse.json({ error: 'El título es requerido.' }, { status: 400 })
+  }
+
   const admin = createAdminClient()
   if (body.active) {
     await admin.from('banners').update({ active: false }).neq('id', 'none')
@@ -31,6 +35,11 @@ export async function PUT(request: Request) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { id, ...body } = await request.json()
+  if (!id) return NextResponse.json({ error: 'ID requerido.' }, { status: 400 })
+  if (!body.title?.toString().trim()) {
+    return NextResponse.json({ error: 'El título es requerido.' }, { status: 400 })
+  }
+
   const admin = createAdminClient()
   if (body.active) {
     await admin.from('banners').update({ active: false }).neq('id', id)

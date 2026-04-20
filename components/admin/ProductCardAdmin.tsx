@@ -2,15 +2,7 @@ import Image from 'next/image'
 import { Pencil, Trash2, Star, Flame } from 'lucide-react'
 import { Product } from '@/types'
 import { formatPrice } from '@/lib/utils'
-
-const FALLBACK_BY_SLUG: Record<string, string> = {
-  amor:         'https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=400&q=80&fit=crop',
-  cumpleanos:   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80&fit=crop',
-  eventos:      'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=400&q=80&fit=crop',
-  arreglos:     'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&q=80&fit=crop',
-  condolencias: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80&fit=crop',
-}
-const DEFAULT_FALLBACK = 'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=400&q=80&fit=crop'
+import { getProductImage } from '@/lib/product-images'
 
 interface Props {
   product: Product
@@ -23,7 +15,7 @@ export default function ProductCardAdmin({ product, onEdit, onDelete }: Props) {
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
       <div className="relative aspect-square bg-gray-100">
         <Image
-          src={product.image_url ?? (FALLBACK_BY_SLUG[product.category?.slug ?? ''] ?? DEFAULT_FALLBACK)}
+          src={getProductImage(product.image_url, product.category?.slug)}
           alt={product.name}
           fill
           className="object-cover"
