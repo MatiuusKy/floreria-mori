@@ -108,3 +108,32 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ─── Responsive: topbar ────────────────────────────────────────── */
+@media (max-width: 639px) {
+  .topbar-item-delivery { display: none !important; }
+  .topbar-item-hours    { display: none !important; }
+  .topbar-item-address  { display: none !important; }
+}
+
+/* ─── Responsive: hero floating cards ─────────────────────────────  */
+@media (max-width: 639px) {
+  .hero-float-card { display: none !important; }
+}
+
+/* ─── Responsive: about floating cards ────────────────────────────  */
+@media (max-width: 639px) {
+  .about-float-card { display: none !important; }
+}
+
+/* ─── Responsive: flower gallery ──────────────────────────────────  */
+@media (max-width: 639px) {
+  .flower-gallery-header { flex-direction: column !important; align-items: flex-start !important; }
+  .flower-gallery-arrows { display: none !important; }
+  .flower-card-inner     { height: 360px !important; }
+  .flower-gallery-item   { max-width: 280px !important; }
+}
+@media (max-width: 959px) and (min-width: 640px) {
+  .flower-card-inner   { height: 440px !important; }
+  .flower-gallery-item { max-width: 340px !important; }
+}

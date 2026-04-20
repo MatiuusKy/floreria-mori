@@ -235,7 +235,7 @@ export default async function HomePage() {
           </div>
 
           {/* Right: hero image + floating cards */}
-          <div style={{ position: 'relative', paddingBottom: '32px', paddingRight: '32px' }}>
+          <div className="hero-right" style={{ position: 'relative', paddingBottom: '32px', paddingRight: '32px' }}>
             <div style={{ position: 'relative', width: '100%', aspectRatio: '1', borderRadius: '60% 40% 50% 50% / 50% 55% 45% 55%', overflow: 'hidden' }}>
               <Image
                 src="https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=800&q=80&fit=crop"
@@ -248,7 +248,7 @@ export default async function HomePage() {
             </div>
 
             {/* Floating card: años */}
-            <div style={{
+            <div className="hero-float-card" style={{
               position: 'absolute',
               bottom: '0',
               left: '-24px',
@@ -269,7 +269,7 @@ export default async function HomePage() {
             </div>
 
             {/* Floating card: stars */}
-            <div style={{
+            <div className="hero-float-card" style={{
               position: 'absolute',
               top: '16px',
               right: '-8px',
@@ -284,7 +284,7 @@ export default async function HomePage() {
             </div>
 
             {/* Floating card: delivery */}
-            <div style={{
+            <div className="hero-float-card" style={{
               position: 'absolute',
               bottom: '96px',
               right: '-16px',
@@ -650,7 +650,7 @@ export default async function HomePage() {
             </div>
 
             {/* Floating card: founded */}
-            <div style={{
+            <div className="about-float-card" style={{
               position: 'absolute',
               bottom: '-20px',
               left: '-20px',
@@ -665,7 +665,7 @@ export default async function HomePage() {
             </div>
 
             {/* Floating card: fresh */}
-            <div style={{
+            <div className="about-float-card" style={{
               position: 'absolute',
               top: '20px',
               right: '-16px',
@@ -1131,11 +1131,15 @@ export default async function HomePage() {
           .gallery-grid { grid-template-columns: repeat(3, 1fr) !important; }
         }
         @media (max-width: 640px) {
+          .hero-grid   { padding: 32px 16px 0 !important; }
+          .hero-right  { padding-bottom: 16px !important; padding-right: 16px !important; }
           .cat-grid    { grid-template-columns: repeat(2, 1fr) !important; }
           .products-grid { grid-template-columns: 1fr !important; }
           .steps-grid  { grid-template-columns: 1fr !important; }
           .values-grid { grid-template-columns: 1fr !important; }
           .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .step-card   { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .reviews-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </>

@@ -65,7 +65,7 @@ export default function FlowerGallery() {
     <section style={{ background: 'var(--warm-cream)', padding: '72px 0' }}>
       {/* Header */}
       <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 24px', marginBottom: '32px' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+        <div className="flower-gallery-header" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--terra)', letterSpacing: '2px', textTransform: 'uppercase' }}>
               Nuestros arreglos
@@ -78,8 +78,8 @@ export default function FlowerGallery() {
             </p>
           </div>
 
-          {/* Desktop nav arrows */}
-          <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+          {/* Nav arrows */}
+          <div className="flower-gallery-arrows" style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
             <button
               onClick={() => carouselApi?.scrollPrev()}
               disabled={!canScrollPrev}
@@ -126,13 +126,13 @@ export default function FlowerGallery() {
         >
           <CarouselContent style={{ marginLeft: 'max(24px, calc(50vw - 620px + 24px))' }}>
             {ITEMS.map((item) => (
-              <CarouselItem key={item.id} style={{ maxWidth: '420px', paddingLeft: '20px', flexShrink: 0 }}>
+              <CarouselItem key={item.id} className="flower-gallery-item" style={{ maxWidth: '420px', paddingLeft: '20px', flexShrink: 0 }}>
                 <a
                   href={item.href}
                   style={{ textDecoration: 'none', display: 'block', borderRadius: '16px', overflow: 'hidden' }}
                   className="flower-card"
                 >
-                  <div style={{
+                  <div className="flower-card-inner" style={{
                     position: 'relative',
                     height: '520px',
                     overflow: 'hidden',

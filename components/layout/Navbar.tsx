@@ -31,11 +31,11 @@ export default function Navbar() {
         color: 'rgba(253,248,244,0.55)',
       }}>
         {[
-          { icon: '🚚', text: 'Envíos a domicilio en Santiago y zona oriente', highlight: true },
-          { icon: '⏰', text: 'Lun–Sáb ', highlight: false, after: '9:00–19:00 hrs', afterHighlight: true },
-          { icon: '📍', text: 'Av. Grecia 8628, Peñalolén', highlight: false },
+          { icon: '🚚', text: 'Envíos a domicilio en Santiago y zona oriente', highlight: true,  cls: 'topbar-item-delivery' },
+          { icon: '⏰', text: 'Lun–Sáb ', highlight: false, after: '9:00–19:00 hrs', afterHighlight: true, cls: 'topbar-item-hours' },
+          { icon: '📍', text: 'Av. Grecia 8628, Peñalolén', highlight: false, cls: 'topbar-item-address' },
         ].map((item, i) => (
-          <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span key={i} className={item.cls} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             {i > 0 && (
               <span style={{
                 display: 'inline-block',
