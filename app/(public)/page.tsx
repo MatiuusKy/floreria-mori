@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 }
 
 const STATIC_CATEGORIES = [
-  { name: 'Amor',         slug: 'amor',          img: 'https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=500&q=80&fit=crop', desc: 'Rosas y romanticismo' },
+  { name: 'Amor',         slug: 'amor',          img: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=500&q=80&fit=crop', desc: 'Rosas y romanticismo' },
   { name: 'Cumpleaños',   slug: 'cumpleanos',     img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80&fit=crop', desc: 'Celebra cada año' },
   { name: 'Bodas',        slug: 'eventos',        img: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=500&q=80&fit=crop', desc: 'El día más especial' },
   { name: 'Nacimientos',  slug: 'arreglos',       img: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=500&q=80&fit=crop', desc: 'Bienvenida a la vida' },
@@ -24,7 +24,7 @@ const STATIC_CATEGORIES = [
 ]
 
 const STATIC_PRODUCTS = [
-  { id: 's1', name: 'Rosas Ecuatorianas',  category: 'Amor · Romántico',    price: 'Desde $15.000', img: 'https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=600&q=80&fit=crop', badge: { emoji: '❤️', label: 'Favorito', color: '#b5623a' }, wa: 'rosas ecuatorianas 🌹' },
+  { id: 's1', name: 'Rosas Ecuatorianas',  category: 'Amor · Romántico',    price: 'Desde $15.000', img: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=600&q=80&fit=crop', badge: { emoji: '❤️', label: 'Favorito', color: '#b5623a' }, wa: 'rosas ecuatorianas 🌹' },
   { id: 's2', name: 'Ramo de Temporada',   category: 'Cumpleaños',           price: 'Desde $18.000', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&fit=crop', badge: null, wa: 'ramo de temporada 🌷' },
   { id: 's3', name: 'Ramo de Novia',       category: 'Bodas · Matrimonios',  price: 'Desde $35.000', img: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=600&q=80&fit=crop', badge: { emoji: '💍', label: 'Matrimonio', color: '#c8955a' }, wa: 'ramo de novia 💍' },
   { id: 's4', name: 'Canasto Floral',      category: 'Nacimientos · Bautizos', price: 'Desde $25.000', img: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&q=80&fit=crop', badge: { emoji: '👶', label: 'Nacimiento', color: '#4a6741' }, wa: 'canasto floral 🌸' },
@@ -33,15 +33,15 @@ const STATIC_PRODUCTS = [
 ]
 
 const GALLERY_IMGS = [
-  'https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=400&q=80&fit=crop',
+  'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1496661415325-ef852f9e8e7c?w=400&q=80&fit=crop',
-  'https://images.unsplash.com/photo-1533616688419-b430be26bcd6?w=400&q=80&fit=crop',
+  'https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80&fit=crop',
-  'https://images.unsplash.com/photo-1434376741067-a23e9b0b9e7d?w=400&q=80&fit=crop',
+  'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=400&q=80&fit=crop',
 ]
 
@@ -238,7 +238,7 @@ export default async function HomePage() {
           <div className="hero-right" style={{ position: 'relative', paddingBottom: '32px', paddingRight: '32px' }}>
             <div style={{ position: 'relative', width: '100%', aspectRatio: '1', borderRadius: '60% 40% 50% 50% / 50% 55% 45% 55%', overflow: 'hidden' }}>
               <Image
-                src="https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=800&q=80&fit=crop"
+                src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=800&q=80&fit=crop"
                 alt="Hermosas rosas frescas de Florería Mori"
                 fill
                 priority
@@ -641,7 +641,7 @@ export default async function HomePage() {
               }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1487530811015-780780cfe803?w=700&q=80&fit=crop"
+                src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=700&q=80&fit=crop"
                 alt="Interior de Florería Mori en Peñalolén"
                 fill
                 className="object-cover"

@@ -11,7 +11,7 @@ const ITEMS = [
     title: 'Rosas Ecuatorianas',
     description: 'Las más frescas y duraderas, ideales para declarar amor o sorprender en cualquier ocasión especial.',
     href: '/catalogo?categoria=amor',
-    image: 'https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=1080&q=80&fit=crop',
+    image: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=1080&q=80&fit=crop',
   },
   {
     id: 'cumpleanos',

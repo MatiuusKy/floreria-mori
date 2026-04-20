@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 const SLIDES = [
   {
-    src: 'https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=800&q=80&fit=crop',
+    src: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=800&q=80&fit=crop',
     alt: 'Rosas rojas ecuatorianas frescas',
   },
   {
