@@ -18,7 +18,7 @@ const ITEMS = [
     title: 'Ramos de Cumpleaños',
     description: 'Colores vivos y arreglos únicos para que ese día sea aún más memorable.',
     href: '/catalogo?categoria=cumpleanos',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1080&q=80&fit=crop',
+    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=1080&q=80&fit=crop',
   },
   {
     id: 'bodas',

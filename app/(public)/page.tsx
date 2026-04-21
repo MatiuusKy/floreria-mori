@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 const STATIC_CATEGORIES = [
   { name: 'Amor',         slug: 'amor',          img: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=500&q=80&fit=crop', desc: 'Rosas y romanticismo' },
-  { name: 'Cumpleaños',   slug: 'cumpleanos',     img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80&fit=crop', desc: 'Celebra cada año' },
+  { name: 'Cumpleaños',   slug: 'cumpleanos',     img: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=500&q=80&fit=crop', desc: 'Celebra cada año' },
   { name: 'Bodas',        slug: 'eventos',        img: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=500&q=80&fit=crop', desc: 'El día más especial' },
   { name: 'Nacimientos',  slug: 'arreglos',       img: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=500&q=80&fit=crop', desc: 'Bienvenida a la vida' },
   { name: 'Condolencias', slug: 'condolencias',   img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=500&q=80&fit=crop', desc: 'Con respeto y cariño' },
@@ -25,7 +25,7 @@ const STATIC_CATEGORIES = [
 
 const STATIC_PRODUCTS = [
   { id: 's1', name: 'Rosas Ecuatorianas',  category: 'Amor · Romántico',    price: 'Desde $15.000', img: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=600&q=80&fit=crop', badge: { emoji: '❤️', label: 'Favorito', color: '#b5623a' }, wa: 'rosas ecuatorianas 🌹' },
-  { id: 's2', name: 'Ramo de Temporada',   category: 'Cumpleaños',           price: 'Desde $18.000', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&fit=crop', badge: null, wa: 'ramo de temporada 🌷' },
+  { id: 's2', name: 'Ramo de Temporada',   category: 'Cumpleaños',           price: 'Desde $18.000', img: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=600&q=80&fit=crop', badge: null, wa: 'ramo de temporada 🌷' },
   { id: 's3', name: 'Ramo de Novia',       category: 'Bodas · Matrimonios',  price: 'Desde $35.000', img: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=600&q=80&fit=crop', badge: { emoji: '💍', label: 'Matrimonio', color: '#c8955a' }, wa: 'ramo de novia 💍' },
   { id: 's4', name: 'Canasto Floral',      category: 'Nacimientos · Bautizos', price: 'Desde $25.000', img: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&q=80&fit=crop', badge: { emoji: '👶', label: 'Nacimiento', color: '#4a6741' }, wa: 'canasto floral 🌸' },
   { id: 's5', name: 'Corona Fúnebre',      category: 'Condolencias',          price: 'Desde $30.000', img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80&fit=crop', badge: null, wa: 'corona fúnebre 🕊️' },
@@ -34,7 +34,7 @@ const STATIC_PRODUCTS = [
 
 const GALLERY_IMGS = [
   'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=400&q=80&fit=crop',
-  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80&fit=crop',
+  'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=400&q=80&fit=crop',
   'https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=400&q=80&fit=crop',
@@ -641,7 +641,7 @@ export default async function HomePage() {
               }}
             >
               <Image
-                src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=700&q=80&fit=crop"
+                src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80&fit=crop"
                 alt="Interior de Florería Mori en Peñalolén"
                 fill
                 className="object-cover"
