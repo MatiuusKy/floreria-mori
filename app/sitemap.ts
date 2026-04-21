@@ -8,15 +8,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     [
       { url: BASE_URL,               priority: 1.0, changeFrequency: 'weekly'  as const },
       { url: `${BASE_URL}/catalogo`, priority: 0.9, changeFrequency: 'daily'   as const },
-      { url: `${BASE_URL}/delivery`, priority: 0.7, changeFrequency: 'monthly' as const },
       { url: `${BASE_URL}/nosotros`, priority: 0.6, changeFrequency: 'monthly' as const },
       { url: `${BASE_URL}/contacto`, priority: 0.7, changeFrequency: 'monthly' as const },
+      { url: `${BASE_URL}/delivery`, priority: 0.7, changeFrequency: 'monthly' as const },
     ] as const
   ).map(p => ({ ...p, lastModified: new Date() }))
 
   try {
     const supabase = await createClient()
-    const { data: categories } = await supabase.from('categories').select('slug, updated_at')
+    const [{ data: categories }, { data: products }] = await Promise.all([
+      supabase.from('categories').select('slug, updated_at'),
+      supabase.from('products').select('id, created_at').eq('available', true),
+    ])
 
     const categoryPages: MetadataRoute.Sitemap = (categories ?? []).map(cat => ({
       url: `${BASE_URL}/catalogo?categoria=${cat.slug}`,
@@ -25,7 +28,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }))
 
-    return [...staticPages, ...categoryPages]
+    const productPages: MetadataRoute.Sitemap = (products ?? []).map(p => ({
+      url: `${BASE_URL}/catalogo/${p.id}`,
+      lastModified: p.created_at ? new Date(p.created_at) : new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.75,
+    }))
+
+    return [...staticPages, ...categoryPages, ...productPages]
   } catch {
     return staticPages
   }

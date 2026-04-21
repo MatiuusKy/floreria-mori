@@ -61,7 +61,7 @@ export default function AdminProductosPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filtered.map(p => (
-            <ProductCardAdmin key={p.id} product={p} onEdit={setEditing} onDelete={handleDelete} />
+            <ProductCardAdmin key={p.id} product={p} onEdit={setEditing} onDelete={handleDelete} onRefresh={load} />
           ))}
           {filtered.length === 0 && (
             <p className="col-span-full text-center text-gray-400 py-12">No hay productos en esta categoría.</p>

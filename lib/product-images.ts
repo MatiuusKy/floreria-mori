@@ -1,6 +1,6 @@
 export const FALLBACK_IMAGES_BY_SLUG: Record<string, string> = {
-  amor:         'https://images.unsplash.com/photo-1490750967868-88df5691bbf9?w=600&q=80&fit=crop',
-  cumpleanos:   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&fit=crop',
+  amor:         'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=600&q=80&fit=crop',
+  cumpleanos:   'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=600&q=80&fit=crop',
   eventos:      'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=600&q=80&fit=crop',
   arreglos:     'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&q=80&fit=crop',
   condolencias: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80&fit=crop',
