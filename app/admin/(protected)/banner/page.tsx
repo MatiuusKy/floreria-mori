@@ -1,11 +1,18 @@
 import { createClient } from '@/lib/supabase/server'
 import BannerForm from '@/components/admin/BannerForm'
-import { Banner } from '@/types'
+import { Banner, Category, Product } from '@/types'
 
 export default async function AdminBannerPage() {
   const supabase = await createClient()
-  const { data: banner } = await supabase
-    .from('banners').select('*').order('created_at', { ascending: false }).maybeSingle()
+  const [
+    { data: banner },
+    { data: categories },
+    { data: products },
+  ] = await Promise.all([
+    supabase.from('banners').select('*').order('created_at', { ascending: false }).maybeSingle(),
+    supabase.from('categories').select('id, name, slug').order('name'),
+    supabase.from('products').select('id, name').eq('available', true).order('name'),
+  ])
 
   return (
     <div>
@@ -13,7 +20,11 @@ export default async function AdminBannerPage() {
       <p className="text-gray-500 text-sm mb-6">
         Muestra un aviso promocional en la parte superior del sitio para fechas especiales.
       </p>
-      <BannerForm banner={banner as Banner | null} />
+      <BannerForm
+        banner={banner as Banner | null}
+        categories={(categories ?? []) as Category[]}
+        products={(products ?? []) as Pick<Product, 'id' | 'name'>[]}
+      />
     </div>
   )
 }
