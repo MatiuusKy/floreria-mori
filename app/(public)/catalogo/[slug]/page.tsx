@@ -10,23 +10,23 @@ import { whatsappURL } from '@/lib/whatsapp'
 import type { Product } from '@/types'
 
 interface Props {
-  params: Promise<{ id: string }>
+  params: Promise<{ slug: string }>
 }
 
-async function getProduct(id: string): Promise<Product | null> {
+async function getProduct(slug: string): Promise<Product | null> {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('products')
     .select('*, category:categories(id, name, slug)')
-    .eq('id', id)
+    .eq('slug', slug)
     .single()
   if (error || !data) return null
   return data as Product
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params
-  const product = await getProduct(id)
+  const { slug } = await params
+  const product = await getProduct(slug)
   if (!product) return { title: 'Producto no encontrado — Florería Mori' }
 
   return {
@@ -37,13 +37,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: product.description ?? `${product.name} disponible en Florería Mori.`,
       images: product.image_url ? [{ url: product.image_url }] : [],
     },
-    alternates: { canonical: `https://floreriamori.cl/catalogo/${id}` },
+    alternates: { canonical: `https://floreriamori.cl/catalogo/${slug}` },
   }
 }
 
 export default async function ProductPage({ params }: Props) {
-  const { id } = await params
-  const product = await getProduct(id)
+  const { slug } = await params
+  const product = await getProduct(slug)
   if (!product) notFound()
 
   const imageSrc = getProductImage(product.image_url, product.category?.slug)

@@ -11,7 +11,7 @@ export default async function AdminBannerPage() {
   ] = await Promise.all([
     supabase.from('banners').select('*').order('created_at', { ascending: false }).maybeSingle(),
     supabase.from('categories').select('id, name, slug').order('name'),
-    supabase.from('products').select('id, name').eq('available', true).order('name'),
+    supabase.from('products').select('id, slug, name').eq('available', true).order('name'),
   ])
 
   return (
@@ -23,7 +23,7 @@ export default async function AdminBannerPage() {
       <BannerForm
         banner={banner as Banner | null}
         categories={(categories ?? []) as Category[]}
-        products={(products ?? []) as Pick<Product, 'id' | 'name'>[]}
+        products={(products ?? []) as Pick<Product, 'id' | 'slug' | 'name'>[]}
       />
     </div>
   )

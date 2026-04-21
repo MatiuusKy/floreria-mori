@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 import { validateProduct } from '@/lib/validation'
+import { generateSlug } from '@/lib/utils'
 
 export async function PUT(
   request: Request,
@@ -16,6 +17,11 @@ export async function PUT(
   // Strip joined/computed fields that are not DB columns
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { category, id: _id, created_at, ...payload } = body
+
+  // Regenerate slug from name if name changed and slug wasn't explicitly set
+  if (payload.name && !payload.slug) {
+    payload.slug = generateSlug(payload.name)
+  }
 
   const validationError = validateProduct(payload)
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 })

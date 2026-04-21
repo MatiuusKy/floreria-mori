@@ -16,7 +16,7 @@ function detectMode(url: string | null | undefined): LinkMode {
 interface Props {
   banner: Banner | null
   categories: Category[]
-  products: Pick<Product, 'id' | 'name'>[]
+  products: Pick<Product, 'id' | 'slug' | 'name'>[]
 }
 
 export default function BannerForm({ banner, categories, products }: Props) {
@@ -41,7 +41,7 @@ export default function BannerForm({ banner, categories, products }: Props) {
     if (initialMode === 'producto') {
       return banner?.cta_url?.replace('/catalogo/', '') ?? ''
     }
-    return products[0]?.id ?? ''
+    return products[0]?.slug ?? ''
   })
 
   const [saving, setSaving] = useState(false)
@@ -70,9 +70,9 @@ export default function BannerForm({ banner, categories, products }: Props) {
     setForm(f => ({ ...f, cta_url: slug ? `/catalogo?categoria=${slug}` : '/catalogo' }))
   }
 
-  function handleProductoChange(id: string) {
-    setSelectedProducto(id)
-    setForm(f => ({ ...f, cta_url: id ? `/catalogo/${id}` : '/catalogo' }))
+  function handleProductoChange(slug: string) {
+    setSelectedProducto(slug)
+    setForm(f => ({ ...f, cta_url: slug ? `/catalogo/${slug}` : '/catalogo' }))
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -184,7 +184,7 @@ export default function BannerForm({ banner, categories, products }: Props) {
             >
               {products.length === 0 && <option value="">Sin productos activos</option>}
               {products.map(p => (
-                <option key={p.id} value={p.id}>{p.name}</option>
+                <option key={p.id} value={p.slug}>{p.name}</option>
               ))}
             </select>
             {selectedProducto && (

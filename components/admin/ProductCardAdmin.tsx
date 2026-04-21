@@ -58,7 +58,7 @@ export default function ProductCardAdmin({ product, onEdit, onDelete, onRefresh 
 
         {/* Preview button */}
         <a
-          href={`/catalogo/${product.id}`}
+          href={`/catalogo/${product.slug}`}
           target="_blank"
           rel="noopener noreferrer"
           title="Ver en sitio"

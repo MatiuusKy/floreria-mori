@@ -51,7 +51,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
       }}
     >
       {/* Image */}
-      <Link href={`/catalogo/${product.id}`} style={{ display: 'block', position: 'relative', aspectRatio: '1.1', overflow: 'hidden', background: 'var(--warm-cream)' }}>
+      <Link href={`/catalogo/${product.slug}`} style={{ display: 'block', position: 'relative', aspectRatio: '1.1', overflow: 'hidden', background: 'var(--warm-cream)' }}>
         <Image
           src={getProductImage(product.image_url, product.category?.slug)}
           alt={product.name}
@@ -161,7 +161,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
           </p>
         )}
 
-        <Link href={`/catalogo/${product.id}`} style={{ textDecoration: 'none' }}>
+        <Link href={`/catalogo/${product.slug}`} style={{ textDecoration: 'none' }}>
           <h3 style={{
             fontFamily: 'var(--font-heading)',
             fontSize: '17px',

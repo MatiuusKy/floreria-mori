@@ -18,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const supabase = await createClient()
     const [{ data: categories }, { data: products }] = await Promise.all([
       supabase.from('categories').select('slug, updated_at'),
-      supabase.from('products').select('id, created_at').eq('available', true),
+      supabase.from('products').select('slug, created_at').eq('available', true),
     ])
 
     const categoryPages: MetadataRoute.Sitemap = (categories ?? []).map(cat => ({
@@ -29,7 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
 
     const productPages: MetadataRoute.Sitemap = (products ?? []).map(p => ({
-      url: `${BASE_URL}/catalogo/${p.id}`,
+      url: `${BASE_URL}/catalogo/${p.slug}`,
       lastModified: p.created_at ? new Date(p.created_at) : new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.75,

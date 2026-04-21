@@ -13,6 +13,7 @@ interface Props {
 }
 
 const EMPTY: Omit<Product, 'id' | 'created_at' | 'category'> = {
+  slug: '',
   name: '', description: '', price: 0, discount_price: null,
   category_id: null, image_url: null, available: true,
   featured: false, best_seller: false, stock: 0, variants: null,

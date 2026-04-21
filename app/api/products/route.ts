@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 import { validateProduct } from '@/lib/validation'
+import { generateSlug } from '@/lib/utils'
 
 export async function GET() {
   const supabase = await createClient()
@@ -23,6 +24,11 @@ export async function POST(request: Request) {
   const body = await request.json()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { category, id: _id, created_at, ...payload } = body
+
+  // Auto-generate slug from name if not provided
+  if (!payload.slug && payload.name) {
+    payload.slug = generateSlug(payload.name)
+  }
 
   const validationError = validateProduct(payload)
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 })
