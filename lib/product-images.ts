@@ -14,8 +14,8 @@ export function getProductImage(imageUrl: string | null | undefined, categorySlu
   return imageUrl || FALLBACK_IMAGES_BY_SLUG[categorySlug ?? ''] || DEFAULT_PRODUCT_IMAGE
 }
 
-// Supabase Storage URLs should bypass Next.js image optimization (use unoptimized={true})
-// because the optimization proxy can't reliably fetch from Supabase Storage on Vercel.
+// Any external URL that isn't Unsplash should bypass Next.js image optimization,
+// because only images.unsplash.com is configured in remotePatterns.
 export function isSupabaseUrl(url: string): boolean {
-  return url.includes('.supabase.co/storage/')
+  return url.startsWith('http') && !url.includes('images.unsplash.com')
 }
