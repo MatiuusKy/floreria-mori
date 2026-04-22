@@ -8,6 +8,23 @@ import { Product, Category } from '@/types'
 
 const PAGE_SIZE = 12
 
+const COLOR_OPTIONS = [
+  { label: 'Rojo',       value: 'rojo',      hex: '#c0392b' },
+  { label: 'Rosa',       value: 'rosa',      hex: '#e91e8c' },
+  { label: 'Blanco',     value: 'blanco',    hex: '#f5f0ea' },
+  { label: 'Amarillo',   value: 'amarillo',  hex: '#f1c40f' },
+  { label: 'Naranja',    value: 'naranja',   hex: '#e67e22' },
+  { label: 'Morado',     value: 'morado',    hex: '#8e44ad' },
+  { label: 'Verde',      value: 'verde',     hex: '#27ae60' },
+  { label: 'Multicolor', value: 'multicolor', hex: 'linear-gradient(135deg,#e91e8c,#f1c40f,#27ae60,#3498db)' },
+]
+
+const PRICE_RANGES = [
+  { label: 'Menos de $20.000', min: 0,     max: 19999 },
+  { label: '$20.000–$35.000',  min: 20000,  max: 35000 },
+  { label: 'Más de $35.000',   min: 35001,  max: Infinity },
+]
+
 export default function CatalogoClient() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -15,6 +32,8 @@ export default function CatalogoClient() {
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [activePriceRange, setActivePriceRange] = useState<number | null>(null)
+  const [activeColor, setActiveColor] = useState<string | null>(null)
   const [search, setSearch] = useState(searchParams.get('q') ?? '')
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
@@ -64,10 +83,21 @@ export default function CatalogoClient() {
     updateURL(activeCategory, q)
   }
 
+  const priceRange = activePriceRange !== null ? PRICE_RANGES[activePriceRange] : null
+
   const filtered = products
     .filter(p => p.available)
     .filter(p => activeCategory ? p.category_id === activeCategory : true)
     .filter(p => search ? p.name.toLowerCase().includes(search.toLowerCase()) : true)
+    .filter(p => {
+      if (!priceRange) return true
+      const price = p.discount_price ?? p.price
+      return price >= priceRange.min && price <= priceRange.max
+    })
+    .filter(p => {
+      if (!activeColor) return true
+      return (p.colors ?? []).includes(activeColor)
+    })
 
   const visible = filtered.slice(0, page * PAGE_SIZE)
   const hasMore = visible.length < filtered.length
@@ -101,6 +131,67 @@ export default function CatalogoClient() {
               onClick={() => handleCategoryClick(cat.id)}
             />
           ))}
+        </div>
+
+        <div className="flex gap-2 flex-wrap" role="group" aria-label="Filtrar por precio">
+          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--gris-light)', alignSelf: 'center', letterSpacing: '0.5px', fontFamily: 'var(--font-body)' }}>
+            PRECIO:
+          </span>
+          {PRICE_RANGES.map((range, i) => (
+            <button
+              key={i}
+              onClick={() => { setActivePriceRange(activePriceRange === i ? null : i); setPage(1) }}
+              style={{
+                fontSize: '12px',
+                fontWeight: activePriceRange === i ? 600 : 500,
+                padding: '5px 14px',
+                borderRadius: 'var(--radius-pill)',
+                border: activePriceRange === i ? '1.5px solid var(--terra)' : '1.5px solid rgba(107,62,38,0.15)',
+                background: activePriceRange === i ? 'var(--terra)' : 'transparent',
+                color: activePriceRange === i ? 'white' : 'var(--gris)',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-body)',
+                transition: 'all 0.15s',
+              }}
+            >
+              {range.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex gap-3 flex-wrap items-center" role="group" aria-label="Filtrar por color">
+          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--gris-light)', letterSpacing: '0.5px', fontFamily: 'var(--font-body)' }}>
+            COLOR:
+          </span>
+          {COLOR_OPTIONS.map(color => (
+            <button
+              key={color.value}
+              title={color.label}
+              aria-label={`Filtrar por color ${color.label}`}
+              onClick={() => { setActiveColor(activeColor === color.value ? null : color.value); setPage(1) }}
+              style={{
+                width: '26px',
+                height: '26px',
+                borderRadius: '50%',
+                border: activeColor === color.value ? '2.5px solid var(--mocha)' : '2px solid rgba(0,0,0,0.1)',
+                background: color.hex.startsWith('linear') ? color.hex : color.hex,
+                cursor: 'pointer',
+                outline: activeColor === color.value ? '2px solid var(--camel)' : 'none',
+                outlineOffset: '2px',
+                transition: 'transform 0.15s',
+                transform: activeColor === color.value ? 'scale(1.2)' : 'scale(1)',
+                flexShrink: 0,
+              }}
+            />
+          ))}
+          {activeColor && (
+            <button
+              onClick={() => setActiveColor(null)}
+              style={{ fontSize: '11px', fontWeight: 600, color: 'var(--terra)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+            >
+              × Quitar
+            </button>
+          )}
         </div>
       </div>
 

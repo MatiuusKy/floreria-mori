@@ -7,7 +7,7 @@ import ProductGrid from '@/components/ui/ProductGrid'
 import SeasonalBanner from '@/components/ui/SeasonalBanner'
 import ScrollRevealInit from '@/components/ui/ScrollRevealInit'
 import FlowerGallery from '@/components/ui/FlowerGallery'
-import { Product, Category, Banner } from '@/types'
+import { Product, Banner } from '@/types'
 
 export const metadata: Metadata = {
   title: 'Florería Mori — Flores en Peñalolén, Santiago',
@@ -15,12 +15,12 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://floreriamori.cl' },
 }
 
-const STATIC_CATEGORIES = [
-  { name: 'Amor',         slug: 'amor',          img: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=500&q=80&fit=crop', desc: 'Rosas y romanticismo' },
-  { name: 'Cumpleaños',   slug: 'cumpleanos',     img: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=500&q=80&fit=crop', desc: 'Celebra cada año' },
-  { name: 'Bodas',        slug: 'eventos',        img: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=500&q=80&fit=crop', desc: 'El día más especial' },
-  { name: 'Nacimientos',  slug: 'arreglos',       img: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=500&q=80&fit=crop', desc: 'Bienvenida a la vida' },
-  { name: 'Condolencias', slug: 'condolencias',   img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=500&q=80&fit=crop', desc: 'Con respeto y cariño' },
+const OCCASION_CARDS = [
+  { name: 'Amor & Aniversarios', slug: 'amor',        img: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=800&q=80&fit=crop', desc: 'Rosas y romanticismo para el momento perfecto', size: 'large' },
+  { name: 'Cumpleaños',          slug: 'cumpleanos',  img: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=800&q=80&fit=crop', desc: 'Celebra con flores frescas', size: 'large' },
+  { name: 'Bodas & Eventos',     slug: 'eventos',     img: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=600&q=80&fit=crop', desc: 'El día más especial', size: 'small' },
+  { name: 'Nacimientos',         slug: 'nacimientos', img: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&q=80&fit=crop', desc: 'Bienvenida a la vida', size: 'small' },
+  { name: 'Condolencias',        slug: 'condolencias',img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80&fit=crop', desc: 'Con respeto y cariño', size: 'small' },
 ]
 
 const STATIC_PRODUCTS = [
@@ -82,9 +82,8 @@ const STEPS = [
 export default async function HomePage() {
   const supabase = await createClient()
 
-  const [{ data: products }, { data: categories }, { data: banner }] = await Promise.all([
+  const [{ data: products }, { data: banner }] = await Promise.all([
     supabase.from('products').select('*, category:categories(id,name,slug)').eq('available', true).order('featured', { ascending: false }),
-    supabase.from('categories').select('*').order('name'),
     supabase.from('banners').select('*').eq('active', true).maybeSingle(),
   ])
 
@@ -350,80 +349,106 @@ export default async function HomePage() {
       <FlowerGallery />
 
       {/* ══════════════════════════════════════════════════════
-          CATEGORIES
+          OCCASIONS — "Te acompañamos en momentos especiales"
       ══════════════════════════════════════════════════════ */}
-      <section style={{ maxWidth: '1240px', margin: '0 auto', padding: '72px 24px' }}>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--terra)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
-          Ocasiones
-        </p>
-        <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 400, color: 'var(--mocha)', marginBottom: '28px' }}>
-          Flores para cada momento
-        </h2>
+      <section style={{ background: 'var(--warm-cream)', padding: '72px 24px' }}>
+        <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--terra)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
+            Ocasiones
+          </p>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 400, color: 'var(--mocha)', marginBottom: '32px' }}>
+            Te acompañamos en momentos especiales
+          </h2>
 
-        {/* Filter pills */}
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '36px' }}>
-          {(categories as Category[] ?? STATIC_CATEGORIES.map((c, i) => ({ id: String(i), name: c.name, slug: c.slug, created_at: '' }))).map(cat => (
-            <Link
-              key={cat.id}
-              href={`/catalogo?categoria=${cat.slug}`}
-              style={{
-                fontSize: '13px',
-                fontWeight: 500,
-                padding: '7px 16px',
-                borderRadius: 'var(--radius-pill)',
-                border: '1.5px solid rgba(107,62,38,0.15)',
-                color: 'var(--gris)',
-                textDecoration: 'none',
-                fontFamily: 'var(--font-body)',
-                transition: 'all 0.2s',
-              }}
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* Category cards */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(5, 1fr)',
-          gap: '16px',
-        }} className="cat-grid">
-          {STATIC_CATEGORIES.map(cat => (
-            <Link
-              key={cat.slug}
-              href={`/catalogo?categoria=${cat.slug}`}
-              className="reveal cat-card"
-              style={{
-                textDecoration: 'none',
-                borderRadius: 'var(--radius-md)',
-                overflow: 'hidden',
-                boxShadow: 'var(--shadow-sm)',
-                display: 'block',
-                background: 'white',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              }}
-            >
-              <div style={{ position: 'relative', aspectRatio: '1', overflow: 'hidden' }}>
+          {/* Top row: 2 large cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }} className="occ-top-grid">
+            {OCCASION_CARDS.filter(c => c.size === 'large').map(card => (
+              <Link
+                key={card.slug}
+                href={`/catalogo?categoria=${card.slug}`}
+                className="occ-card"
+                style={{
+                  position: 'relative',
+                  display: 'block',
+                  height: '320px',
+                  borderRadius: 'var(--radius-md)',
+                  overflow: 'hidden',
+                  textDecoration: 'none',
+                }}
+              >
                 <Image
-                  src={cat.img}
-                  alt={cat.name}
+                  src={card.img}
+                  alt={card.name}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 640px) 50vw, 20vw"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   style={{ transition: 'transform 0.5s ease' }}
                 />
-              </div>
-              <div style={{ padding: '12px' }}>
-                <p style={{ fontFamily: 'var(--font-heading)', fontSize: '15px', fontWeight: 500, color: 'var(--mocha)', marginBottom: '2px' }}>
-                  {cat.name}
-                </p>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--gris)' }}>
-                  {cat.desc}
-                </p>
-              </div>
-            </Link>
-          ))}
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: 'linear-gradient(to top, rgba(60,30,10,0.72) 0%, rgba(60,30,10,0.1) 55%)',
+                  transition: 'background 0.3s',
+                }} className="occ-overlay" />
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '24px 28px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', fontWeight: 500, color: 'white', marginBottom: '6px' }}>
+                    {card.name}
+                  </h3>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'rgba(255,255,255,0.75)', marginBottom: '14px' }}>
+                    {card.desc}
+                  </p>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600,
+                    color: 'white', background: 'rgba(255,255,255,0.18)',
+                    backdropFilter: 'blur(4px)', padding: '6px 16px',
+                    borderRadius: 'var(--radius-pill)', border: '1px solid rgba(255,255,255,0.25)',
+                  }}>
+                    Ver flores →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Bottom row: 3 small cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="occ-bot-grid">
+            {OCCASION_CARDS.filter(c => c.size === 'small').map(card => (
+              <Link
+                key={card.slug}
+                href={`/catalogo?categoria=${card.slug}`}
+                className="occ-card"
+                style={{
+                  position: 'relative',
+                  display: 'block',
+                  height: '200px',
+                  borderRadius: 'var(--radius-md)',
+                  overflow: 'hidden',
+                  textDecoration: 'none',
+                }}
+              >
+                <Image
+                  src={card.img}
+                  alt={card.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  style={{ transition: 'transform 0.5s ease' }}
+                />
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: 'linear-gradient(to top, rgba(60,30,10,0.72) 0%, rgba(60,30,10,0.05) 60%)',
+                }} className="occ-overlay" />
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '18px 20px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '17px', fontWeight: 500, color: 'white', marginBottom: '4px' }}>
+                    {card.name}
+                  </h3>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'rgba(255,255,255,0.7)' }}>
+                    {card.desc}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1117,29 +1142,30 @@ export default async function HomePage() {
       <style>{`
         .gallery-item:hover .gallery-overlay { opacity: 1 !important; }
         .gallery-item:hover img { transform: scale(1.06); }
-        .cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md) !important; }
-        .cat-card:hover img { transform: scale(1.06); }
+        .occ-card:hover img { transform: scale(1.07); }
+        .occ-card:hover .occ-overlay { background: linear-gradient(to top, rgba(60,30,10,0.82) 0%, rgba(60,30,10,0.18) 55%) !important; }
         @media (max-width: 960px) {
-          .hero-grid   { grid-template-columns: 1fr !important; }
-          .values-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .cat-grid    { grid-template-columns: repeat(3, 1fr) !important; }
+          .hero-grid    { grid-template-columns: 1fr !important; }
+          .values-grid  { grid-template-columns: repeat(2, 1fr) !important; }
+          .occ-bot-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .steps-grid  { grid-template-columns: repeat(2, 1fr) !important; }
-          .about-grid  { grid-template-columns: 1fr !important; }
+          .steps-grid   { grid-template-columns: repeat(2, 1fr) !important; }
+          .about-grid   { grid-template-columns: 1fr !important; }
           .location-grid { grid-template-columns: 1fr !important; }
-          .reviews-grid { grid-template-columns: 1fr !important; }
-          .gallery-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          .reviews-grid  { grid-template-columns: 1fr !important; }
+          .gallery-grid  { grid-template-columns: repeat(3, 1fr) !important; }
         }
         @media (max-width: 640px) {
-          .hero-grid   { padding: 32px 16px 0 !important; }
-          .hero-right  { padding-bottom: 16px !important; padding-right: 16px !important; }
-          .cat-grid    { grid-template-columns: repeat(2, 1fr) !important; }
+          .hero-grid    { padding: 32px 16px 0 !important; }
+          .hero-right   { padding-bottom: 16px !important; padding-right: 16px !important; }
+          .occ-top-grid { grid-template-columns: 1fr !important; }
+          .occ-bot-grid { grid-template-columns: 1fr !important; }
           .products-grid { grid-template-columns: 1fr !important; }
-          .steps-grid  { grid-template-columns: 1fr !important; }
-          .values-grid { grid-template-columns: 1fr !important; }
-          .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .step-card   { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06); }
-          .reviews-grid { grid-template-columns: 1fr !important; }
+          .steps-grid   { grid-template-columns: 1fr !important; }
+          .values-grid  { grid-template-columns: 1fr !important; }
+          .gallery-grid  { grid-template-columns: repeat(2, 1fr) !important; }
+          .step-card    { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .reviews-grid  { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </>

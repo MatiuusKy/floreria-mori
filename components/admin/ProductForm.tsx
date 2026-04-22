@@ -18,6 +18,7 @@ const EMPTY: Omit<Product, 'id' | 'created_at' | 'category'> = {
   category_id: null, image_url: null, available: true,
   featured: false, best_seller: false, stock: 0, variants: null,
   same_day_delivery: false, limited_stock: false, campaign_tag: null,
+  colors: [],
 }
 
 export default function ProductForm({ product, categories, onClose, onSave }: Props) {
@@ -163,6 +164,48 @@ export default function ProductForm({ product, categories, onClose, onSave }: Pr
                 </button>
               </div>
             ))}
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase">Colores</label>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {[
+                { label: 'Rojo',       value: 'rojo',      hex: '#c0392b' },
+                { label: 'Rosa',       value: 'rosa',      hex: '#e91e8c' },
+                { label: 'Blanco',     value: 'blanco',    hex: '#f5f0ea' },
+                { label: 'Amarillo',   value: 'amarillo',  hex: '#f1c40f' },
+                { label: 'Naranja',    value: 'naranja',   hex: '#e67e22' },
+                { label: 'Morado',     value: 'morado',    hex: '#8e44ad' },
+                { label: 'Verde',      value: 'verde',     hex: '#27ae60' },
+                { label: 'Multicolor', value: 'multicolor', hex: '#aaa' },
+              ].map(c => {
+                const selected = (form.colors ?? []).includes(c.value)
+                return (
+                  <button
+                    key={c.value}
+                    type="button"
+                    title={c.label}
+                    onClick={() => {
+                      const curr = form.colors ?? []
+                      set('colors', selected ? curr.filter((x: string) => x !== c.value) : [...curr, c.value])
+                    }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '6px',
+                      fontSize: '12px', fontWeight: selected ? 600 : 400,
+                      padding: '4px 10px 4px 6px',
+                      borderRadius: '20px',
+                      border: selected ? '2px solid #333' : '1.5px solid #ddd',
+                      background: selected ? '#f0f0f0' : 'white',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <span style={{ width: '14px', height: '14px', borderRadius: '50%', background: c.hex, border: '1px solid rgba(0,0,0,0.12)', flexShrink: 0 }} />
+                    {c.label}
+                  </button>
+                )
+              })}
+            </div>
+            <p className="text-xs text-gray-400 mt-1">Selecciona los colores principales del arreglo.</p>
           </div>
 
           <div>

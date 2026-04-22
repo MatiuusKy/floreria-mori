@@ -31,7 +31,7 @@ export default function Navbar() {
         color: 'rgba(253,248,244,0.55)',
       }}>
         {[
-          { icon: '🚚', text: 'Envíos a domicilio en Santiago y zona oriente', highlight: true,  cls: 'topbar-item-delivery' },
+          { icon: '🚚', text: 'Pide antes de las 14:00 hrs ', highlight: false, after: '→ entrega hoy', afterHighlight: true, cls: 'topbar-item-delivery' },
           { icon: '⏰', text: 'Lun–Vie 9:00–20:00 · Sáb ', highlight: false, after: '9:00–18:00', afterHighlight: true, cls: 'topbar-item-hours' },
           { icon: '📍', text: 'Av. Grecia 8628, Peñalolén', highlight: false, cls: 'topbar-item-address' },
         ].map((item, i) => (

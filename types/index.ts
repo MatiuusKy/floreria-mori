@@ -29,6 +29,7 @@ export interface Product {
   same_day_delivery: boolean
   limited_stock: boolean
   campaign_tag: string | null
+  colors: string[]
   created_at: string
   category?: Category
 }
