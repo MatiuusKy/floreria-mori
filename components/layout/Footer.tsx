@@ -4,11 +4,11 @@ import { LogoMori } from '@/components/LogoMori'
 import { trackInstagramClick } from '@/lib/analytics'
 
 const catalogLinks = [
-  'Ramos de Flores',
-  'Arreglos en Florero',
-  'Canastos Florales',
-  'Bouquets',
-  'Centros de Mesa',
+  { label: 'Ramos de Flores',      href: '/catalogo?q=ramo' },
+  { label: 'Arreglos en Florero',  href: '/catalogo?q=arreglo' },
+  { label: 'Canastos Florales',    href: '/catalogo?q=canasto' },
+  { label: 'Bouquets',             href: '/catalogo?q=bouquet' },
+  { label: 'Centros de Mesa',      href: '/catalogo?q=centro' },
 ]
 
 const occasionLinks = [
@@ -119,8 +119,8 @@ export default function Footer() {
             Catálogo
           </h4>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {catalogLinks.map(label => (
-              <FooterLink key={label} href="/catalogo">{label}</FooterLink>
+            {catalogLinks.map(({ label, href }) => (
+              <FooterLink key={label} href={href}>{label}</FooterLink>
             ))}
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function Footer() {
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', color: 'rgba(253,248,244,0.38)', fontSize: '13px' }}>
               <span>⏰</span>
-              <span>Lun–Vie 9:00–19:00<br />Sáb 9:00–17:00</span>
+              <span>Lun–Vie 9:00–20:00<br />Sáb 9:00–18:00</span>
             </div>
           </div>
         </div>

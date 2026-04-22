@@ -2,6 +2,8 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import CatalogoClient from './CatalogoClient'
 
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Catálogo de flores — Florería Mori',
   description: 'Explora nuestra colección de ramos y arreglos florales. Flores frescas a domicilio en Santiago. Pide por WhatsApp.',

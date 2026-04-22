@@ -32,7 +32,7 @@ export default function Navbar() {
       }}>
         {[
           { icon: '🚚', text: 'Envíos a domicilio en Santiago y zona oriente', highlight: true,  cls: 'topbar-item-delivery' },
-          { icon: '⏰', text: 'Lun–Sáb ', highlight: false, after: '9:00–19:00 hrs', afterHighlight: true, cls: 'topbar-item-hours' },
+          { icon: '⏰', text: 'Lun–Vie 9:00–20:00 · Sáb ', highlight: false, after: '9:00–18:00', afterHighlight: true, cls: 'topbar-item-hours' },
           { icon: '📍', text: 'Av. Grecia 8628, Peñalolén', highlight: false, cls: 'topbar-item-address' },
         ].map((item, i) => (
           <span key={i} className={item.cls} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -190,6 +190,9 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {open && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menú de navegación"
           className="md:hidden"
           style={{
             position: 'fixed',

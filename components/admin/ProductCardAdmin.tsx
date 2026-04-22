@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Pencil, Trash2, Star, Flame, Eye, ToggleLeft, ToggleRight } from 'lucide-react'
 import { Product } from '@/types'
 import { formatPrice } from '@/lib/utils'
-import { getProductImage } from '@/lib/product-images'
+import { getProductImage, isSupabaseUrl } from '@/lib/product-images'
 
 interface Props {
   product: Product
@@ -15,6 +15,7 @@ interface Props {
 
 export default function ProductCardAdmin({ product, onEdit, onDelete, onRefresh }: Props) {
   const [toggling, setToggling] = useState<string | null>(null)
+  const imageSrc = getProductImage(product.image_url, product.category?.slug)
 
   async function toggle(field: 'available' | 'featured') {
     setToggling(field)
@@ -34,11 +35,12 @@ export default function ProductCardAdmin({ product, onEdit, onDelete, onRefresh 
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col">
       <div className="relative aspect-square bg-gray-100">
         <Image
-          src={getProductImage(product.image_url, product.category?.slug)}
+          src={imageSrc}
           alt={product.name}
           fill
           className="object-cover"
           sizes="300px"
+          unoptimized={isSupabaseUrl(imageSrc)}
         />
         {product.featured && (
           <span className="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">

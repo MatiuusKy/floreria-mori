@@ -107,8 +107,8 @@ export default async function HomePage() {
     },
     sameAs: ['https://www.instagram.com/floreriamori122012/'],
     openingHoursSpecification: [
-      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '09:00', closes: '19:00' },
-      { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '17:00' },
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '09:00', closes: '20:00' },
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Saturday'], opens: '09:00', closes: '18:00' },
     ],
   }
 
@@ -955,7 +955,7 @@ export default async function HomePage() {
                 {
                   icon: '⏰',
                   title: 'Horarios',
-                  content: 'Lun–Vie: 9:00–19:00 · Sáb: 9:00–17:00',
+                  content: 'Lun–Vie: 9:00–20:00 · Sáb: 9:00–18:00',
                   sub: 'Dom Cerrado · Festivos: consultar',
                   badge: 'Abierto',
                 },
@@ -1110,7 +1110,7 @@ export default async function HomePage() {
       {/* ─── Structured data ─── */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
 
       {/* ─── Gallery hover CSS (injected via style tag) ──── */}

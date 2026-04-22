@@ -57,8 +57,8 @@ export default function ImageUpload({ currentUrl, onUpload }: Props) {
   function handleUrlSubmit() {
     const trimmed = urlInput.trim()
     if (!trimmed) return
-    if (!trimmed.startsWith('http')) {
-      setError('Ingresa una URL válida (debe comenzar con http)')
+    if (!trimmed.startsWith('https://')) {
+      setError('Ingresa una URL válida (debe comenzar con https://)')
       return
     }
     setError(null)

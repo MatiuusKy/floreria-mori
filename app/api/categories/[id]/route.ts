@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 import { validateCategory } from '@/lib/validation'
+import { dbError } from '@/lib/api-error'
 
 export async function PUT(
   request: Request,
@@ -16,10 +17,16 @@ export async function PUT(
   const validationError = validateCategory(body)
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 })
 
+  // Whitelist only the columns we allow to write
+  const { name, slug } = body as { name: string; slug: string }
   const admin = createAdminClient()
   const { data, error } = await admin
-    .from('categories').update(body).eq('id', id).select().single()
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    .from('categories')
+    .update({ name: name.trim(), slug: slug.trim() })
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) return dbError('categories', error)
   return NextResponse.json(data)
 }
 
@@ -34,6 +41,6 @@ export async function DELETE(
 
   const admin = createAdminClient()
   const { error } = await admin.from('categories').delete().eq('id', id)
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (error) return dbError('categories', error)
   return NextResponse.json({ success: true })
 }

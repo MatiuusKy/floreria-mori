@@ -25,6 +25,10 @@ export function trackEvent(name: string, params: EventParams = {}): void {
 
 export function trackWhatsAppClick(productName?: string): void {
   trackEvent('whatsapp_click', { product: productName ?? 'generic' })
+  // Standard Meta Pixel conversion event
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', 'Contact')
+  }
 }
 
 export function trackCategoryFilter(categoryName: string): void {
@@ -33,6 +37,10 @@ export function trackCategoryFilter(categoryName: string): void {
 
 export function trackProductView(productName: string): void {
   trackEvent('product_view', { product: productName })
+  // Standard Meta Pixel ViewContent event
+  if (typeof window !== 'undefined' && window.fbq) {
+    window.fbq('track', 'ViewContent', { content_name: productName, content_type: 'product' })
+  }
 }
 
 export function trackInstagramClick(): void {

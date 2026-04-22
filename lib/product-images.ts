@@ -13,3 +13,9 @@ export function getProductImage(imageUrl: string | null | undefined, categorySlu
   // Use || instead of ?? so empty string also falls through to the fallback
   return imageUrl || FALLBACK_IMAGES_BY_SLUG[categorySlug ?? ''] || DEFAULT_PRODUCT_IMAGE
 }
+
+// Supabase Storage URLs should bypass Next.js image optimization (use unoptimized={true})
+// because the optimization proxy can't reliably fetch from Supabase Storage on Vercel.
+export function isSupabaseUrl(url: string): boolean {
+  return url.includes('.supabase.co/storage/')
+}

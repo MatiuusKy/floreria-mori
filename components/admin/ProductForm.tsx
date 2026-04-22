@@ -96,12 +96,13 @@ export default function ProductForm({ product, categories, onClose, onSave }: Pr
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-gray-500 uppercase">Precio *</label>
-              <input required type="number" value={form.price} onChange={e => set('price', Number(e.target.value))}
+              <input required type="number" min={1} value={form.price === 0 ? '' : form.price}
+                onChange={e => set('price', e.target.value === '' ? 0 : Number(e.target.value))}
                 className="w-full mt-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary" />
             </div>
             <div>
               <label className="text-xs font-semibold text-gray-500 uppercase">Precio descuento</label>
-              <input type="number" value={form.discount_price ?? ''} onChange={e => set('discount_price', e.target.value ? Number(e.target.value) : null)}
+              <input type="number" min={1} value={form.discount_price ?? ''} onChange={e => set('discount_price', e.target.value ? Number(e.target.value) : null)}
                 className="w-full mt-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary" />
             </div>
           </div>

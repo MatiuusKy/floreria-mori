@@ -7,7 +7,7 @@ import { formatPrice } from '@/lib/utils'
 import { whatsappURL } from '@/lib/whatsapp'
 import { trackWhatsAppClick } from '@/lib/analytics'
 import SizeSelector from './SizeSelector'
-import { getProductImage } from '@/lib/product-images'
+import { getProductImage, isSupabaseUrl } from '@/lib/product-images'
 
 function getBadge(product: Product): { emoji: string; label: string; color: string } | null {
   if (!product.available) return null
@@ -34,6 +34,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
     : null
 
   const badge = getBadge(product)
+  const imageSrc = getProductImage(product.image_url, product.category?.slug)
 
   return (
     <div
@@ -53,13 +54,14 @@ export default function ProductCard({ product, priority = false }: { product: Pr
       {/* Image */}
       <Link href={`/catalogo/${product.slug}`} style={{ display: 'block', position: 'relative', aspectRatio: '1.1', overflow: 'hidden', background: 'var(--warm-cream)' }}>
         <Image
-          src={getProductImage(product.image_url, product.category?.slug)}
+          src={imageSrc}
           alt={product.name}
           fill
           priority={priority}
           className="object-cover"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           style={{ transform: hovered ? 'scale(1.05)' : 'scale(1)', transition: 'transform 0.4s ease' }}
+          unoptimized={isSupabaseUrl(imageSrc)}
         />
 
         {/* Badge top-left */}

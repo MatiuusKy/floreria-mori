@@ -222,6 +222,7 @@ export default function ContactoClient() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Ubicación Florería Mori"
+                sandbox="allow-scripts allow-same-origin"
               />
             </div>
           </div>

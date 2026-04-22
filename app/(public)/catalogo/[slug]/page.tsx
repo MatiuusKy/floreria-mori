@@ -4,10 +4,13 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { ArrowLeft, MessageCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
-import { getProductImage } from '@/lib/product-images'
+import { getProductImage, isSupabaseUrl } from '@/lib/product-images'
 import { formatPrice } from '@/lib/utils'
 import { whatsappURL } from '@/lib/whatsapp'
 import type { Product } from '@/types'
+import ProductViewTracker from '@/components/ui/ProductViewTracker'
+
+export const revalidate = 3600
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -74,9 +77,10 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
+      <ProductViewTracker name={product.name} />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
       {/* Back link */}
       <div style={{ background: 'var(--warm-cream)', padding: '20px 24px 0' }}>
@@ -132,6 +136,7 @@ export default async function ProductPage({ params }: Props) {
                 priority
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
+                unoptimized={isSupabaseUrl(imageSrc)}
               />
 
               {/* Discount badge */}

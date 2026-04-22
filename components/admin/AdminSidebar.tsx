@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Package, Tag, Megaphone, Leaf, Truck } from 'lucide-react'
+import LogoutButton from './LogoutButton'
 
 const NAV = [
   { href: '/admin/productos', icon: Package, label: 'Productos' },
@@ -29,6 +30,7 @@ export default function AdminSidebar() {
           </Link>
         )
       })}
+      <LogoutButton />
     </aside>
   )
 }
