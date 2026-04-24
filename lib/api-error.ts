@@ -16,7 +16,7 @@ export function dbError(
   error: SupabaseError,
   defaultStatus = 500
 ): NextResponse {
-  console.error(`[API ${label}]`, error.code ?? 'no-code', error.message)
+  console.error(`[API ${label}]`, error.code ?? 'no-code')
   const friendly = error.code ? FRIENDLY[error.code] : undefined
   const status = error.code === 'PGRST116' ? 404 : defaultStatus
   return NextResponse.json(

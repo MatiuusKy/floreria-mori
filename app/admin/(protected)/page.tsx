@@ -1,8 +1,8 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import StatsRow from '@/components/admin/StatsRow'
 
 export default async function AdminDashboard() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const [{ count: total }, { count: cats }, { count: featured }, { count: outOfStock }] = await Promise.all([
     supabase.from('products').select('*', { count: 'exact', head: true }),

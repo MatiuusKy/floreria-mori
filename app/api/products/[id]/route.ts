@@ -23,6 +23,7 @@ function safeProductFields(src: Record<string, unknown>) {
     same_day_delivery: typeof src.same_day_delivery === 'boolean' ? src.same_day_delivery : false,
     limited_stock:     typeof src.limited_stock     === 'boolean' ? src.limited_stock     : false,
     campaign_tag:      typeof src.campaign_tag      === 'string'  ? src.campaign_tag      : null,
+    colors:            Array.isArray(src.colors) ? src.colors.filter((c: unknown) => typeof c === 'string') : [],
   }
 }
 

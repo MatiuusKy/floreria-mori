@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Marketing Digital — Florería Mori</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Nunito:wght@300;400;500;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --mocha: #4a2c1a;
+    --terra: #7a3e20;
+    --camel: #c8955a;
+    --gris: #6b6156;
+    --blush: #f5e8df;
+    --green: #3d6b38;
+  }
+  body { font-family: 'Nunito', sans-serif; color: #3a2a1e; background: #fffaf7; font-size: 14px; line-height: 1.7; }
+  h1, h2, h3 { font-family: 'Lora', serif; font-weight: 400; }
+  /* Cover */
+  .cover {
+    background: linear-gradient(135deg, var(--mocha), #2d1a0e);
+    color: white;
+    padding: 72px 64px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    page-break-after: always;
+  }
+  .cover-tag { background: var(--terra); color: white; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 6px 16px; border-radius: 20px; display: inline-block; margin-bottom: 28px; }
+  .cover h1 { font-size: 3rem; color: white; margin-bottom: 16px; line-height: 1.2; }
+  .cover p { font-size: 16px; color: rgba(255,255,255,0.65); max-width: 480px; margin-bottom: 48px; }
+  .cover-meta { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 28px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+  .cover-meta-item label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .cover-meta-item span { display: block; font-size: 14px; color: var(--camel); font-weight: 600; margin-top: 4px; }
+  /* Page */
+  .page { padding: 56px 64px; max-width: 820px; margin: 0 auto; page-break-after: always; }
+  /* Section */
+  .section-tag { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--terra); margin-bottom: 8px; }
+  .section-title { font-size: 1.7rem; color: var(--mocha); margin-bottom: 6px; }
+  .section-sub { font-size: 13px; color: var(--gris); margin-bottom: 32px; }
+  hr.divider { border: none; border-top: 1px solid rgba(122,62,32,0.12); margin: 28px 0; }
+  /* Cards */
+  .card { background: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border-left: 4px solid var(--camel); }
+  .card.critical { border-left-color: #d62d2d; }
+  .card.medium { border-left-color: #e07b30; }
+  .card.done { border-left-color: var(--green); }
+  .card h3 { font-family: 'Lora', serif; font-size: 1rem; color: var(--mocha); margin-bottom: 6px; }
+  .card p { font-size: 13px; color: var(--gris); line-height: 1.7; }
+  .card .badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 10px; margin-bottom: 8px; }
+  .badge-red { background: #fde8e8; color: #d62d2d; }
+  .badge-orange { background: #fef0e0; color: #e07b30; }
+  .badge-green { background: #e6f4e5; color: var(--green); }
+  .badge-blue { background: #e8effe; color: #2d4ed6; }
+  /* Steps */
+  .steps { counter-reset: step; }
+  .step { display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--mocha); color: white; font-family: 'Lora', serif; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step-content h4 { font-family: 'Lora', serif; font-size: 0.95rem; color: var(--mocha); margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: var(--gris); line-height: 1.6; }
+  /* Credentials table */
+  .creds { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  .creds th { background: var(--mocha); color: white; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; padding: 10px 14px; text-align: left; }
+  .creds td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid rgba(122,62,32,0.1); vertical-align: top; }
+  .creds tr:nth-child(even) td { background: #fdf8f4; }
+  .creds .field { font-weight: 600; color: var(--terra); }
+  .creds .desc { color: var(--gris); }
+  .creds .where { color: #555; font-size: 12px; }
+  /* Checklist */
+  .checklist { list-style: none; }
+  .checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(122,62,32,0.07); font-size: 13px; color: #4a3a2e; }
+  .checklist li::before { content: "☐"; font-size: 16px; color: var(--camel); flex-shrink: 0; line-height: 1; }
+  /* Callout */
+  .callout { background: #fff8e6; border: 1px solid #f5d88c; border-radius: 10px; padding: 16px 20px; margin: 20px 0; font-size: 13px; color: #5a4200; }
+  .callout strong { color: #3a2a00; }
+  .tip { background: #e8f4e5; border: 1px solid #a8d4a5; border-radius: 10px; padding: 16px 20px; margin: 20px 0; font-size: 13px; color: #1a4018; }
+  /* TOC */
+  .toc { background: var(--blush); border-radius: 14px; padding: 28px 32px; }
+  .toc h2 { font-size: 1.1rem; color: var(--mocha); margin-bottom: 18px; }
+  .toc ol { list-style: none; counter-reset: toc; }
+  .toc li { counter-increment: toc; display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid rgba(122,62,32,0.1); font-size: 13px; }
+  .toc li::before { content: counter(toc) "."; font-family: 'Lora', serif; font-weight: 600; color: var(--terra); width: 20px; }
+  .toc li span { color: var(--gris); font-size: 12px; margin-left: auto; }
+  @media print {
+    .page { padding: 40px; }
+    .cover { min-height: auto; padding: 40px; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ PORTADA ═══════════════════════ -->
+<div class="cover">
+  <div class="cover-tag">Documento Interno</div>
+  <h1>Guía de Marketing Digital<br><em style="color:var(--camel)">Florería Mori</em></h1>
+  <p>Todo lo que necesitas configurar para conectar tu sitio web con las herramientas de marketing, análisis y presencia digital.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>Sitio web</label>
+      <span>floreriamori.cl</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Preparado</label>
+      <span>Equipo de desarrollo</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Fecha</label>
+      <span id="fecha"></span>
+    </div>
+  </div>
+</div>
+<script>document.getElementById('fecha').textContent = new Date().toLocaleDateString('es-CL',{year:'numeric',month:'long',day:'numeric'});</script>
+
+<!-- ═══════════════════════ ÍNDICE ═══════════════════════ -->
+<div class="page">
+  <div class="toc">
+    <h2>📋 Contenido de este documento</h2>
+    <ol>
+      <li>Resumen: qué está listo y qué falta <span>Pág. 2</span></li>
+      <li>Credenciales que necesitas tener <span>Pág. 3</span></li>
+      <li>Google Analytics 4 — paso a paso <span>Pág. 4</span></li>
+      <li>Meta Pixel (Facebook/Instagram Ads) — paso a paso <span>Pág. 5</span></li>
+      <li>Google My Business — ficha local <span>Pág. 6</span></li>
+      <li>Reseñas reales de clientes <span>Pág. 7</span></li>
+      <li>Fotos reales de productos <span>Pág. 8</span></li>
+      <li>Blog y SEO orgánico <span>Pág. 9</span></li>
+      <li>Lista de verificación final <span>Pág. 10</span></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ═══════════════════════ RESUMEN ═══════════════════════ -->
+<div class="page">
+  <p class="section-tag">Capítulo 1</p>
+  <h2 class="section-title">Qué está listo y qué falta</h2>
+  <p class="section-sub">Estado actual del sitio web al momento de entregar este documento.</p>
+
+  <h3 style="font-size:1rem;color:var(--green);margin-bottom:12px;">✅ Ya implementado en el sitio</h3>
+  <div class="card done"><span class="badge badge-green">Listo</span><h3>Sitio web completo y en producción</h3><p>El sitio floreriamori.cl está publicado, con catálogo de productos, página de delivery, contacto y panel de administración.</p></div>
+  <div class="card done"><span class="badge badge-green">Listo</span><h3>SEO técnico básico</h3><p>Metadatos, sitemap.xml, robots.txt, schema markup JSON-LD para Google y URLs amigables (ej: /catalogo/ramo-de-rosas).</p></div>
+  <div class="card done"><span class="badge badge-green">Listo</span><h3>Integración WhatsApp</h3><p>Todos los botones de cotización del sitio abren WhatsApp con mensajes preformateados con el nombre del producto.</p></div>
+  <div class="card done"><span class="badge badge-green">Listo</span><h3>Google Analytics y Meta Pixel — código instalado</h3><p>El código técnico ya está en el sitio. Solo falta configurar las cuentas y agregar las credenciales (ver Capítulo 2).</p></div>
+  <div class="card done"><span class="badge badge-green">Listo</span><h3>Política de Privacidad</h3><p>Página /privacidad publicada con aviso de cookies visible para todos los visitantes.</p></div>
+  <div class="card done"><span class="badge badge-green">Listo</span><h3>Horarios unificados</h3><p>Lun–Vie 9:00–20:00 · Sáb 9:00–18:00. Actualizado en Navbar, Footer, Contacto y en el schema de Google.</p></div>
+
+  <hr class="divider">
+
+  <h3 style="font-size:1rem;color:#d62d2d;margin-bottom:12px;">⚠️ Pendiente — requiere acción de tu parte</h3>
+  <div class="card critical"><span class="badge badge-red">Urgente</span><h3>Imagen de portada para redes sociales (og-image)</h3><p>Cuando alguien comparte el sitio en WhatsApp, Facebook o Instagram, la previsualización aparece sin imagen. Se necesita crear una imagen de 1200×630 px con el logo y una foto de arreglo real.</p></div>
+  <div class="card critical"><span class="badge badge-red">Urgente</span><h3>Activar Google Analytics con tu ID real</h3><p>El código está instalado pero sin un ID válido no se registran datos. Ver Capítulo 3.</p></div>
+  <div class="card critical"><span class="badge badge-red">Urgente</span><h3>Activar Meta Pixel con tu ID real</h3><p>Igual que Analytics: el código está listo, falta el ID. Ver Capítulo 4.</p></div>
+  <div class="card medium"><span class="badge badge-orange">Importante</span><h3>Fotos reales de productos</h3><p>La sección principal del inicio aún usa fotos de ejemplo. Subir fotos de arreglos reales desde el panel admin mejorará la credibilidad. Ver Capítulo 7.</p></div>
+  <div class="card medium"><span class="badge badge-orange">Importante</span><h3>Reseñas reales de clientes</h3><p>Las reseñas actuales son de ejemplo. Deben reemplazarse con testimonios reales. Ver Capítulo 6.</p></div>
+  <div class="card medium"><span class="badge badge-orange">Importante</span><h3>Google My Business</h3><p>La ficha local de Google es la fuente de tráfico más importante para una florería. Ver Capítulo 5.</p></div>
+</div>
+
+<!-- ═══════════════════════ CREDENCIALES ═══════════════════════ -->
+<div class="page">
+  <p class="section-tag">Capítulo 2</p>
+  <h2 class="section-title">Credenciales que necesitas</h2>
+  <p class="section-sub">Para vincular el sitio con las herramientas de marketing necesitas estas claves. Te explicamos cómo obtener cada una en los capítulos siguientes.</p>
+
+  <table class="creds">
+    <thead>
+      <tr><th>Variable</th><th>Qué es</th><th>Dónde se configura</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="field">NEXT_PUBLIC_GA_MEASUREMENT_ID</td>
+        <td class="desc">ID de medición de Google Analytics 4. Formato: <strong>G-XXXXXXXXXX</strong></td>
+        <td class="where">Vercel → tu proyecto → Settings → Environment Variables</td>
+      </tr>
+      <tr>
+        <td class="field">NEXT_PUBLIC_META_PIXEL_ID</td>
+        <td class="desc">ID del Píxel de Meta (Facebook). Son 15-16 dígitos.</td>
+        <td class="where">Vercel → tu proyecto → Settings → Environment Variables</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>⚠️ Importante:</strong> Después de agregar o cambiar estas variables en Vercel, debes hacer un nuevo deploy (re-despliegue) para que los cambios se apliquen. Ve a Vercel → tu proyecto → Deployments → Redeploy.
+  </div>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:16px;">Cómo agregar una variable en Vercel</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Inicia sesión en vercel.com</h4><p>Entra a tu cuenta con el mismo usuario con que publicaste el sitio.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Abre tu proyecto</h4><p>Busca "floreria-mori" o el nombre del proyecto y haz clic en él.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Ve a Settings → Environment Variables</h4><p>En el menú superior del proyecto.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Agrega la variable</h4><p>Haz clic en "Add New". En "Key" escribe el nombre (ej: NEXT_PUBLIC_GA_MEASUREMENT_ID), en "Value" pega el ID. Marca los tres entornos (Production, Preview, Development) y guarda.</p></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Redespliega el sitio</h4><p>Ve a la pestaña "Deployments", haz clic en los tres puntos del último deploy y selecciona "Redeploy".</p></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ GOOGLE ANALYTICS ═══════════════════════ -->
+<div class="page">
+  <p class="section-tag">Capítulo 3</p>
+  <h2 class="section-title">Google Analytics 4</h2>
+  <p class="section-sub">Permite saber cuántas personas visitan el sitio, desde qué ciudad, qué productos ven y cuántos hacen clic en WhatsApp.</p>
+
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:16px;">Cómo crear tu cuenta y obtener el ID</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Ve a analytics.google.com</h4><p>Inicia sesión con la cuenta de Google del negocio (recomendamos tener una cuenta de Google específica para Florería Mori, separada de tu cuenta personal).</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Crea una cuenta nueva</h4><p>Haz clic en "Administrar" (ícono de engranaje abajo a la izquierda) → "Crear cuenta". Nombre de cuenta: "Florería Mori".</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Crea una propiedad</h4><p>Nombre: "Florería Mori Web". Zona horaria: Chile. Moneda: CLP. Plataforma: Web.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Configura el flujo de datos</h4><p>URL del sitio: floreriamori.cl. Nombre: "Sitio web".</p></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Copia el ID de medición</h4><p>Aparecerá en formato G-XXXXXXXXXX. Cópialo y agrégalo en Vercel como NEXT_PUBLIC_GA_MEASUREMENT_ID (ver Capítulo 2).</p></div></div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:12px;">Qué podrás ver una vez activado</h3>
+  <div class="card"><h3>Usuarios en tiempo real</h3><p>Cuántas personas están en el sitio ahora mismo, desde qué ciudad y en qué página.</p></div>
+  <div class="card"><h3>Eventos de conversión</h3><p>El sitio registra automáticamente: clics en WhatsApp, visualizaciones de productos, clics en Instagram y filtros de categoría aplicados.</p></div>
+  <div class="card"><h3>Fuentes de tráfico</h3><p>Sabrás si los visitantes llegan desde Google, Instagram, WhatsApp o directamente escribiendo la URL.</p></div>
+
+  <div class="tip">
+    💡 <strong>Consejo:</strong> Una vez activo, espera 24–48 horas para que aparezcan los primeros datos. En Google Analytics ve a "Informes → Compromiso → Eventos" para ver los clics de WhatsApp.
+  </div>
+</div>
+
+<!-- ═══════════════════════ META PIXEL ═══════════════════════ -->
+<div class="page">
+  <p class="section-tag">Capítulo 4</p>
+  <h2 class="section-title">Meta Pixel (Facebook &amp; Instagram Ads)</h2>
+  <p class="section-sub">El Pixel permite crear anuncios pagados en Facebook e Instagram que lleguen exactamente a personas que ya visitaron tu sitio o son similares a tus clientes.</p>
+
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:16px;">Cómo crear el Pixel</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Ve a business.facebook.com</h4><p>Inicia sesión con la cuenta de Facebook del negocio. Si aún no tienes una página de Facebook para Florería Mori, créala primero (ver más abajo).</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Abre el Administrador de Eventos</h4><p>En el menú principal → "Todos los instrumentos" → "Administrador de eventos" → "Agregar fuente de datos" → "Web".</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Selecciona "Pixel de Meta"</h4><p>Nombre: "Florería Mori". Haz clic en "Crear Pixel".</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Elige "Integración manual"</h4><p>En la siguiente pantalla, en vez de copiar el código (ya lo tenemos instalado), haz clic en "Copiar el ID del Pixel" — son 15-16 dígitos.</p></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Agrega el ID en Vercel</h4><p>Variable: NEXT_PUBLIC_META_PIXEL_ID. Valor: los 15-16 dígitos copiados. Sigue los pasos del Capítulo 2.</p></div></div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:12px;">Eventos que el sitio ya registra automáticamente</h3>
+  <div class="card done"><span class="badge badge-green">Automático</span><h3>PageView</h3><p>Cada vez que alguien carga cualquier página del sitio.</p></div>
+  <div class="card done"><span class="badge badge-green">Automático</span><h3>ViewContent</h3><p>Cuando un visitante abre la página de un producto específico.</p></div>
+  <div class="card done"><span class="badge badge-green">Automático</span><h3>Contact</h3><p>Cuando alguien hace clic en cualquier botón de WhatsApp del sitio.</p></div>
+
+  <div class="callout">
+    <strong>⚠️ Política de privacidad requerida por Meta:</strong> La página /privacidad ya está publicada en el sitio. Al configurar el Pixel en el Administrador de Eventos, Meta te pedirá la URL de tu política de privacidad. Escribe: <strong>https://floreriamori.cl/privacidad</strong>
+  </div>
+</div>
+
+<!-- ═══════════════════════ GOOGLE MY BUSINESS ═══════════════════════ -->
+<div class="page">
+  <p class="section-tag">Capítulo 5</p>
+  <h2 class="section-title">Google My Business</h2>
+  <p class="section-sub">La ficha de Google es lo primero que aparece cuando alguien busca "florería Peñalolén" o "flores cerca de mí". Es gratis y genera tráfico inmediato.</p>
+
+  <div class="callout">
+    <strong>¿Ya tienes ficha de Google?</strong> Busca "Florería Mori Peñalolén" en Google Maps. Si ya aparece una ficha, solo tienes que reclamarla. Si no aparece, créala desde cero.
+  </div>
+
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:16px;margin-top:20px;">Crear o reclamar la ficha</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Ve a business.google.com</h4><p>Inicia sesión con la cuenta de Google del negocio.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Busca el negocio</h4><p>Escribe "Florería Mori" para ver si ya existe. Si aparece, haz clic en "Reclamar este negocio". Si no, haz clic en "Agregar tu negocio".</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Completa la información</h4><p>Nombre: Florería Mori. Categoría: Floristería. Dirección: Av. Grecia 8628, Peñalolén, Región Metropolitana. Teléfono: +56 9 2989 5674. Sitio web: https://floreriamori.cl</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Verifica la dirección</h4><p>Google enviará una carta física o puede verificar por teléfono. Sigue las instrucciones que te indique.</p></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Agrega fotos</h4><p>Sube al menos 5 fotos: logo, fachada del local, arreglos populares y el interior. Las fichas con fotos reciben 42% más solicitudes de cómo llegar.</p></div></div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:12px;">Información crítica para configurar</h3>
+  <table class="creds">
+    <thead><tr><th>Campo</th><th>Valor correcto</th></tr></thead>
+    <tbody>
+      <tr><td class="field">Nombre</td><td>Florería Mori</td></tr>
+      <tr><td class="field">Categoría principal</td><td>Floristería</td></tr>
+      <tr><td class="field">Dirección</td><td>Av. Grecia 8628, Peñalolén, Región Metropolitana</td></tr>
+      <tr><td class="field">Teléfono</td><td>+56 9 2989 5674</td></tr>
+      <tr><td class="field">Sitio web</td><td>https://floreriamori.cl</td></tr>
+      <tr><td class="field">Horario Lun–Vie</td><td>9:00 – 20:00</td></tr>
+      <tr><td class="field">Horario Sábado</td><td>9:00 – 18:00</td></tr>
+      <tr><td class="field">Horario Domingo</td><td>Cerrado</td></tr>
+      <tr><td class="field">Instagram</td><td>@floreriamori122012</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    💡 <strong>Consejo:</strong> Publica al menos una foto por semana directamente desde la ficha de Google. Esto mantiene el perfil activo y mejora el posicionamiento local.
+  </div>
+</div>
+
+<!-- ═══════════════════════ RESEÑAS ═══════════════════════ -->
+<div class="page">
+  <p class="section-tag">Capítulo 6</p>
+  <h2 class="section-title">Reseñas reales de clientes</h2>
+  <p class="section-sub">Las reseñas generan confianza y mejoran el posicionamiento en Google. El sitio actualmente muestra testimonios de ejemplo que deben reemplazarse por reales.</p>
+
+  <div class="callout">
+    <strong>⚠️ Acción requerida en el código:</strong> El desarrollador debe reemplazar los testimonios de ejemplo (María González, Carlos Muñoz, Ana Rojas) con testimonios reales que tú le proporciones. Necesitas enviarle: nombre, comuna, fecha, producto y texto del testimonio de al menos 3 clientes reales.
+  </div>
+
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:16px;margin-top:20px;">Cómo conseguir reseñas de clientes</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Pide la reseña justo después de la entrega</h4><p>Cuando el cliente recibe y está contento, escríbele por WhatsApp: "¡Gracias! ¿Nos dejarías una reseña en Google? Es muy importante para nosotros 🌸" y envía el enlace directo a tu ficha de Google (Google My Business genera este enlace).</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Crea un enlace corto para reseñas</h4><p>Desde Google My Business → "Obtener más reseñas" → copia el enlace. Guárdalo para enviarlo por WhatsApp. También puedes crear un código QR con este enlace para ponerlo en el local.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Responde TODAS las reseñas</h4><p>Positivas y negativas. Google favorece a los negocios que responden. Ejemplo para positivas: "¡Muchas gracias [nombre]! Nos alegra que las flores hayan llegado perfectas 🌸 Esperamos verte de nuevo en Florería Mori."</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Meta para los próximos 3 meses</h4><p>Llegar a 10 reseñas en Google con calificación promedio de 4.5 o más. Esto mejora significativamente el posicionamiento local.</p></div></div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:12px;">Formato para enviar al desarrollador</h3>
+  <table class="creds">
+    <thead><tr><th>Campo</th><th>Ejemplo</th></tr></thead>
+    <tbody>
+      <tr><td class="field">Nombre</td><td>Patricia Soto</td></tr>
+      <tr><td class="field">Comuna</td><td>Ñuñoa</td></tr>
+      <tr><td class="field">Fecha</td><td>Abril 2025</td></tr>
+      <tr><td class="field">Producto</td><td>Ramo de rosas rojas</td></tr>
+      <tr><td class="field">Testimonio</td><td>"Pedí para el cumpleaños de mi mamá y quedó encantada. Llegó súper fresco y el arreglo era precioso."</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════ FOTOS ═══════════════════════ -->
+<div class="page">
+  <p class="section-tag">Capítulo 7</p>
+  <h2 class="section-title">Fotos reales de productos</h2>
+  <p class="section-sub">Las fotos son lo más importante en una florería. Fotos propias generan más confianza y conversiones que fotos de stock.</p>
+
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:16px;">Cómo subir fotos desde el panel admin</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Entra al panel admin</h4><p>Dirígete a floreriamori.cl/admin. Inicia sesión con tu email y contraseña.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Ve a "Productos"</h4><p>En el menú lateral (ícono de caja). Verás todos los productos del catálogo.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Edita un producto</h4><p>Haz clic en el ícono de editar (lápiz) de cualquier producto.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Sube la foto</h4><p>En el formulario, haz clic en "Subir archivo" o "Pegar URL". Selecciona la foto desde tu teléfono o computador. Máximo 5 MB, formatos JPG, PNG o WEBP.</p></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Guarda los cambios</h4><p>Haz clic en "Guardar". La foto aparecerá en el catálogo en segundos.</p></div></div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:12px;">Consejos para tomar buenas fotos con el celular</h3>
+  <div class="card"><h3>Usa luz natural</h3><p>Fotografia los arreglos cerca de una ventana durante el día. Evita usar el flash del celular — la luz artificial hace que los colores se vean apagados.</p></div>
+  <div class="card"><h3>Fondo neutro</h3><p>Un mantel blanco, una pared beige o una mesa de madera funcionan perfecto. El protagonista debe ser el arreglo, no el fondo.</p></div>
+  <div class="card"><h3>Formato cuadrado</h3><p>Fotografía en proporción cuadrada (1:1) o recorta después. El catálogo muestra las imágenes en formato cuadrado.</p></div>
+  <div class="card"><h3>Imagen principal del sitio (og-image)</h3><p>Para la previsualización en redes sociales se necesita una imagen de <strong>1200 × 630 píxeles</strong> que incluya el logo y un arreglo bonito. Crea esta imagen con Canva (canva.com, gratis) y envíasela al desarrollador para publicarla.</p></div>
+</div>
+
+<!-- ═══════════════════════ SEO / BLOG ═══════════════════════ -->
+<div class="page">
+  <p class="section-tag">Capítulo 8</p>
+  <h2 class="section-title">SEO orgánico y presencia digital</h2>
+  <p class="section-sub">Acciones adicionales para mejorar el posicionamiento en Google sin pagar publicidad.</p>
+
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:12px;">Palabras clave prioritarias para posicionar</h3>
+  <table class="creds">
+    <thead><tr><th>Palabra clave</th><th>Por qué es importante</th></tr></thead>
+    <tbody>
+      <tr><td class="field">florería Peñalolén</td><td>Búsqueda local directa — máxima prioridad</td></tr>
+      <tr><td class="field">flores a domicilio Santiago</td><td>Alto volumen de búsquedas en toda la RM</td></tr>
+      <tr><td class="field">ramos de flores Santiago</td><td>Búsqueda de producto con alta intención de compra</td></tr>
+      <tr><td class="field">flores Macul / Ñuñoa / La Florida</td><td>Comunas de despacho — capturar tráfico local cercano</td></tr>
+      <tr><td class="field">flores para matrimonios Santiago</td><td>Segmento de alto valor (bodas y eventos)</td></tr>
+      <tr><td class="field">ramos día de la madre Chile</td><td>Búsqueda estacional de altísimo volumen en mayo</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:12px;">Ideas de contenido para redes sociales</h3>
+  <div class="card"><h3>Reels de proceso de armado</h3><p>Graba el proceso de armar un ramo o un arreglo. Los videos "behind the scenes" generan mucho engagement en Instagram y TikTok.</p></div>
+  <div class="card"><h3>Fotos de arreglos entregados</h3><p>Pide permiso a los clientes para compartir una foto del arreglo entregado. Ideal con texto: "¡Entrega del día! 💐 Para [nombre] en [nombre] de [ocasión]".</p></div>
+  <div class="card"><h3>Contenido educativo</h3><p>"¿Qué flores duran más en verano?", "Las 5 flores más regaladas en Chile". Este tipo de contenido posiciona en Google y genera guardados en Instagram.</p></div>
+  <div class="card"><h3>Temporadas y campañas</h3><p>Activa el banner del sitio (Panel Admin → Banner) con ofertas especiales para: Día de la Madre (mayo), San Valentín (febrero), Navidad (diciembre) y 18 de Septiembre.</p></div>
+
+  <div class="tip">
+    💡 <strong>Herramienta gratis:</strong> Usa Google Search Console (search.google.com/search-console) para ver exactamente con qué palabras la gente encuentra tu sitio en Google. Conéctalo con la misma cuenta de Google que usas para Analytics.
+  </div>
+</div>
+
+<!-- ═══════════════════════ CHECKLIST ═══════════════════════ -->
+<div class="page">
+  <p class="section-tag">Capítulo 9</p>
+  <h2 class="section-title">Lista de verificación final</h2>
+  <p class="section-sub">Usa esta lista para hacer un seguimiento de lo que falta implementar. Marca cada ítem cuando esté completo.</p>
+
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:14px;">🔴 Urgente (primera semana)</h3>
+  <ul class="checklist">
+    <li>Crear cuenta de Google Analytics 4 y obtener ID (G-XXXXXXXXXX)</li>
+    <li>Agregar NEXT_PUBLIC_GA_MEASUREMENT_ID en Vercel y redesplegar</li>
+    <li>Crear Pixel de Meta y obtener el ID (15-16 dígitos)</li>
+    <li>Agregar NEXT_PUBLIC_META_PIXEL_ID en Vercel y redesplegar</li>
+    <li>Agregar la URL de privacidad (floreriamori.cl/privacidad) en el Administrador de Meta</li>
+    <li>Crear imagen og-image 1200×630 px en Canva y enviar al desarrollador</li>
+  </ul>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:14px;">🟠 Importante (primer mes)</h3>
+  <ul class="checklist">
+    <li>Crear o reclamar ficha en Google My Business</li>
+    <li>Completar 100% de la información en Google My Business (fotos, horario, teléfono, web)</li>
+    <li>Subir fotos reales de los arreglos desde el panel admin</li>
+    <li>Pedir reseñas reales a los primeros 5-10 clientes satisfechos</li>
+    <li>Enviar al desarrollador los testimonios reales (mínimo 3) para actualizar el sitio</li>
+    <li>Activar Google Search Console y conectar con Analytics</li>
+  </ul>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:14px;">🔵 Crecimiento (próximos 3 meses)</h3>
+  <ul class="checklist">
+    <li>Publicar al menos 3 veces por semana en Instagram con fotos de arreglos reales</li>
+    <li>Activar el banner del sitio para cada campaña estacional (Día de la Madre, San Valentín, etc.)</li>
+    <li>Configurar los primeros anuncios en Facebook/Instagram Ads usando el Pixel</li>
+    <li>Crear una campaña de retargeting (llegarle a quienes visitaron el sitio pero no contactaron)</li>
+    <li>Crear página de Facebook para Florería Mori y vincularla con Instagram</li>
+    <li>Llegar a 10 reseñas en Google con promedio ≥ 4.5 estrellas</li>
+  </ul>
+
+  <hr class="divider">
+  <h3 style="font-size:1rem;color:var(--mocha);margin-bottom:12px;">📞 Contacto del desarrollador</h3>
+  <div class="card">
+    <p>Para cualquier cambio técnico en el sitio (subir la og-image, actualizar testimonios, agregar funciones nuevas), contacta al desarrollador que construyó este sitio web. Tendrás que proporcionarle los archivos o textos listos para publicar.</p>
+  </div>
+
+  <div style="margin-top:40px;padding-top:24px;border-top:1px solid rgba(122,62,32,0.12);text-align:center;">
+    <p style="font-family:'Lora',serif;font-size:1.1rem;color:var(--mocha);margin-bottom:8px;">Florería Mori 🌸</p>
+    <p style="font-size:12px;color:var(--gris);">floreriamori.cl · @floreriamori122012 · +56 9 2989 5674</p>
+    <p style="font-size:11px;color:rgba(122,62,32,0.4);margin-top:16px;">Documento generado automáticamente. Uso interno.</p>
+  </div>
+</div>
+
+</body>
+</html>

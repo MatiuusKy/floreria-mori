@@ -23,12 +23,17 @@ function safeProductFields(src: Record<string, unknown>) {
     same_day_delivery: typeof src.same_day_delivery === 'boolean' ? src.same_day_delivery : false,
     limited_stock:     typeof src.limited_stock     === 'boolean' ? src.limited_stock     : false,
     campaign_tag:      typeof src.campaign_tag      === 'string'  ? src.campaign_tag      : null,
+    colors:            Array.isArray(src.colors) ? src.colors.filter((c: unknown) => typeof c === 'string') : [],
   }
 }
 
 export async function GET() {
   const supabase = await createClient()
-  const { data, error } = await supabase
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const admin = createAdminClient()
+  const { data, error } = await admin
     .from('products')
     .select('*, category:categories(id, name, slug)')
     .order('featured', { ascending: false })

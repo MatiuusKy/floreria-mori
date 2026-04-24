@@ -15,42 +15,51 @@ export default function DeliveryZoneList({ zones, onRefresh }: Props) {
   const [editId, setEditId] = useState<string | null>(null)
   const [editName, setEditName] = useState('')
   const [editPrice, setEditPrice] = useState('')
+  const [opError, setOpError] = useState<string | null>(null)
 
   async function handleAdd() {
     if (!newName.trim()) return
-    await fetch('/api/delivery-zones', {
+    const res = await fetch('/api/delivery-zones', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: newName.trim(), reference_price: newPrice.trim() || null }),
     })
+    if (!res.ok) { const j = await res.json(); setOpError(j.error ?? 'Error al agregar zona'); return }
     setNewName('')
     setNewPrice('')
     setAdding(false)
+    setOpError(null)
     onRefresh()
   }
 
   async function handleUpdate(zone: DeliveryZone) {
-    await fetch(`/api/delivery-zones/${zone.id}`, {
+    const res = await fetch(`/api/delivery-zones/${zone.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: editName.trim(), reference_price: editPrice.trim() || null, active: zone.active }),
     })
+    if (!res.ok) { const j = await res.json(); setOpError(j.error ?? 'Error al actualizar zona'); return }
     setEditId(null)
+    setOpError(null)
     onRefresh()
   }
 
   async function handleToggleActive(zone: DeliveryZone) {
-    await fetch(`/api/delivery-zones/${zone.id}`, {
+    const res = await fetch(`/api/delivery-zones/${zone.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: zone.name, reference_price: zone.reference_price, active: !zone.active }),
     })
+    if (!res.ok) { const j = await res.json(); setOpError(j.error ?? 'Error al cambiar estado'); return }
+    setOpError(null)
     onRefresh()
   }
 
   async function handleDelete(id: string) {
     if (!confirm('¿Eliminar esta zona?')) return
-    await fetch(`/api/delivery-zones/${id}`, { method: 'DELETE' })
+    const res = await fetch(`/api/delivery-zones/${id}`, { method: 'DELETE' })
+    if (!res.ok) { const j = await res.json(); setOpError(j.error ?? 'Error al eliminar zona'); return }
+    setOpError(null)
     onRefresh()
   }
 
@@ -62,6 +71,7 @@ export default function DeliveryZoneList({ zones, onRefresh }: Props) {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      {opError && <p className="px-6 py-2 text-sm text-red-600 bg-red-50 border-b border-red-100">{opError}</p>}
       <div className="flex items-center justify-between px-6 py-4 border-b">
         <h2 className="font-semibold text-gray-800">Zonas de delivery</h2>
         <button onClick={() => setAdding(true)}

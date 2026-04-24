@@ -54,11 +54,16 @@ export default function ImageUpload({ currentUrl, onUpload }: Props) {
     }
   }
 
+  const ALLOWED_URL_PATTERNS = [
+    /^https:\/\/[^/]*\.supabase\.co\//,
+    /^https:\/\/images\.unsplash\.com\//,
+  ]
+
   function handleUrlSubmit() {
     const trimmed = urlInput.trim()
     if (!trimmed) return
-    if (!trimmed.startsWith('https://')) {
-      setError('Ingresa una URL válida (debe comenzar con https://)')
+    if (!ALLOWED_URL_PATTERNS.some(p => p.test(trimmed))) {
+      setError('Solo se permiten URLs de Supabase Storage o Unsplash.')
       return
     }
     setError(null)
