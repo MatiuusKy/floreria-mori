@@ -25,7 +25,7 @@ export function safeProductFields(src: UnknownBody) {
 
 export function safeDeliveryZoneFields(body: UnknownBody) {
   return {
-    name:            body.name.toString().trim(),
+    name:            typeof body.name === 'string' ? body.name.trim() : '',
     reference_price: body.reference_price != null ? Number(body.reference_price) : null,
     active:          typeof body.active === 'boolean' ? body.active : true,
   }
