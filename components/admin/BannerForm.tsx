@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Banner, Category, Product } from '@/types'
+import { WHATSAPP_NUMBER } from '@/lib/whatsapp'
 
 type LinkMode = 'catalogo' | 'categoria' | 'producto' | 'manual'
 
@@ -201,7 +202,7 @@ export default function BannerForm({ banner, categories, products }: Props) {
             <input
               value={form.cta_url}
               onChange={e => set('cta_url', e.target.value)}
-              placeholder="https://wa.me/56929895674 o /catalogo?categoria=amor"
+              placeholder={`https://wa.me/${WHATSAPP_NUMBER} o /catalogo?categoria=amor`}
               className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-primary"
             />
           </div>

@@ -1,9 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
-import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
+import { requireAuth } from '@/lib/api-auth'
 import { validateCategory } from '@/lib/validation'
 import { dbError } from '@/lib/api-error'
 
+// GET is public — used by the storefront catalog filter
 export async function GET() {
   const supabase = await createClient()
   const { data, error } = await supabase.from('categories').select('*').order('name')
@@ -12,17 +13,16 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAuth()
+  if (!auth.ok) return auth.res
 
   const body = await request.json()
   const validationError = validateCategory(body)
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 })
 
   const { name, slug } = body as { name: string; slug: string }
-  const admin = createAdminClient()
-  const { data, error } = await admin.from('categories').insert({ name: name.trim(), slug: slug.trim() }).select().single()
+  const { data, error } = await auth.admin
+    .from('categories').insert({ name: name.trim(), slug: slug.trim() }).select().single()
   if (error) return dbError('categories', error)
   return NextResponse.json(data, { status: 201 })
 }

@@ -105,15 +105,14 @@ export function validateBannerTitle(body: UnknownBody): string | null {
   return null
 }
 
+// 5 MB — shared with upload/route.ts and ImageUpload.tsx
+export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024
+
+// Note: used in tests only. Production upload validates via magic bytes (upload/route.ts)
+// because client-provided Content-Type is untrusted.
 export function validateUploadFile(file: { type: string; size: number }): string | null {
   const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
-  const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
-
-  if (!ALLOWED_MIME_TYPES.includes(file.type)) {
-    return 'Solo se permiten imágenes JPG, PNG, WEBP o GIF.'
-  }
-  if (file.size > MAX_FILE_SIZE) {
-    return 'La imagen no puede superar 5 MB.'
-  }
+  if (!ALLOWED_MIME_TYPES.includes(file.type)) return 'Solo se permiten imágenes JPG, PNG, WEBP o GIF.'
+  if (file.size > MAX_UPLOAD_BYTES) return 'La imagen no puede superar 5 MB.'
   return null
 }

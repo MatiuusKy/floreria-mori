@@ -9,10 +9,6 @@ declare global {
 
 type EventParams = Record<string, string | number | boolean | undefined>
 
-export function buildGAEvent(name: string, params: EventParams = {}) {
-  return { name, params }
-}
-
 export function trackEvent(name: string, params: EventParams = {}): void {
   if (typeof window === 'undefined') return
   if (window.gtag) {

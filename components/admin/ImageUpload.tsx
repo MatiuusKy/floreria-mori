@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Upload, X, Loader2, Link as LinkIcon } from 'lucide-react'
+import { MAX_UPLOAD_BYTES } from '@/lib/validation'
 
 interface Props {
   currentUrl: string | null
@@ -25,7 +26,7 @@ export default function ImageUpload({ currentUrl, onUpload }: Props) {
       setError('Solo se permiten imágenes.')
       return
     }
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > MAX_UPLOAD_BYTES) {
       setError('La imagen no puede superar 5 MB.')
       return
     }
