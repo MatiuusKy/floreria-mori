@@ -1,28 +1,145 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { X } from 'lucide-react'
-import { Banner } from '@/types'
+import Image from 'next/image'
 
-export default function SeasonalBanner({ banner }: { banner: Banner }) {
+interface Occasion {
+  active: { startMonth: number; startDay: number; endMonth: number; endDay: number }
+  label: string
+  title: string
+  subtitle: string
+  cta: string
+  ctaUrl: string
+  bgImage: string
+}
+
+const OCCASIONS: Record<string, Occasion> = {
+  'dia-de-la-madre': {
+    active: { startMonth: 5, startDay: 1, endMonth: 5, endDay: 11 },
+    label: 'Colección especial',
+    title: 'Feliz Día Mamá',
+    subtitle: 'Flores que dicen lo que las palabras no pueden',
+    cta: 'Ver colección especial',
+    ctaUrl: '/catalogo?ocasion=dia-de-la-madre',
+    bgImage: '/images/hero-dia-madre.jpg',
+  },
+  'san-valentin': {
+    active: { startMonth: 2, startDay: 10, endMonth: 2, endDay: 14 },
+    label: 'San Valentín',
+    title: 'Regala amor',
+    subtitle: 'Regala amor en cada pétalo',
+    cta: 'Ver colección',
+    ctaUrl: '/catalogo?ocasion=san-valentin',
+    bgImage: '/images/hero-san-valentin.jpg',
+  },
+  'navidad': {
+    active: { startMonth: 12, startDay: 20, endMonth: 12, endDay: 31 },
+    label: 'Navidad',
+    title: 'Feliz Navidad',
+    subtitle: 'Flores para compartir la magia',
+    cta: 'Ver colección navideña',
+    ctaUrl: '/catalogo?ocasion=navidad',
+    bgImage: '/images/hero-navidad.jpg',
+  },
+}
+
+function getActiveOccasion(): { key: string; data: Occasion } | null {
+  const now = new Date()
+  const month = now.getMonth() + 1
+  const day = now.getDate()
+  for (const [key, data] of Object.entries(OCCASIONS)) {
+    const { startMonth, startDay, endMonth, endDay } = data.active
+    const isInRange =
+      (month > startMonth || (month === startMonth && day >= startDay)) &&
+      (month < endMonth || (month === endMonth && day <= endDay))
+    if (isInRange) return { key, data }
+  }
+  return null
+}
+
+export default function SeasonalBanner() {
   const [dismissed, setDismissed] = useState(false)
-  if (dismissed) return null
+  const [visible, setVisible] = useState(false)
+  const active = getActiveOccasion()
+
+  useEffect(() => {
+    if (!active) return
+    const closed = sessionStorage.getItem(`banner_closed_${active.key}`)
+    if (!closed) setVisible(true)
+  }, [active?.key])
+
+  const handleDismiss = () => {
+    if (!active) return
+    sessionStorage.setItem(`banner_closed_${active.key}`, '1')
+    setDismissed(true)
+    setTimeout(() => setVisible(false), 300)
+  }
+
+  if (!active || !visible) return null
+
+  const { key, data } = active
 
   return (
-    <div style={{ background: 'var(--violet-brand)', color: 'white' }} className="py-3 px-4 flex items-center justify-between gap-4">
-      <div className="flex-1 text-center text-sm font-semibold">
-        {banner.title}
-        {banner.subtitle && <span className="ml-2 font-normal opacity-90">{banner.subtitle}</span>}
-        {banner.cta_text && banner.cta_url && (
-          <Link href={banner.cta_url}
-            className="ml-3 underline underline-offset-2 font-bold hover:opacity-80">
-            {banner.cta_text}
-          </Link>
-        )}
+    <div
+      className={`flex flex-col lg:flex-row transition-opacity duration-300 ${dismissed ? 'opacity-0' : 'opacity-100'}`}
+      style={{ minHeight: '100svh' }}
+    >
+      {/* Lado izquierdo — bg-burgundy */}
+      <div className="flex flex-col justify-center items-center lg:items-start px-10 lg:px-16 py-16 lg:w-1/2 bg-burgundy relative">
+        {/* Botón cerrar */}
+        <button
+          onClick={handleDismiss}
+          aria-label="Cerrar banner"
+          className="absolute top-6 left-6 text-white/60 hover:text-white font-body text-xs uppercase tracking-[0.1em] transition-colors"
+        >
+          ✕ Cerrar
+        </button>
+
+        {/* Logo PNG */}
+        <img
+          src="/images/logo-flora-boutique.jpeg"
+          alt="Flora Boutique"
+          style={{ height: 90, width: 'auto', objectFit: 'contain' }}
+          className="mb-6"
+        />
+
+        {/* Rombo decorativo */}
+        <span className="text-logo-deco text-lg mb-4">✦</span>
+
+        <p className="font-body uppercase tracking-[0.35em] text-xs text-blush mb-4 text-center lg:text-left">
+          {data.label}
+        </p>
+
+        <h1
+          className="font-heading font-normal text-white leading-tight text-center lg:text-left"
+          style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}
+        >
+          {data.title}
+        </h1>
+
+        <p className="font-body text-base text-white/70 mt-4 max-w-sm text-center lg:text-left">
+          {data.subtitle}
+        </p>
+
+        <Link
+          href={data.ctaUrl}
+          className="mt-8 bg-white text-burgundy hover:bg-linen px-10 py-4 rounded-none font-body uppercase tracking-[0.15em] text-xs font-medium transition-colors duration-300 inline-block"
+        >
+          {data.cta}
+        </Link>
       </div>
-      <button onClick={() => setDismissed(true)} aria-label="Cerrar" className="shrink-0 hover:opacity-70">
-        <X size={18} />
-      </button>
+
+      {/* Lado derecho — imagen floral */}
+      <div className="relative lg:w-1/2" style={{ minHeight: '60vh' }}>
+        <Image
+          src={data.bgImage}
+          alt={data.title}
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
+      </div>
     </div>
   )
 }
