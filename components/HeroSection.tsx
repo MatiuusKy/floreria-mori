@@ -11,7 +11,8 @@ export default function HeroSection({ waHref }: HeroSectionProps) {
   return (
     <ScrollExpandHero
       mediaSrc="/images/logo-brand.png"
-      bgImageSrc="/images/hero-bg.jpeg"
+      bgImageSrc="/images/fondo_banner.jpeg"
+      bgImageMobileSrc="/images/fondo_banner_mobile.jpeg"
     >
       <div className="max-w-3xl mx-auto text-center">
 
