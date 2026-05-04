@@ -176,6 +176,7 @@ export default async function HomePage() {
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '32px' }}>
               <Link
                 href="/catalogo"
+                className="hero-cta-primary"
                 style={{
                   background: 'var(--violet-brand)',
                   color: 'white',
@@ -189,8 +190,6 @@ export default async function HomePage() {
                   gap: '6px',
                   transition: 'background 0.2s',
                 }}
-                onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--violet-deep)')}
-                onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--violet-brand)')}
               >
                 Ver catálogo
               </Link>
@@ -1147,6 +1146,7 @@ export default async function HomePage() {
 
       {/* ─── Gallery hover CSS (injected via style tag) ──── */}
       <style>{`
+        .hero-cta-primary:hover { background: var(--violet-deep) !important; }
         .gallery-item:hover .gallery-overlay { opacity: 1 !important; }
         .gallery-item:hover img { transform: scale(1.06); }
         .occ-card:hover img { transform: scale(1.07); }
