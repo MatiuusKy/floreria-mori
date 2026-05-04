@@ -2,34 +2,43 @@
 
 /* ─── CSS Custom Properties (available via var() in custom CSS) ─── */
 :root {
-  /* Flora Boutique palette */
-  --violet-brand:  #7A2F6B;
-  --violet-deep:   #5C1F50;
-  --violet-light:  #9B4A8A;
-  --violet-mist:   #F0E6EE;
-  --cream:         #FDF8F6;
-  --cream-deep:    #F5ECE8;
-  --gold:          #C9A96E;
-  --gold-light:    #E8D5AA;
-  --charcoal:      #2C1F28;
-  --gris-soft:     #9A8A95;
+  /* Flora Boutique — Paleta Florence */
+  --burgundy:       #580A2D;
+  --burgundy-hover: #430721;
+  --burgundy-light: #7A1A45;
+  --burgundy-mist:  #F7EEF2;
+  --blush:          #EFCEDA;
+  --linen:          #E9E6E4;
+  --white-warm:     #F9F7F5;
+  --sage:           #899B89;
+  --sage-light:     #E1E6D6;
+  --charcoal:       #2A1F1F;
+  --muted:          #9A8A8E;
+  --ornament:       #C9A0B8;
 
-  /* Legacy aliases → mapped to new palette (keeps inline styles working) */
-  --warm-white:   #FDF8F6;
-  --warm-cream:   #F5ECE8;
-  --blush:        #F0E6EE;
-  --blush-deep:   #F0E6EE;
-  --terra:        #7A2F6B;
-  --terra-light:  #9B4A8A;
-  --camel:        #C9A96E;
-  --camel-light:  #E8D5AA;
-  --mocha:        #2C1F28;
-  --mocha-mid:    #2C1F28;
-  --mocha-light:  #9A8A95;
-  --verde:        #7A2F6B;
-  --verde-light:  #9B4A8A;
-  --gris:         #9A8A95;
-  --gris-light:   #9A8A95;
+  /* Legacy aliases → Florence (mantiene inline styles del admin) */
+  --warm-white:    #F9F7F5;
+  --warm-cream:    #E9E6E4;
+  --cream:         #F9F7F5;
+  --cream-deep:    #E9E6E4;
+  --terra:         #580A2D;
+  --terra-light:   #7A1A45;
+  --violet-brand:  #580A2D;
+  --violet-deep:   #430721;
+  --violet-mist:   #F7EEF2;
+  --camel:         #899B89;
+  --camel-light:   #C9A0B8;
+  --gold:          #899B89;
+  --gold-light:    #E1E6D6;
+  --mocha:         #2A1F1F;
+  --mocha-mid:     #2A1F1F;
+  --mocha-light:   #9A8A8E;
+  --verde:         #899B89;
+  --verde-light:   #E1E6D6;
+  --gris:          #9A8A8E;
+  --gris-soft:     #9A8A8E;
+  --gris-light:    #9A8A8E;
+  --color-primary: #580A2D;
 
   --shadow-sm: 0 2px 12px rgba(44,31,40,.07);
   --shadow-md: 0 8px 32px rgba(44,31,40,.12);
@@ -42,37 +51,56 @@
 
 /* ─── Tailwind v4 theme tokens → utility classes ──────────────── */
 @theme inline {
-  /* Colores de marca */
-  --color-violet-brand: #7A2F6B;
-  --color-violet-deep:  #5C1F50;
-  --color-violet-light: #9B4A8A;
-  --color-violet-mist:  #F0E6EE;
-  --color-cream:        #FDF8F6;
-  --color-cream-deep:   #F5ECE8;
-  --color-gold:         #C9A96E;
-  --color-gold-light:   #E8D5AA;
-  --color-charcoal:     #2C1F28;
-  --color-gris-soft:    #9A8A95;
+  /* === BURDEO — color primario === */
+  --color-burgundy:         #580A2D;
+  --color-burgundy-hover:   #430721;
+  --color-burgundy-light:   #7A1A45;
+  --color-burgundy-mist:    #F7EEF2;
 
-  /* Aliases semánticos */
-  --color-brand:        var(--color-violet-brand);
-  --color-brand-hover:  var(--color-violet-deep);
-  --color-bg-primary:   var(--color-cream);
-  --color-bg-secondary: var(--color-cream-deep);
-  --color-bg-accent:    var(--color-violet-mist);
-  --color-text-primary: var(--color-charcoal);
-  --color-text-secondary: var(--color-gris-soft);
-  --color-accent:       var(--color-gold);
+  /* === ROSA — acento suave === */
+  --color-blush:            #EFCEDA;
+  --color-blush-deep:       #E0B4C4;
 
-  /* Semantic aliases (kept for admin panel compatibility) */
-  --color-primary:     #7A2F6B;
-  --color-secondary:   #F0E6EE;
-  --color-background:  #FDF8F6;
-  --color-admin-dark:  #1a1a2e;
+  /* === GRISES CÁLIDOS === */
+  --color-linen:            #E9E6E4;
+  --color-white-warm:       #F9F7F5;
+  --color-white:            #FFFFFF;
 
-  /* Fonts */
-  --font-heading: var(--font-cormorant), Georgia, serif;
-  --font-body:    var(--font-dm-sans), system-ui, sans-serif;
+  /* === VERDE SALVIA === */
+  --color-sage:             #899B89;
+  --color-sage-light:       #E1E6D6;
+
+  /* === TEXTO === */
+  --color-charcoal:         #2A1F1F;
+  --color-muted:            #9A8A8E;
+
+  /* === TONOS DEL LOGO === */
+  --color-logo-white:       #FDF5F7;
+  --color-logo-deco:        #8B3560;
+  --color-ornament:         #C9A0B8;
+
+  /* === ALIASES SEMÁNTICOS === */
+  --color-brand:            var(--color-burgundy);
+  --color-brand-hover:      var(--color-burgundy-hover);
+  --color-bg-primary:       var(--color-white-warm);
+  --color-bg-secondary:     var(--color-linen);
+  --color-bg-accent:        var(--color-burgundy-mist);
+  --color-text-primary:     var(--color-charcoal);
+  --color-text-muted:       var(--color-muted);
+
+  /* === COMPATIBILIDAD ADMIN PANEL (no remover) === */
+  --color-primary:    #580A2D;
+  --color-secondary:  #F7EEF2;
+  --color-background: #F9F7F5;
+  --color-admin-dark: #1a1a2e;
+
+  /* === TIPOGRAFÍA === */
+  --font-heading: var(--font-playfair), Georgia, serif;
+  --font-body:    var(--font-poppins), system-ui, sans-serif;
+
+  /* === ESPACIADO EDITORIAL === */
+  --section-gap:    8rem;
+  --section-gap-sm: 5rem;
 }
 
 /* ─── Base ─────────────────────────────────────────────────────── */
@@ -80,7 +108,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
-  background: var(--cream);
+  background: var(--white-warm);
   color: var(--charcoal);
 }
 
@@ -110,7 +138,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   left: 0;
   right: 100%;
   height: 1.5px;
-  background: var(--violet-brand);
+  background: var(--burgundy);
   transition: right 0.3s ease;
 }
 .nav-link:hover::after { right: 0; }

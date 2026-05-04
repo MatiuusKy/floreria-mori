@@ -1,19 +1,20 @@
 import type { Metadata } from 'next'
-import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
+import { Playfair_Display, Poppins } from 'next/font/google'
 import './globals.css'
 import Analytics from '@/components/Analytics'
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-cormorant',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-playfair',
   display: 'swap',
 })
 
-const dmSans = DM_Sans({
+const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-dm-sans',
+  weight: ['300', '400', '500'],
+  variable: '--font-poppins',
   display: 'swap',
 })
 
@@ -66,14 +67,14 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${cormorant.variable} ${dmSans.variable}`}>
+    <html lang="es" className={`${playfair.variable} ${poppins.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
         />
       </head>
-      <body className="bg-cream text-charcoal font-body antialiased">
+      <body className="bg-white-warm text-charcoal font-body antialiased">
         <Analytics />
         {children}
       </body>
