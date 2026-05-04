@@ -129,7 +129,7 @@ export default function ScrollExpandHero({
               alt=""
               fill
               sizes="100vw"
-              className="object-cover object-center hidden md:block"
+              className="object-contain object-center hidden md:block"
               priority
             />
 
@@ -140,7 +140,7 @@ export default function ScrollExpandHero({
                 alt=""
                 fill
                 sizes="100vw"
-                className="object-cover object-center block md:hidden"
+                className="object-contain object-center block md:hidden"
                 priority
               />
             )}
