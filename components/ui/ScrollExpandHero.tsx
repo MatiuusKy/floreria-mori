@@ -24,7 +24,6 @@ export default function ScrollExpandHero({
   const sectionRef = useRef<HTMLDivElement | null>(null)
   const prefersReducedMotion = useReducedMotion()
 
-  // Si el usuario prefiere menos movimiento, saltamos la animación
   useEffect(() => {
     if (prefersReducedMotion) {
       setScrollProgress(1)
@@ -85,71 +84,64 @@ export default function ScrollExpandHero({
     }
   }, [scrollProgress, mediaFullyExpanded, touchStartY, prefersReducedMotion])
 
-  // Tamaño del logo: viewport-relativo para escalar bien en cualquier pantalla.
-  // Interpolamos de ~22% → 100% del viewport usando clamp para evitar saltos bruscos.
-  const pctW = 22 + scrollProgress * 80   // 22vw → 102vw (se clampea a 100)
-  const pctH = 22 + scrollProgress * 80   // 22vh → 102vh (se clampea a 100)
-  const logoW = `clamp(160px, ${pctW}vw, 100vw)`
-  const logoH = `clamp(160px, ${pctH}dvh, 100dvh)`
+  // Logo: escala de pequeño → llena el hero (100dvh × 100vw)
+  // Se usan dvh para el alto para cubrir cualquier aspect ratio (portrait/landscape/desktop)
+  const pct = 22 + scrollProgress * 80  // 22% → 102% (clampeado)
+  const logoW = `clamp(160px, ${pct}vw, 100vw)`
+  const logoH = `clamp(160px, ${pct}dvh, 100dvh)`
 
-  // Fondo: desaparece gradualmente mientras el logo expande
   const bgOpacity = 1 - scrollProgress * 0.65
 
   return (
     <div
       ref={sectionRef}
       className="overflow-x-hidden"
-      // touch-action: none evita el delay de 300ms y conflictos con el gesture handler
       style={{ touchAction: mediaFullyExpanded ? 'auto' : 'none' }}
     >
       <section
-        className="relative flex flex-col items-center justify-start min-h-[100dvh]"
+        className="relative flex flex-col items-center justify-start w-full"
         aria-label="Sección de bienvenida Flora Boutique"
       >
-        <div className="relative w-full flex flex-col items-center min-h-[100dvh]">
-
-          {/*
-            Fondos: usamos TWO imágenes con CSS responsive para evitar el
-            hydration flash que ocurre cuando JS aún no sabe si es mobile o desktop.
-            - mobile  (<md): fondo_banner_mobile.jpeg (portrait 9:16) — sin JS
-            - desktop (≥md): fondo_banner.jpeg       (landscape 16:9) — sin JS
-          */}
+        <div
+          className="relative w-full flex flex-col items-center"
+          style={{ minHeight: '100dvh' }}
+        >
+          {/* Capa de fondo */}
           <div
             className="absolute inset-0 z-0 overflow-hidden"
-            style={{
-              backgroundColor: '#1a0a10',
-              opacity: bgOpacity,
-              transition: 'opacity 0.15s linear',
-            }}
+            style={{ opacity: bgOpacity, transition: 'opacity 0.15s linear' }}
             aria-hidden="true"
           >
-            {/* Desktop: 16:9 — anclada al top para que aparezca justo bajo el header */}
             <Image
               src={bgImageSrc}
               alt=""
               fill
               sizes="100vw"
-              className="object-contain object-top hidden md:block"
+              className="object-cover object-center hidden md:block"
               priority
             />
-
-            {/* Mobile: 9:16 — centrada verticalmente (imagen portrait cubre bien) */}
             {bgImageMobileSrc && (
               <Image
                 src={bgImageMobileSrc}
                 alt=""
                 fill
                 sizes="100vw"
-                className="object-contain object-top block md:hidden"
+                className="object-cover object-center block md:hidden"
                 priority
               />
             )}
           </div>
 
+          {/* Contenido del hero */}
           <div className="relative z-10 w-full flex flex-col items-center justify-start">
-            <div className="flex items-center justify-center w-full h-[100dvh] relative">
 
-              {/* Logo flotante: transparente, directo sobre el collage */}
+            {/* Área de animación scroll — altura = hero */}
+            <div
+              className="flex items-center justify-center w-full relative"
+              style={{ minHeight: '100dvh' }}
+            >
+
+              {/* Logo flotante sobre el collage */}
               <div
                 style={{
                   position: 'absolute',
@@ -172,7 +164,7 @@ export default function ScrollExpandHero({
                 />
               </div>
 
-              {/* Hint de scroll: desaparece al primer movimiento */}
+              {/* Hint de scroll */}
               <motion.p
                 className="absolute bottom-8 left-1/2 -translate-x-1/2 font-body text-[11px] uppercase tracking-[0.3em] text-white/80 whitespace-nowrap select-none"
                 animate={{ opacity: scrollProgress > 0.06 ? 0 : 1 }}
@@ -183,7 +175,7 @@ export default function ScrollExpandHero({
               </motion.p>
             </div>
 
-            {/* Contenido post-expansión: pointer-events desactivado mientras invisible */}
+            {/* Contenido post-expansión */}
             <motion.section
               className="flex flex-col w-full px-6 py-16 sm:px-10 md:px-16 lg:py-24 bg-white"
               initial={{ opacity: 0 }}
