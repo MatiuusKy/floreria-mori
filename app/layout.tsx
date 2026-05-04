@@ -1,85 +1,79 @@
 import type { Metadata } from 'next'
-import { Lora, Nunito } from 'next/font/google'
+import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 import './globals.css'
 import Analytics from '@/components/Analytics'
 
-const lora = Lora({
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-lora',
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-cormorant',
   display: 'swap',
 })
 
-const nunito = Nunito({
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-nunito',
+  weight: ['400', '500', '600'],
+  variable: '--font-dm-sans',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://floreriamori.cl'),
+  metadataBase: new URL('https://www.floraboutique.cl'),
   title: {
-    default: 'Florería Mori — Flores en Peñalolén, Santiago',
-    template: '%s | Florería Mori',
+    default: 'Flora Boutique — Flores a domicilio en Santiago',
+    template: '%s | Flora Boutique',
   },
-  description: 'Arreglos florales únicos para cada momento especial. Florería local en Peñalolén, Santiago. Ramos, arreglos, cumpleaños y más.',
-  keywords: ['florería Peñalolén', 'ramos flores Santiago', 'flores a domicilio Santiago', 'arreglos florales', 'florería Mori', 'flores Santiago'],
+  description: 'Floristería premium en Santiago. Ramos, arreglos y flores a domicilio. Despacho el mismo día en zona oriente. Pide por WhatsApp.',
+  keywords: ['flores a domicilio santiago', 'floristería santiago', 'ramos de flores', 'arreglos florales', 'zona oriente', 'flores santiago', 'Flora Boutique'],
   openGraph: {
-    type: 'website',
+    title: 'Flora Boutique — Flores a domicilio en Santiago',
+    description: 'Floristería premium. Despacho mismo día. Pide por WhatsApp.',
+    url: 'https://www.floraboutique.cl',
+    siteName: 'Flora Boutique',
     locale: 'es_CL',
-    siteName: 'Florería Mori',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Florería Mori — Flores en Peñalolén' }],
+    type: 'website',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Flora Boutique — Flores a domicilio en Santiago' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Florería Mori — Flores en Peñalolén, Santiago',
-    description: 'Arreglos florales únicos para cada momento. Florería local en Peñalolén, Santiago.',
+    title: 'Flora Boutique — Flores a domicilio en Santiago',
+    description: 'Floristería premium. Despacho mismo día. Pide por WhatsApp.',
     images: ['/og-image.jpg'],
   },
-  alternates: { canonical: 'https://floreriamori.cl' },
+  alternates: { canonical: 'https://www.floraboutique.cl' },
 }
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  name: 'Florería Mori',
-  image: 'https://floreriamori.cl/og-image.jpg',
-  url: 'https://floreriamori.cl',
-  telephone: '+56929895674',
+  name: 'Flora Boutique',
+  image: 'https://www.floraboutique.cl/og-image.jpg',
+  url: 'https://www.floraboutique.cl',
+  telephone: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ? `+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}` : undefined,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Av. Grecia 8628',
-    addressLocality: 'Peñalolén',
+    addressLocality: 'Santiago',
     addressRegion: 'Región Metropolitana',
-    postalCode: '7960000',
     addressCountry: 'CL',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: -33.473,
-    longitude: -70.558,
   },
   openingHoursSpecification: [
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '09:00', closes: '20:00' },
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Saturday'], opens: '09:00', closes: '18:00' },
   ],
-  priceRange: '$',
-  servesCuisine: undefined,
-  sameAs: ['https://www.instagram.com/floreriamori122012/'],
+  priceRange: '$$',
+  sameAs: ['https://www.instagram.com/floraboutique.cl/'],
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" className={`${cormorant.variable} ${dmSans.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
         />
       </head>
-      <body className={`${lora.variable} ${nunito.variable} font-body antialiased`}>
+      <body className="bg-cream text-charcoal font-body antialiased">
         <Analytics />
         {children}
       </body>

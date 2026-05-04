@@ -11,11 +11,11 @@ import { getProductImage, isSupabaseUrl } from '@/lib/product-images'
 
 function getBadge(product: Product): { emoji: string; label: string; color: string } | null {
   if (!product.available) return null
-  if (product.limited_stock) return { emoji: '⚡', label: 'Stock limitado', color: '#d47d55' }
-  if (product.campaign_tag) return { emoji: '🏷️', label: product.campaign_tag, color: '#c8955a' }
-  if (product.best_seller) return { emoji: '🔥', label: 'Más vendido', color: '#b5623a' }
-  if (product.featured) return { emoji: '❤️', label: 'Favorito', color: '#b5623a' }
-  if (product.same_day_delivery) return { emoji: '🚚', label: 'Entrega hoy', color: '#4a6741' }
+  if (product.limited_stock) return { emoji: '⚡', label: 'Stock limitado', color: '#9B4A8A' }
+  if (product.campaign_tag) return { emoji: '🏷️', label: product.campaign_tag, color: '#C9A96E' }
+  if (product.best_seller) return { emoji: '🔥', label: 'Más vendido', color: '#7A2F6B' }
+  if (product.featured) return { emoji: '✦', label: 'Destacado', color: '#7A2F6B' }
+  if (product.same_day_delivery) return { emoji: '🚚', label: 'Entrega hoy', color: '#5C1F50' }
   return null
 }
 
@@ -52,7 +52,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
       }}
     >
       {/* Image */}
-      <Link href={`/catalogo/${product.slug}`} style={{ display: 'block', position: 'relative', aspectRatio: '1.1', overflow: 'hidden', background: 'var(--warm-cream)' }}>
+      <Link href={`/catalogo/${product.slug}`} style={{ display: 'block', position: 'relative', aspectRatio: '3/4', overflow: 'hidden', background: 'var(--cream-deep)' }}>
         <Image
           src={imageSrc}
           alt={product.name}
@@ -234,8 +234,8 @@ export default function ProductCard({ product, priority = false }: { product: Pr
               transition: 'background 0.2s',
               fontFamily: 'var(--font-body)',
             }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'var(--mocha)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'var(--terra)')}
+            onMouseEnter={e => (e.currentTarget.style.background = 'var(--violet-deep)')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'var(--violet-brand)')}
           >
             💬 Cotizar por WhatsApp
           </a>

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import { Flower2, Truck, MessageCircle, Scissors } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { whatsappURL } from '@/lib/whatsapp'
 import ProductGrid from '@/components/ui/ProductGrid'
@@ -10,9 +11,9 @@ import FlowerGallery from '@/components/ui/FlowerGallery'
 import { Product, Banner } from '@/types'
 
 export const metadata: Metadata = {
-  title: 'Florería Mori — Flores en Peñalolén, Santiago',
-  description: 'Arreglos florales únicos en Peñalolén. Ramos, arreglos de cumpleaños, amor y eventos. Contacta por WhatsApp para pedir tus flores.',
-  alternates: { canonical: 'https://floreriamori.cl' },
+  title: 'Flora Boutique — Flores a domicilio en Santiago',
+  description: 'Floristería premium en Santiago. Ramos, arreglos y flores a domicilio. Despacho el mismo día en zona oriente. Pide por WhatsApp.',
+  alternates: { canonical: 'https://www.floraboutique.cl' },
 }
 
 const OCCASION_CARDS = [
@@ -93,18 +94,16 @@ export default async function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'Florería Mori',
-    description: 'Arreglos florales únicos para cada momento especial en Peñalolén, Santiago.',
-    url: 'https://floreriamori.cl',
-    telephone: '+56929895674',
+    name: 'Flora Boutique',
+    description: 'Floristería premium en Santiago. Flores a domicilio, ramos y arreglos. Despacho el mismo día.',
+    url: 'https://www.floraboutique.cl',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Av. Grecia 8628',
-      addressLocality: 'Peñalolén',
+      addressLocality: 'Santiago',
       addressRegion: 'Región Metropolitana',
       addressCountry: 'CL',
     },
-    sameAs: ['https://www.instagram.com/floreriamori122012/'],
+    sameAs: ['https://www.instagram.com/floraboutique.cl/'],
     openingHoursSpecification: [
       { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '09:00', closes: '20:00' },
       { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Saturday'], opens: '09:00', closes: '18:00' },
@@ -145,7 +144,7 @@ export default async function HomePage() {
               marginBottom: '20px',
               fontFamily: 'var(--font-body)',
             }}>
-              🌸 Av. Grecia 8628 · Peñalolén · Desde 2012
+              🌸 Floristería Premium · Santiago · Despacho mismo día
             </span>
 
             <h1 style={{
@@ -153,24 +152,24 @@ export default async function HomePage() {
               fontSize: 'clamp(2rem, 4vw, 3.2rem)',
               fontWeight: 400,
               lineHeight: 1.2,
-              color: 'var(--mocha)',
+              color: 'var(--charcoal)',
               marginBottom: '20px',
+              letterSpacing: '0.5px',
             }}>
-              Llevamos flores<br />
-              que hablan{' '}
-              <em style={{ color: 'var(--terra)', fontStyle: 'italic' }}>por ti</em>
+              Flores que cuentan{' '}
+              <em style={{ color: 'var(--violet-brand)', fontStyle: 'italic' }}>historias</em>
             </h1>
 
             <p style={{
               fontFamily: 'var(--font-body)',
               fontSize: '16px',
-              fontWeight: 300,
-              color: 'var(--gris)',
+              fontWeight: 400,
+              color: 'var(--gris-soft)',
               lineHeight: 1.7,
               maxWidth: '440px',
               marginBottom: '32px',
             }}>
-              Arreglos florales únicos para cada momento especial. Bodas, cumpleaños, amor, eventos y más — atendido directamente por sus dueños desde 2012.
+              Arreglos únicos para cada momento especial. Diseño artesanal, flores frescas seleccionadas cada mañana, despacho el mismo día.
             </p>
 
             {/* Buttons */}
@@ -178,40 +177,43 @@ export default async function HomePage() {
               <Link
                 href="/catalogo"
                 style={{
-                  background: 'var(--terra)',
+                  background: 'var(--violet-brand)',
                   color: 'white',
                   fontSize: '14px',
                   fontWeight: 600,
-                  padding: '12px 24px',
-                  borderRadius: 'var(--radius-pill)',
+                  padding: '12px 28px',
                   textDecoration: 'none',
                   fontFamily: 'var(--font-body)',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
+                  transition: 'background 0.2s',
                 }}
+                onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--violet-deep)')}
+                onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = 'var(--violet-brand)')}
               >
-                🌸 Ver Catálogo
+                Ver catálogo
               </Link>
               <a
                 href={whatsappURL()}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  color: 'var(--mocha)',
+                  color: 'white',
                   fontSize: '14px',
                   fontWeight: 600,
-                  padding: '11px 24px',
-                  borderRadius: 'var(--radius-pill)',
+                  padding: '11px 28px',
                   textDecoration: 'none',
                   fontFamily: 'var(--font-body)',
-                  border: '1.5px solid var(--blush-deep)',
+                  border: '1.5px solid white',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
+                  background: 'transparent',
+                  transition: 'background 0.2s',
                 }}
               >
-                💬 Cotizar ahora
+                💬 Pedir por WhatsApp
               </a>
             </div>
 
@@ -238,7 +240,7 @@ export default async function HomePage() {
             <div style={{ position: 'relative', width: '100%', aspectRatio: '1', borderRadius: '60% 40% 50% 50% / 50% 55% 45% 55%', overflow: 'hidden' }}>
               <Image
                 src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=800&q=80&fit=crop"
-                alt="Hermosas rosas frescas de Florería Mori"
+                alt="Hermosas rosas frescas de Flora Boutique"
                 fill
                 priority
                 className="object-cover"
@@ -304,40 +306,43 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          VALUES STRIP
+          TRUST STRIP
       ══════════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--mocha)' }}>
+      <section style={{ background: 'var(--violet-mist)', padding: '48px 24px' }}>
         <div style={{
           maxWidth: '1240px',
           margin: '0 auto',
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '24px',
         }} className="values-grid">
           {[
-            { icon: '🌹', strong: 'Flores Frescas',      span: 'Seleccionadas cada mañana' },
-            { icon: '🚚', strong: 'Delivery a Domicilio', span: 'Zona oriente y más' },
-            { icon: '💬', strong: 'Pedido Express',       span: 'Por WhatsApp en minutos' },
-            { icon: '🎨', strong: 'Diseño Artesanal',     span: 'Cada arreglo es único' },
+            { Icon: Flower2,       strong: 'Flores Frescas',       span: 'Seleccionadas cada mañana' },
+            { Icon: Truck,         strong: 'Delivery a Domicilio',  span: 'Zona oriente y más' },
+            { Icon: MessageCircle, strong: 'Pedido Express',        span: 'Por WhatsApp en minutos' },
+            { Icon: Scissors,      strong: 'Diseño Artesanal',      span: 'Cada arreglo es único' },
           ].map((item, i) => (
             <div
               key={item.strong}
               style={{
-                padding: '28px 24px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',
-                gap: '8px',
-                borderRight: i < 3 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                gap: '12px',
+                padding: '8px 16px',
+                borderRight: i < 3 ? '1px solid rgba(122,47,107,0.12)' : 'none',
               }}
             >
-              <span style={{ fontSize: '28px' }}>{item.icon}</span>
-              <strong style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600, color: 'var(--camel-light)' }}>
-                {item.strong}
-              </strong>
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '11.5px', fontWeight: 300, color: 'rgba(253,248,244,0.45)' }}>
-                {item.span}
-              </span>
+              <item.Icon size={28} color="var(--violet-brand)" strokeWidth={1.5} />
+              <div>
+                <strong style={{ fontFamily: 'var(--font-heading)', fontSize: '17px', fontWeight: 500, color: 'var(--charcoal)', display: 'block', marginBottom: '4px' }}>
+                  {item.strong}
+                </strong>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--gris-soft)' }}>
+                  {item.span}
+                </span>
+              </div>
             </div>
           ))}
         </div>
@@ -566,7 +571,7 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════
           CÓMO PEDIR
       ══════════════════════════════════════════════════════ */}
-      <section id="como-pedir" style={{ background: 'linear-gradient(135deg, var(--mocha), #4e2a14)', padding: '72px 24px' }}>
+      <section id="como-pedir" style={{ background: 'linear-gradient(135deg, var(--charcoal), var(--violet-deep))', padding: '72px 24px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--camel-light)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
@@ -667,7 +672,7 @@ export default async function HomePage() {
             >
               <Image
                 src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80&fit=crop"
-                alt="Interior de Florería Mori en Peñalolén"
+                alt="Interior de Flora Boutique en Peñalolén"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -711,18 +716,19 @@ export default async function HomePage() {
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--terra)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px' }}>
               Nuestra historia
             </p>
-            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 400, color: 'var(--mocha)', lineHeight: 1.2, marginBottom: '24px' }}>
-              Una florería con alma, <em style={{ fontStyle: 'italic', color: 'var(--terra)' }}>atendida por sus dueños</em>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 400, color: 'var(--charcoal)', lineHeight: 1.2, marginBottom: '24px', letterSpacing: '0.3px' }}>
+              Floristería premium,{' '}
+              <em style={{ fontStyle: 'italic', color: 'var(--violet-brand)' }}>diseño artesanal</em>
             </h2>
 
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 300, color: 'var(--gris)', lineHeight: 1.8, marginBottom: '16px' }}>
-              Desde 2012 llevamos alegría floral a los hogares de Peñalolén y toda la zona oriente de Santiago. Somos una florería familiar, con el cuidado y la dedicación que solo el trato directo con los dueños puede ofrecer.
+              En Flora Boutique creemos que las flores son más que un regalo — son una forma de expresar lo que las palabras no alcanzan.
             </p>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 300, color: 'var(--gris)', lineHeight: 1.8, marginBottom: '16px' }}>
-              Cada arreglo es diseñado y preparado con flores seleccionadas por nosotros cada mañana. No trabajamos con intermediarios: de nuestras manos a las tuyas.
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 400, color: 'var(--gris-soft)', lineHeight: 1.8, marginBottom: '16px' }}>
+              Cada arreglo es diseñado con flores seleccionadas cada mañana. Trabajamos con las mejores variedades para garantizar frescura y calidad en cada entrega.
             </p>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 300, color: 'var(--gris)', lineHeight: 1.8, marginBottom: '36px' }}>
-              Nos especializamos en bodas, eventos corporativos, arreglos para iglesias, ramos de amor, cumpleaños y condolencias — siempre con el mismo cariño.
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 400, color: 'var(--gris-soft)', lineHeight: 1.8, marginBottom: '36px' }}>
+              Bodas, cumpleaños, amor, eventos corporativos y condolencias — para cada ocasión, un arreglo único hecho con dedicación.
             </p>
 
             {/* Stats */}
@@ -762,7 +768,7 @@ export default async function HomePage() {
               </h2>
             </div>
             <a
-              href="https://www.instagram.com/floreriamori122012/"
+              href="https://www.instagram.com/floraboutique.cl/"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -773,7 +779,7 @@ export default async function HomePage() {
                 textDecoration: 'none',
               }}
             >
-              @floreriamori122012 →
+              @floraboutique.cl →
             </a>
           </div>
 
@@ -782,7 +788,7 @@ export default async function HomePage() {
             {GALLERY_IMGS.map((src, i) => (
               <a
                 key={i}
-                href="https://www.instagram.com/floreriamori122012/"
+                href="https://www.instagram.com/floraboutique.cl/"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ position: 'relative', aspectRatio: '1', display: 'block', overflow: 'hidden', borderRadius: 'var(--radius-sm)' }}
@@ -790,7 +796,7 @@ export default async function HomePage() {
               >
                 <Image
                   src={src}
-                  alt={`Arreglo floral Florería Mori ${i + 1}`}
+                  alt={`Arreglo floral Flora Boutique ${i + 1}`}
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 50vw, 20vw"
@@ -823,7 +829,7 @@ export default async function HomePage() {
               ¿Te gustó lo que ves? Síguenos para ver más creaciones
             </p>
             <a
-              href="https://www.instagram.com/floreriamori122012/"
+              href="https://www.instagram.com/floraboutique.cl/"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -1046,7 +1052,7 @@ export default async function HomePage() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Ubicación Florería Mori — Av. Grecia 8628, Peñalolén"
+                title="Ubicación Flora Boutique — Av. Grecia 8628, Peñalolén"
               />
             </div>
           </div>
@@ -1057,7 +1063,7 @@ export default async function HomePage() {
           CTA FINAL
       ══════════════════════════════════════════════════════ */}
       <section style={{
-        background: 'linear-gradient(135deg, var(--blush), var(--camel-light))',
+        background: 'linear-gradient(135deg, var(--violet-mist), var(--gold-light))',
         padding: '80px 24px',
         textAlign: 'center',
         position: 'relative',
@@ -1072,15 +1078,16 @@ export default async function HomePage() {
             fontFamily: 'var(--font-heading)',
             fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
             fontWeight: 400,
-            color: 'var(--mocha)',
+            color: 'var(--charcoal)',
             lineHeight: 1.2,
             marginBottom: '16px',
+            letterSpacing: '0.3px',
           }}>
             ¿Hay algo que{' '}
-            <em style={{ fontStyle: 'italic', color: 'var(--terra)' }}>celebrar</em>{' '}
+            <em style={{ fontStyle: 'italic', color: 'var(--violet-brand)' }}>celebrar</em>{' '}
             hoy?
           </h2>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', fontWeight: 300, color: 'var(--mocha-mid)', marginBottom: '36px', lineHeight: 1.7 }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', fontWeight: 400, color: 'var(--gris-soft)', marginBottom: '36px', lineHeight: 1.7 }}>
             Estamos listos para hacer tu momento especial aún más memorable. Escríbenos y te ayudamos a elegir el arreglo perfecto.
           </p>
 
