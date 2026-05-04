@@ -92,9 +92,6 @@ export default function ScrollExpandHero({
   const logoW = `clamp(160px, ${pctW}vw, 100vw)`
   const logoH = `clamp(160px, ${pctH}dvh, 100dvh)`
 
-  // Bordes del card: se suavizan gradualmente con el scroll
-  const logoRadius = `${Math.max(0, (1 - scrollProgress) * 20)}px`
-
   // Fondo: desaparece gradualmente mientras el logo expande
   const bgOpacity = 1 - scrollProgress * 0.65
 
@@ -152,7 +149,7 @@ export default function ScrollExpandHero({
           <div className="relative z-10 w-full flex flex-col items-center justify-start">
             <div className="flex items-center justify-center w-full h-[100dvh] relative">
 
-              {/* Card del logo: escala viewport-relativa, sin saltos */}
+              {/* Logo flotante: transparente, directo sobre el collage */}
               <div
                 style={{
                   position: 'absolute',
@@ -162,31 +159,17 @@ export default function ScrollExpandHero({
                   width: logoW,
                   height: logoH,
                   transition: 'none',
-                  backgroundColor: '#ffffff',
-                  borderRadius: logoRadius,
-                  overflow: 'hidden',
-                  boxShadow: scrollProgress > 0.95
-                    ? 'none'
-                    : `0 ${12 - scrollProgress * 12}px ${60 - scrollProgress * 60}px rgba(0,0,0,${0.35 - scrollProgress * 0.35})`,
                 }}
                 role="img"
                 aria-label="Logo Flora Boutique"
               >
-                {/* Padding interior: desaparece al llegar a fullscreen */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: `${Math.max(0, (1 - scrollProgress) * 12)}%`,
-                  }}
-                >
-                  <Image
-                    src={mediaSrc}
-                    alt="Flora Boutique"
-                    fill
-                    className="object-contain"
-                    priority
-                  />
-                </div>
+                <Image
+                  src={mediaSrc}
+                  alt="Flora Boutique"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </div>
 
               {/* Hint de scroll: desaparece al primer movimiento */}
