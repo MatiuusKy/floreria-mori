@@ -8,7 +8,8 @@ import ProductGrid from '@/components/ui/ProductGrid'
 import SeasonalBanner from '@/components/ui/SeasonalBanner'
 import ScrollRevealInit from '@/components/ui/ScrollRevealInit'
 import FlowerGallery from '@/components/ui/FlowerGallery'
-import { Product, Banner } from '@/types'
+import FloralIcon from '@/components/FloralIcon'
+import { Product } from '@/types'
 
 export const metadata: Metadata = {
   title: 'Flora Boutique — Flores a domicilio en Santiago',
@@ -80,13 +81,23 @@ const STEPS = [
   { num: '04', icon: '🎉', title: '¡Recibe tus flores!', desc: 'Despacho a domicilio o retiro en Av. Grecia 8628.' },
 ]
 
+const CATEGORIES = [
+  { name: 'Ramos', slug: 'ramos', img: 'https://images.unsplash.com/photo-1487530811015-780ed8e7f95a?w=600&q=80&fit=crop' },
+  { name: 'Rosas', slug: 'rosas', img: 'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=600&q=80&fit=crop' },
+  { name: 'Flores en Caja', slug: 'flores-en-caja', img: 'https://images.unsplash.com/photo-1495615080073-6b89c9839ce0?w=600&q=80&fit=crop' },
+  { name: 'Preservadas', slug: 'preservadas', img: 'https://images.unsplash.com/photo-1596438459194-f275f413c2b8?w=600&q=80&fit=crop' },
+  { name: 'Arreglos', slug: 'arreglos', img: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=600&q=80&fit=crop' },
+  { name: 'Regalos', slug: 'regalos', img: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&q=80&fit=crop' },
+]
+
 export default async function HomePage() {
   const supabase = await createClient()
 
-  const [{ data: products }, { data: banner }] = await Promise.all([
-    supabase.from('products').select('*, category:categories(id,name,slug)').eq('available', true).order('featured', { ascending: false }),
-    supabase.from('banners').select('*').eq('active', true).maybeSingle(),
-  ])
+  const { data: products } = await supabase
+    .from('products')
+    .select('*, category:categories(id,name,slug)')
+    .eq('available', true)
+    .order('featured', { ascending: false })
 
   const featured = (products as Product[] ?? []).filter(p => p.featured).slice(0, 6)
   const hasFeatured = featured.length > 0
@@ -114,236 +125,121 @@ export default async function HomePage() {
     <>
       <ScrollRevealInit />
 
-      {banner && <SeasonalBanner banner={banner as Banner} />}
+      <SeasonalBanner />
 
       {/* ══════════════════════════════════════════════════════
-          HERO
+          HERO — Florence split 50/50
       ══════════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--warm-cream)', padding: '56px 24px 0', overflow: 'hidden' }}>
-        <div style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '48px',
-          alignItems: 'center',
-        }} className="hero-grid">
-          {/* Left: text */}
-          <div>
-            {/* Eyebrow */}
-            <span style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              background: 'var(--blush)',
-              color: 'var(--terra)',
-              fontSize: '12px',
-              fontWeight: 600,
-              padding: '6px 14px',
-              borderRadius: 'var(--radius-pill)',
-              marginBottom: '20px',
-              fontFamily: 'var(--font-body)',
-            }}>
-              🌸 Floristería Premium · Santiago · Despacho mismo día
-            </span>
-
-            <h1 style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-              fontWeight: 400,
-              lineHeight: 1.2,
-              color: 'var(--charcoal)',
-              marginBottom: '20px',
-              letterSpacing: '0.5px',
-            }}>
-              Flores que cuentan{' '}
-              <em style={{ color: 'var(--violet-brand)', fontStyle: 'italic' }}>historias</em>
-            </h1>
-
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '16px',
-              fontWeight: 400,
-              color: 'var(--gris-soft)',
-              lineHeight: 1.7,
-              maxWidth: '440px',
-              marginBottom: '32px',
-            }}>
-              Arreglos únicos para cada momento especial. Diseño artesanal, flores frescas seleccionadas cada mañana, despacho el mismo día.
-            </p>
-
-            {/* Buttons */}
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '32px' }}>
-              <Link
-                href="/catalogo"
-                className="hero-cta-primary"
-                style={{
-                  background: 'var(--violet-brand)',
-                  color: 'white',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  padding: '12px 28px',
-                  textDecoration: 'none',
-                  fontFamily: 'var(--font-body)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  transition: 'background 0.2s',
-                }}
-              >
-                Ver catálogo
-              </Link>
-              <a
-                href={whatsappURL()}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  color: 'white',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  padding: '11px 28px',
-                  textDecoration: 'none',
-                  fontFamily: 'var(--font-body)',
-                  border: '1.5px solid white',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'transparent',
-                  transition: 'background 0.2s',
-                }}
-              >
-                💬 Pedir por WhatsApp
-              </a>
-            </div>
-
-            {/* Trust chips */}
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              {['Flores frescas cada día', 'Envíos a domicilio', 'Atención personalizada', 'Desde 2012'].map(chip => (
-                <span key={chip} style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  color: 'var(--verde)',
-                  fontFamily: 'var(--font-body)',
-                }}>
-                  <span style={{ color: 'var(--verde)', fontWeight: 700 }}>✓</span> {chip}
-                </span>
-              ))}
-            </div>
+      <section className="flex flex-col lg:flex-row" style={{ minHeight: '90vh' }}>
+        {/* Lado izquierdo — bg-burgundy */}
+        <div className="flex flex-col justify-center px-10 lg:px-16 py-16 lg:w-1/2 bg-burgundy relative">
+          <img
+            src="/images/logo-flora-boutique.jpeg"
+            alt="Flora Boutique"
+            style={{ height: 110, width: 'auto', objectFit: 'contain' }}
+          />
+          <div className="border-t border-white/20 w-12 mt-8 mb-6" />
+          <h1
+            className="font-heading font-normal text-white leading-tight tracking-wide"
+            style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
+          >
+            Flores que<br />enamoran
+          </h1>
+          <p className="font-body text-base text-white/70 mt-4 font-light max-w-sm">
+            Diseñados con amor para cada momento especial
+          </p>
+          <div className="flex flex-col gap-3 mt-8 max-w-xs">
+            <Link
+              href="/catalogo"
+              className="bg-white text-burgundy hover:bg-linen px-8 py-3.5 rounded-none font-body uppercase tracking-[0.15em] text-xs font-medium text-center transition-colors duration-200"
+            >
+              Ver catálogo
+            </Link>
+            <a
+              href={whatsappURL()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-white/50 text-white hover:bg-white/10 px-8 py-3.5 rounded-none font-body uppercase tracking-[0.15em] text-xs font-medium text-center transition-colors duration-200"
+            >
+              Pedir por WhatsApp
+            </a>
           </div>
+          <FloralIcon size={80} color="white" strokeWidth={0.7} className="absolute bottom-8 right-8 opacity-25 hidden lg:block" />
+        </div>
+        {/* Lado derecho — imagen floral */}
+        <div className="relative lg:w-1/2" style={{ minHeight: '60vh' }}>
+          <Image
+            src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=900&q=80&fit=crop"
+            alt="Hermosas rosas frescas de Flora Boutique"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </div>
+      </section>
 
-          {/* Right: hero image + floating cards */}
-          <div className="hero-right" style={{ position: 'relative', paddingBottom: '32px', paddingRight: '32px' }}>
-            <div style={{ position: 'relative', width: '100%', aspectRatio: '1', borderRadius: '60% 40% 50% 50% / 50% 55% 45% 55%', overflow: 'hidden' }}>
-              <Image
-                src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=800&q=80&fit=crop"
-                alt="Hermosas rosas frescas de Flora Boutique"
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-
-            {/* Floating card: años */}
-            <div className="hero-float-card" style={{
-              position: 'absolute',
-              bottom: '0',
-              left: '-24px',
-              background: 'white',
-              borderRadius: 'var(--radius-md)',
-              boxShadow: 'var(--shadow-md)',
-              padding: '12px 16px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              minWidth: '160px',
-            }}>
-              <span style={{ fontSize: '24px' }}>🏆</span>
-              <div>
-                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--terra)', lineHeight: 1 }}>12+</div>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--gris)', marginTop: '2px' }}>Años en Peñalolén</div>
-              </div>
-            </div>
-
-            {/* Floating card: stars */}
-            <div className="hero-float-card" style={{
-              position: 'absolute',
-              top: '16px',
-              right: '-8px',
-              background: 'white',
-              borderRadius: 'var(--radius-md)',
-              boxShadow: 'var(--shadow-md)',
-              padding: '12px 16px',
-            }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontSize: '20px', fontWeight: 600, color: 'var(--camel)', lineHeight: 1 }}>5.0</div>
-              <div style={{ fontSize: '12px', color: '#f59e0b', letterSpacing: '1px' }}>★★★★★</div>
-              <div style={{ fontFamily: 'var(--font-body)', fontSize: '10px', color: 'var(--gris)', marginTop: '2px' }}>Clientes felices</div>
-            </div>
-
-            {/* Floating card: delivery */}
-            <div className="hero-float-card" style={{
-              position: 'absolute',
-              bottom: '96px',
-              right: '-16px',
-              background: 'var(--verde)',
-              color: 'white',
-              borderRadius: 'var(--radius-md)',
-              boxShadow: 'var(--shadow-md)',
-              padding: '10px 14px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}>
-              <span style={{ fontSize: '16px' }}>🚚</span>
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600 }}>Disponible hoy</span>
-            </div>
+      {/* ══════════════════════════════════════════════════════
+          CATEGORÍAS — bg-linen, tiles cuadrados Florence
+      ══════════════════════════════════════════════════════ */}
+      <section className="bg-linen py-24">
+        <div className="max-w-6xl mx-auto px-6 lg:px-12">
+          <div className="text-center mb-14">
+            <p className="font-body uppercase tracking-[0.35em] text-xs text-muted mb-3">Colecciones</p>
+            <h2 className="font-heading font-normal text-charcoal" style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}>
+              Nuestras categorías
+            </h2>
+            <div className="w-12 h-px bg-burgundy mx-auto mt-4" />
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+            {CATEGORIES.map(cat => (
+              <Link
+                key={cat.slug}
+                href={`/catalogo?categoria=${cat.slug}`}
+                className="group overflow-hidden bg-white block"
+              >
+                <div className="relative overflow-hidden bg-linen" style={{ aspectRatio: '3/4' }}>
+                  <Image
+                    src={cat.img}
+                    alt={cat.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 640px) 50vw, 33vw"
+                  />
+                </div>
+                <div className="px-5 py-4">
+                  <p className="font-heading font-normal text-xl text-charcoal">{cat.name}</p>
+                  <p className="font-body text-[10px] uppercase tracking-[0.2em] text-burgundy mt-1">Ver colección →</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          TRUST STRIP
+          TRUST — bg-sage-light, Florence
       ══════════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--violet-mist)', padding: '48px 24px' }}>
-        <div style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '24px',
-        }} className="values-grid">
-          {[
-            { Icon: Flower2,       strong: 'Flores Frescas',       span: 'Seleccionadas cada mañana' },
-            { Icon: Truck,         strong: 'Delivery a Domicilio',  span: 'Zona oriente y más' },
-            { Icon: MessageCircle, strong: 'Pedido Express',        span: 'Por WhatsApp en minutos' },
-            { Icon: Scissors,      strong: 'Diseño Artesanal',      span: 'Cada arreglo es único' },
-          ].map((item, i) => (
-            <div
-              key={item.strong}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
-                gap: '12px',
-                padding: '8px 16px',
-                borderRight: i < 3 ? '1px solid rgba(122,47,107,0.12)' : 'none',
-              }}
-            >
-              <item.Icon size={28} color="var(--violet-brand)" strokeWidth={1.5} />
-              <div>
-                <strong style={{ fontFamily: 'var(--font-heading)', fontSize: '17px', fontWeight: 500, color: 'var(--charcoal)', display: 'block', marginBottom: '4px' }}>
-                  {item.strong}
-                </strong>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--gris-soft)' }}>
-                  {item.span}
-                </span>
+      <section className="bg-sage-light py-20">
+        <div className="max-w-6xl mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
+            {[
+              { Icon: Flower2,       strong: 'Flores Frescas',      span: 'Seleccionadas cada mañana' },
+              { Icon: Truck,         strong: 'Delivery a Domicilio', span: 'Zona oriente y más' },
+              { Icon: MessageCircle, strong: 'Pedido Express',       span: 'Por WhatsApp en minutos' },
+              { Icon: Scissors,      strong: 'Diseño Artesanal',     span: 'Cada arreglo es único' },
+            ].map((item, i) => (
+              <div
+                key={item.strong}
+                className="flex flex-col items-center text-center"
+                style={{ borderRight: i < 3 ? '1px solid rgba(137,155,137,0.3)' : 'none' }}
+              >
+                <item.Icon size={26} color="#899B89" strokeWidth={1.5} className="mx-auto mb-4" />
+                <p className="font-heading font-normal text-lg text-charcoal mt-2">{item.strong}</p>
+                <p className="font-body text-sm text-muted leading-relaxed mt-2 font-light max-w-[170px]">{item.span}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -355,7 +251,7 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════
           OCCASIONS — "Te acompañamos en momentos especiales"
       ══════════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--warm-cream)', padding: '72px 24px' }}>
+      <section style={{ background: 'var(--linen)', padding: '72px 24px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--terra)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
             Ocasiones
@@ -459,7 +355,7 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════
           CATALOG (real products or static fallback)
       ══════════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--warm-cream)', padding: '72px 24px' }}>
+      <section style={{ background: 'var(--linen)', padding: '72px 24px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--terra)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
             Catálogo
@@ -570,10 +466,10 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════
           CÓMO PEDIR
       ══════════════════════════════════════════════════════ */}
-      <section id="como-pedir" style={{ background: 'linear-gradient(135deg, var(--charcoal), var(--violet-deep))', padding: '72px 24px' }}>
+      <section id="como-pedir" style={{ background: 'linear-gradient(135deg, var(--charcoal), var(--burgundy-hover))', padding: '72px 24px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--camel-light)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--ornament)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
               Proceso
             </p>
             <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 400, color: 'white' }}>
@@ -599,7 +495,7 @@ export default async function HomePage() {
                   fontFamily: 'var(--font-heading)',
                   fontSize: '56px',
                   fontWeight: 600,
-                  color: 'var(--camel-light)',
+                  color: 'var(--ornament)',
                   opacity: 0.15,
                   lineHeight: 1,
                   marginBottom: '-24px',
@@ -689,7 +585,7 @@ export default async function HomePage() {
               padding: '14px 18px',
               color: 'white',
             }}>
-              <div style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', fontWeight: 600, color: 'var(--camel-light)' }}>2012</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontSize: '22px', fontWeight: 600, color: 'var(--ornament)' }}>2012</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'rgba(253,248,244,0.6)', marginTop: '2px' }}>Fundada en Peñalolén</div>
             </div>
 
@@ -717,7 +613,7 @@ export default async function HomePage() {
             </p>
             <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 400, color: 'var(--charcoal)', lineHeight: 1.2, marginBottom: '24px', letterSpacing: '0.3px' }}>
               Floristería premium,{' '}
-              <em style={{ fontStyle: 'italic', color: 'var(--violet-brand)' }}>diseño artesanal</em>
+              <em style={{ fontStyle: 'italic', color: 'var(--burgundy)' }}>diseño artesanal</em>
             </h2>
 
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 300, color: 'var(--gris)', lineHeight: 1.8, marginBottom: '16px' }}>
@@ -754,7 +650,7 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════
           GALERÍA / INSTAGRAM
       ══════════════════════════════════════════════════════ */}
-      <section id="galeria" style={{ background: 'var(--warm-cream)', padding: '72px 24px' }}>
+      <section id="galeria" style={{ background: 'var(--linen)', padding: '72px 24px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           {/* Header */}
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}>
@@ -889,7 +785,7 @@ export default async function HomePage() {
             ].map(({ stars, pct }) => (
               <div key={stars} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--gris)', width: '24px' }}>{stars}</span>
-                <div style={{ flex: 1, height: '6px', background: 'var(--warm-cream)', borderRadius: '3px', overflow: 'hidden' }}>
+                <div style={{ flex: 1, height: '6px', background: 'var(--linen)', borderRadius: '3px', overflow: 'hidden' }}>
                   <div style={{ width: `${pct}%`, height: '100%', background: 'var(--camel)', borderRadius: '3px' }} />
                 </div>
                 <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--gris)', width: '28px' }}>{pct}%</span>
@@ -960,7 +856,7 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════
           UBICACIÓN + MAPA
       ══════════════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--warm-cream)', padding: '72px 24px' }}>
+      <section style={{ background: 'var(--linen)', padding: '72px 24px' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--terra)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
@@ -1062,7 +958,7 @@ export default async function HomePage() {
           CTA FINAL
       ══════════════════════════════════════════════════════ */}
       <section style={{
-        background: 'linear-gradient(135deg, var(--violet-mist), var(--gold-light))',
+        background: 'linear-gradient(135deg, var(--burgundy-mist), var(--sage-light))',
         padding: '80px 24px',
         textAlign: 'center',
         position: 'relative',
@@ -1083,7 +979,7 @@ export default async function HomePage() {
             letterSpacing: '0.3px',
           }}>
             ¿Hay algo que{' '}
-            <em style={{ fontStyle: 'italic', color: 'var(--violet-brand)' }}>celebrar</em>{' '}
+            <em style={{ fontStyle: 'italic', color: 'var(--burgundy)' }}>celebrar</em>{' '}
             hoy?
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', fontWeight: 400, color: 'var(--gris-soft)', marginBottom: '36px', lineHeight: 1.7 }}>
@@ -1146,7 +1042,7 @@ export default async function HomePage() {
 
       {/* ─── Gallery hover CSS (injected via style tag) ──── */}
       <style>{`
-        .hero-cta-primary:hover { background: var(--violet-deep) !important; }
+        .hero-cta-primary:hover { background: var(--burgundy-hover) !important; }
         .gallery-item:hover .gallery-overlay { opacity: 1 !important; }
         .gallery-item:hover img { transform: scale(1.06); }
         .occ-card:hover img { transform: scale(1.07); }
