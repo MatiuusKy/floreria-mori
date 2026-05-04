@@ -84,11 +84,15 @@ export default function ScrollExpandHero({
     }
   }, [scrollProgress, mediaFullyExpanded, touchStartY, prefersReducedMotion])
 
-  // Logo: escala de pequeño → llena el hero (100dvh × 100vw)
-  // Se usan dvh para el alto para cubrir cualquier aspect ratio (portrait/landscape/desktop)
+  // Logo: escala de pequeño → llena exactamente la imagen de fondo (16:9)
+  // Con object-contain el ancho real de la imagen es min(100vw, 177.78dvh)
+  // así el logo nunca sobresale de los bordes del collage.
   const pct = 22 + scrollProgress * 80  // 22% → 102% (clampeado)
-  const logoW = `clamp(160px, ${pct}vw, 100vw)`
-  const logoH = `clamp(160px, ${pct}dvh, 100dvh)`
+  const f = (pct / 100).toFixed(4)
+  const imgW = 'min(100vw, 177.78dvh)'   // ancho real de imagen 16:9 con object-contain
+  const imgH = 'min(56.25vw, 100dvh)'    // alto  real de imagen 16:9 con object-contain
+  const logoW = `clamp(160px, calc(${f} * ${imgW}), ${imgW})`
+  const logoH = `clamp(160px, calc(${f} * ${imgH}), ${imgH})`
 
   const bgOpacity = 1 - scrollProgress * 0.65
 
