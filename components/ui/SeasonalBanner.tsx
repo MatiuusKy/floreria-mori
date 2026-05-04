@@ -21,7 +21,7 @@ const OCCASIONS: Record<string, Occasion> = {
     subtitle: 'Flores que dicen lo que las palabras no pueden',
     cta: 'Ver colección especial',
     ctaUrl: '/catalogo?ocasion=dia-de-la-madre',
-    bgImage: '/images/hero-dia-madre.jpg',
+    bgImage: 'https://images.unsplash.com/photo-1490750967868-88df5691cc09?w=900&q=80&fit=crop',
   },
   'san-valentin': {
     active: { startMonth: 2, startDay: 10, endMonth: 2, endDay: 14 },
@@ -30,7 +30,7 @@ const OCCASIONS: Record<string, Occasion> = {
     subtitle: 'Regala amor en cada pétalo',
     cta: 'Ver colección',
     ctaUrl: '/catalogo?ocasion=san-valentin',
-    bgImage: '/images/hero-san-valentin.jpg',
+    bgImage: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=900&q=80&fit=crop',
   },
   'navidad': {
     active: { startMonth: 12, startDay: 20, endMonth: 12, endDay: 31 },
@@ -39,7 +39,7 @@ const OCCASIONS: Record<string, Occasion> = {
     subtitle: 'Flores para compartir la magia',
     cta: 'Ver colección navideña',
     ctaUrl: '/catalogo?ocasion=navidad',
-    bgImage: '/images/hero-navidad.jpg',
+    bgImage: 'https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=900&q=80&fit=crop',
   },
 }
 
@@ -81,8 +81,7 @@ export default function SeasonalBanner() {
 
   return (
     <div
-      className={`flex flex-col lg:flex-row transition-opacity duration-300 ${dismissed ? 'opacity-0' : 'opacity-100'}`}
-      style={{ minHeight: '100svh' }}
+      className={`fixed inset-0 z-50 flex flex-col lg:flex-row transition-opacity duration-300 ${dismissed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
     >
       {/* Lado izquierdo — bg-burgundy */}
       <div className="flex flex-col justify-center items-center lg:items-start px-10 lg:px-16 py-16 lg:w-1/2 bg-burgundy relative">
@@ -97,7 +96,7 @@ export default function SeasonalBanner() {
 
         {/* Logo PNG */}
         <img
-          src="/images/logo-flora-boutique.jpeg"
+          src="/images/logo-brand.png"
           alt="Flora Boutique"
           style={{ height: 90, width: 'auto', objectFit: 'contain' }}
           className="mb-6"
@@ -130,7 +129,7 @@ export default function SeasonalBanner() {
       </div>
 
       {/* Lado derecho — imagen floral */}
-      <div className="relative lg:w-1/2" style={{ minHeight: '60vh' }}>
+      <div className="relative lg:w-1/2 min-h-[40vh] lg:min-h-0">
         <Image
           src={data.bgImage}
           alt={data.title}
