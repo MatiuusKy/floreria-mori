@@ -109,7 +109,7 @@ export default function ScrollExpandHero({
           {/* Capa de fondo */}
           <div
             className="absolute inset-0 z-0 overflow-hidden"
-            style={{ opacity: bgOpacity, transition: 'opacity 0.15s linear' }}
+            style={{ backgroundColor: '#1a0a10', opacity: bgOpacity, transition: 'opacity 0.15s linear' }}
             aria-hidden="true"
           >
             <Image
@@ -117,7 +117,7 @@ export default function ScrollExpandHero({
               alt=""
               fill
               sizes="100vw"
-              className="object-cover object-center hidden md:block"
+              className="object-contain object-top hidden md:block"
               priority
             />
             {bgImageMobileSrc && (
@@ -126,7 +126,7 @@ export default function ScrollExpandHero({
                 alt=""
                 fill
                 sizes="100vw"
-                className="object-cover object-center block md:hidden"
+                className="object-contain object-top block md:hidden"
                 priority
               />
             )}
