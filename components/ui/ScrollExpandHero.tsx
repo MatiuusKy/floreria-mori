@@ -123,24 +123,24 @@ export default function ScrollExpandHero({
             }}
             aria-hidden="true"
           >
-            {/* Desktop: 16:9 — solo visible en md+ */}
+            {/* Desktop: 16:9 — anclada al top para que aparezca justo bajo el header */}
             <Image
               src={bgImageSrc}
               alt=""
               fill
               sizes="100vw"
-              className="object-contain object-center hidden md:block"
+              className="object-contain object-top hidden md:block"
               priority
             />
 
-            {/* Mobile: 9:16 — solo visible debajo de md */}
+            {/* Mobile: 9:16 — centrada verticalmente (imagen portrait cubre bien) */}
             {bgImageMobileSrc && (
               <Image
                 src={bgImageMobileSrc}
                 alt=""
                 fill
                 sizes="100vw"
-                className="object-contain object-center block md:hidden"
+                className="object-contain object-top block md:hidden"
                 priority
               />
             )}
