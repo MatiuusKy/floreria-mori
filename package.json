@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "feature:start": "bash scripts/feature-start.sh",
+    "feature:qa": "bash scripts/feature-qa.sh",
+    "feature:release": "bash scripts/feature-release.sh"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
