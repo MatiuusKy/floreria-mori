@@ -9,6 +9,7 @@ import SeasonalBanner from '@/components/ui/SeasonalBanner'
 import ScrollRevealInit from '@/components/ui/ScrollRevealInit'
 import FlowerGallery from '@/components/ui/FlowerGallery'
 import FloralIcon from '@/components/FloralIcon'
+import HeroSection from '@/components/HeroSection'
 import { Product } from '@/types'
 
 export const metadata: Metadata = {
@@ -78,7 +79,7 @@ const STEPS = [
   { num: '01', icon: '🔍', title: 'Elige tu arreglo', desc: 'Revisa el catálogo o cuéntanos la ocasión y el presupuesto.' },
   { num: '02', icon: '💬', title: 'Escríbenos por WhatsApp', desc: '+56 9 2989 5674 — respondemos en minutos.' },
   { num: '03', icon: '✅', title: 'Confirmamos y coordinamos', desc: 'Cotización clara + horario de entrega acordado.' },
-  { num: '04', icon: '🎉', title: '¡Recibe tus flores!', desc: 'Despacho a domicilio o retiro en Av. Grecia 8628.' },
+  { num: '04', icon: '🎉', title: '¡Recibe tus flores!', desc: 'Despacho a domicilio o retiro en Ñuñoa (coordinar punto).' },
 ]
 
 const CATEGORIES = [
@@ -128,56 +129,9 @@ export default async function HomePage() {
       <SeasonalBanner />
 
       {/* ══════════════════════════════════════════════════════
-          HERO — Florence split 50/50
+          HERO — Scroll Expand con fondo collage + logo
       ══════════════════════════════════════════════════════ */}
-      <section className="flex flex-col lg:flex-row" style={{ minHeight: '90vh' }}>
-        {/* Lado izquierdo — bg-burgundy */}
-        <div className="flex flex-col justify-center px-10 lg:px-16 py-16 lg:w-1/2 bg-burgundy relative">
-          <img
-            src="/images/logo-flora-boutique.jpeg"
-            alt="Flora Boutique"
-            style={{ height: 110, width: 'auto', objectFit: 'contain' }}
-          />
-          <div className="border-t border-white/20 w-12 mt-8 mb-6" />
-          <h1
-            className="font-heading font-normal text-white leading-tight tracking-wide"
-            style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
-          >
-            Flores que<br />enamoran
-          </h1>
-          <p className="font-body text-base text-white/70 mt-4 font-light max-w-sm">
-            Diseñados con amor para cada momento especial
-          </p>
-          <div className="flex flex-col gap-3 mt-8 max-w-xs">
-            <Link
-              href="/catalogo"
-              className="bg-white text-burgundy hover:bg-linen px-8 py-3.5 rounded-none font-body uppercase tracking-[0.15em] text-xs font-medium text-center transition-colors duration-200"
-            >
-              Ver catálogo
-            </Link>
-            <a
-              href={whatsappURL()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-white/50 text-white hover:bg-white/10 px-8 py-3.5 rounded-none font-body uppercase tracking-[0.15em] text-xs font-medium text-center transition-colors duration-200"
-            >
-              Pedir por WhatsApp
-            </a>
-          </div>
-          <FloralIcon size={80} color="white" strokeWidth={0.7} className="absolute bottom-8 right-8 opacity-25 hidden lg:block" />
-        </div>
-        {/* Lado derecho — imagen floral */}
-        <div className="relative lg:w-1/2" style={{ minHeight: '60vh' }}>
-          <Image
-            src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=900&q=80&fit=crop"
-            alt="Hermosas rosas frescas de Flora Boutique"
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="(max-width: 1024px) 100vw, 50vw"
-          />
-        </div>
-      </section>
+      <HeroSection waHref={whatsappURL()} />
 
       {/* ══════════════════════════════════════════════════════
           CATEGORÍAS — bg-linen, tiles cuadrados Florence
@@ -867,89 +821,71 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '32px', alignItems: 'start' }} className="location-grid">
-            {/* Info cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {[
-                {
-                  icon: '📍',
-                  title: 'Dirección',
-                  content: 'Av. Grecia 8628, Peñalolén',
-                  sub: 'A pasos del supermercado',
-                  link: { href: 'https://www.google.com/maps/dir/?api=1&destination=-33.47634148961722,-70.54359912872314', label: 'Cómo llegar →' },
-                },
-                {
-                  icon: '⏰',
-                  title: 'Horarios',
-                  content: 'Lun–Vie: 9:00–20:00 · Sáb: 9:00–18:00',
-                  sub: 'Dom Cerrado · Festivos: consultar',
-                  badge: 'Abierto',
-                },
-                {
-                  icon: '💬',
-                  title: 'WhatsApp',
-                  content: '+56 9 2989 5674',
-                  sub: 'Respondemos en minutos',
-                  link: { href: 'https://wa.me/56929895674', label: 'Escribir ahora →' },
-                },
-                {
-                  icon: '🚚',
-                  title: 'Zona de despacho',
-                  content: 'Peñalolén, Ñuñoa, Macul',
-                  sub: 'La Florida, Las Condes y más',
-                },
-              ].map(card => (
-                <div key={card.title} style={{
-                  background: 'white',
-                  borderRadius: 'var(--radius-md)',
-                  boxShadow: 'var(--shadow-sm)',
-                  padding: '18px 20px',
-                  display: 'flex',
-                  gap: '14px',
-                  alignItems: 'flex-start',
-                }}>
-                  <span style={{ fontSize: '22px', flexShrink: 0 }}>{card.icon}</span>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--mocha-light)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                        {card.title}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px' }}>
+            {[
+              {
+                icon: '📦',
+                title: 'Retiro',
+                content: 'Ñuñoa (coordinar punto)',
+                sub: 'Sin local físico — retiro acordado por WhatsApp',
+              },
+              {
+                icon: '⏰',
+                title: 'Despacho',
+                content: 'Lunes a Domingo',
+                sub: 'Región Metropolitana completa',
+                badge: 'Todos los días',
+              },
+              {
+                icon: '💬',
+                title: 'WhatsApp',
+                content: '+56 9 2989 5674',
+                sub: 'Respondemos en minutos',
+                link: { href: 'https://wa.me/56929895674', label: 'Escribir ahora →' },
+              },
+              {
+                icon: '🚚',
+                title: 'Cobertura',
+                content: 'Región Metropolitana',
+                sub: 'Ñuñoa, Providencia, Las Condes y más',
+              },
+            ].map(card => (
+              <div key={card.title} style={{
+                background: 'white',
+                borderRadius: 'var(--radius-md)',
+                boxShadow: 'var(--shadow-sm)',
+                padding: '18px 20px',
+                display: 'flex',
+                gap: '14px',
+                alignItems: 'flex-start',
+              }}>
+                <span style={{ fontSize: '22px', flexShrink: 0 }}>{card.icon}</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--mocha-light)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      {card.title}
+                    </span>
+                    {card.badge && (
+                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, color: 'white', background: 'var(--verde)', padding: '2px 8px', borderRadius: 'var(--radius-pill)' }}>
+                        {card.badge}
                       </span>
-                      {card.badge && (
-                        <span style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, color: 'white', background: 'var(--verde)', padding: '2px 8px', borderRadius: 'var(--radius-pill)' }}>
-                          {card.badge}
-                        </span>
-                      )}
-                    </div>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 500, color: 'var(--mocha)', marginBottom: '2px' }}>{card.content}</p>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--gris)' }}>{card.sub}</p>
-                    {card.link && (
-                      <a
-                        href={card.link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--terra)', textDecoration: 'none', marginTop: '6px', display: 'inline-block' }}
-                      >
-                        {card.link.label}
-                      </a>
                     )}
                   </div>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 500, color: 'var(--mocha)', marginBottom: '2px' }}>{card.content}</p>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--gris)' }}>{card.sub}</p>
+                  {card.link && (
+                    <a
+                      href={card.link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--terra)', textDecoration: 'none', marginTop: '6px', display: 'inline-block' }}
+                    >
+                      {card.link.label}
+                    </a>
+                  )}
                 </div>
-              ))}
-            </div>
-
-            {/* Map */}
-            <div style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden', boxShadow: 'var(--shadow-sm)', height: '420px' }}>
-              <iframe
-                src="https://maps.google.com/maps?q=-33.47634148961722,-70.54359912872314&z=16&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0, display: 'block' }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Ubicación Flora Boutique — Av. Grecia 8628, Peñalolén"
-              />
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
